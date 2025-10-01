@@ -16,6 +16,9 @@ const adminRoutes = require('./routes/admin');
 // Initialize express
 const app = express();
 
+// When behind a proxy (like CRA dev server) trust the first proxy so req.ip works correctly
+app.set('trust proxy', 1);
+
 // Connect to MongoDB
 connectDB();
 

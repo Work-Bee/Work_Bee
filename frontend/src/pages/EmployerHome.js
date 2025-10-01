@@ -37,7 +37,7 @@ const EmployerHome = () => {
                 Hire faster in Kochi
               </span>
               <h1 className="text-4xl md:text-5xl font-extrabold leading-tight mb-6">
-                Build a reliable workforce with JobPortal.
+                Build a reliable workforce with WorkBee.
               </h1>
               <p className="text-lg md:text-xl text-white/80 max-w-xl mb-8">
                 Post openings designed for entry-level talent, review candidates in one dashboard, and keep your hiring pipeline organised from start to finish.

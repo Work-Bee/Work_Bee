@@ -25,18 +25,23 @@ const Header = () => {
   const isActive = (path) => location.pathname === path;
 
   return (
-    <header className="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
+    <header className="sticky top-0 z-50">
+      {/* Accent bar */}
+      <div className="h-0.5 bg-gradient-to-r from-primary-500 via-accent-500 to-primary-700" />
+      {/* Glass wrapper */}
+      <div className="bg-white/70 backdrop-blur-md border-b border-gray-200/70 shadow-sm">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          {/* Top bar */}
+          <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <div className="flex items-center">
             <Link to="/" className="flex items-center space-x-2">
-              <div className="h-8 w-8 bg-gradient-primary rounded-lg flex items-center justify-center">
+              <div className="h-8 w-8 bg-gradient-primary rounded-lg flex items-center justify-center shadow-glow">
                 <svg className="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2-2v2m8 0V6a2 2 0 012 2v6a2 2 0 01-2 2H8a2 2 0 01-2-2V8a2 2 0 012-2V6" />
                 </svg>
               </div>
-              <span className="text-xl font-bold text-gray-900">JobPortal</span>
+              <span className="text-xl font-extrabold text-gradient">WorkBee</span>
             </Link>
           </div>
 
@@ -211,7 +216,7 @@ const Header = () => {
         {/* Mobile Navigation */}
         {isMenuOpen && (
           <div className="md:hidden">
-            <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 border-t border-gray-200">
+            <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 border-t border-gray-200/70 bg-white/70 backdrop-blur-md">
               <Link
                 to={homePath}
                 className={`block nav-link ${isActive(homePath) ? 'active' : ''}`}
@@ -270,9 +275,9 @@ const Header = () => {
                     </Link>
                   )}
                   
-                  <div className="border-t border-gray-200 pt-3">
+                  <div className="border-t border-gray-200/70 pt-3">
                     <div className="flex items-center px-3 mb-3">
-                      <div className="w-8 h-8 bg-primary-100 rounded-full flex items-center justify-center">
+                      <div className="w-8 h-8 bg-primary-100 rounded-full flex items-center justify-center shadow-glow">
                         <span className="text-sm font-medium text-primary-600">
                           {user.name.charAt(0).toUpperCase()}
                         </span>
@@ -294,7 +299,7 @@ const Header = () => {
                   </div>
                 </>
               ) : (
-                <div className="border-t border-gray-200 pt-3 space-y-1">
+                <div className="border-t border-gray-200/70 pt-3 space-y-1">
                   <Link
                     to="/login/jobseeker"
                     className="block nav-link"
@@ -328,12 +333,13 @@ const Header = () => {
             </div>
           </div>
         )}
+        </div>
       </div>
 
       {/* Overlay for mobile menu */}
       {isMenuOpen && (
-        <div 
-          className="md:hidden fixed inset-0 bg-black bg-opacity-25 z-40"
+        <div
+          className="md:hidden fixed inset-0 bg-black/30 z-40"
           onClick={() => setIsMenuOpen(false)}
         ></div>
       )}

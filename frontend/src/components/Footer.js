@@ -4,17 +4,19 @@ import { Link } from 'react-router-dom';
 const Footer = () => {
   return (
     <footer className="bg-gray-900 text-white">
+      {/* Accent bar */}
+      <div className="h-0.5 bg-gradient-to-r from-primary-500 via-accent-500 to-primary-700" />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {/* Company Info */}
           <div className="space-y-4">
             <div className="flex items-center space-x-2">
-              <div className="h-8 w-8 bg-gradient-primary rounded-lg flex items-center justify-center">
+              <div className="h-8 w-8 bg-gradient-primary rounded-lg flex items-center justify-center shadow-glow">
                 <svg className="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2-2v2m8 0V6a2 2 0 012 2v6a2 2 0 01-2 2H8a2 2 0 01-2-2V8a2 2 0 012-2V6" />
                 </svg>
               </div>
-              <span className="text-xl font-bold">JobPortal</span>
+              <span className="text-xl font-bold">WorkBee</span>
             </div>
             <p className="text-gray-400 text-sm">
               Connecting job seekers with opportunities in unskilled and entry-level positions. 
@@ -54,17 +56,17 @@ const Footer = () => {
                 </Link>
               </li>
               <li>
-                <a href="https://resources.jobportal.com/career-advice" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors">
+                <a href="https://resources.WorkBee.com/career-advice" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors">
                   Career Advice
                 </a>
               </li>
               <li>
-                <a href="https://resources.jobportal.com/resume-tips" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors">
+                <a href="https://resources.WorkBee.com/resume-tips" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors">
                   Resume Tips
                 </a>
               </li>
               <li>
-                <a href="https://resources.jobportal.com/interview-prep" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors">
+                <a href="https://resources.WorkBee.com/interview-prep" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors">
                   Interview Prep
                 </a>
               </li>
@@ -81,22 +83,22 @@ const Footer = () => {
                 </Link>
               </li>
               <li>
-                <a href="https://employers.jobportal.com/pricing" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors">
+                <a href="https://employers.WorkBee.com/pricing" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors">
                   Pricing
                 </a>
               </li>
               <li>
-                <a href="https://employers.jobportal.com/hiring-solutions" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors">
+                <a href="https://employers.WorkBee.com/hiring-solutions" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors">
                   Hiring Solutions
                 </a>
               </li>
               <li>
-                <a href="https://employers.jobportal.com/resources" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors">
+                <a href="https://employers.WorkBee.com/resources" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors">
                   Employer Resources
                 </a>
               </li>
               <li>
-                <a href="https://employers.jobportal.com/workforce-development" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors">
+                <a href="https://employers.WorkBee.com/workforce-development" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors">
                   Workforce Development
                 </a>
               </li>
@@ -108,27 +110,27 @@ const Footer = () => {
             <h3 className="text-lg font-semibold mb-4">Support & Legal</h3>
             <ul className="space-y-2 text-sm">
               <li>
-                <a href="https://support.jobportal.com/help" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors">
+                <a href="https://support.WorkBee.com/help" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors">
                   Help Center
                 </a>
               </li>
               <li>
-                <a href="https://support.jobportal.com/contact" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors">
+                <a href="https://support.WorkBee.com/contact" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors">
                   Contact Us
                 </a>
               </li>
               <li>
-                <a href="https://www.jobportal.com/privacy" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors">
+                <a href="https://www.WorkBee.com/privacy" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors">
                   Privacy Policy
                 </a>
               </li>
               <li>
-                <a href="https://www.jobportal.com/terms" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors">
+                <a href="https://www.WorkBee.com/terms" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors">
                   Terms of Service
                 </a>
               </li>
               <li>
-                <a href="https://www.jobportal.com/cookies" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors">
+                <a href="https://www.WorkBee.com/cookies" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors">
                   Cookie Policy
                 </a>
               </li>
@@ -138,16 +140,16 @@ const Footer = () => {
 
         <div className="border-t border-gray-800 mt-8 pt-8 flex flex-col md:flex-row justify-between items-center">
           <p className="text-gray-400 text-sm">
-            © {new Date().getFullYear()} JobPortal. All rights reserved.
+            © {new Date().getFullYear()} WorkBee. All rights reserved.
           </p>
           <div className="flex space-x-6 mt-4 md:mt-0">
-            <a href="https://www.jobportal.com/accessibility" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white text-sm transition-colors">
+            <a href="https://www.WorkBee.com/accessibility" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white text-sm transition-colors">
               Accessibility
             </a>
-            <a href="https://www.jobportal.com/sitemap" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white text-sm transition-colors">
+            <a href="https://www.WorkBee.com/sitemap" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white text-sm transition-colors">
               Site Map
             </a>
-            <a href="https://employers.jobportal.com/advertise" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white text-sm transition-colors">
+            <a href="https://employers.WorkBee.com/advertise" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white text-sm transition-colors">
               Advertise with Us
             </a>
           </div>

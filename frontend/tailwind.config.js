@@ -3,6 +3,7 @@ module.exports = {
   content: [
     "./src/**/*.{js,jsx,ts,tsx}",
   ],
+  darkMode: 'class',
   theme: {
     extend: {
       colors: {
@@ -29,6 +30,18 @@ module.exports = {
           700: '#374151',
           800: '#1f2937',
           900: '#111827',
+        },
+        accent: {
+          50: '#ecfeff',
+          100: '#cffafe',
+          200: '#a5f3fc',
+          300: '#67e8f9',
+          400: '#22d3ee',
+          500: '#06b6d4',
+          600: '#0891b2',
+          700: '#0e7490',
+          800: '#155e75',
+          900: '#164e63',
         }
       },
       fontFamily: {
@@ -54,6 +67,9 @@ module.exports = {
           '70%': { transform: 'scale(0.9)' },
           '100%': { transform: 'scale(1)' },
         }
+      },
+      boxShadow: {
+        glow: '0 0 0 3px rgba(59, 130, 246, 0.15), 0 8px 30px rgba(0,0,0,0.06)'
       }
     },
   },

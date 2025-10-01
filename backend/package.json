@@ -1,5 +1,5 @@
 {
-  "name": "jobportal-backend",
+  "name": "WorkBee-backend",
   "version": "1.0.0",
   "description": "Backend API for job portal",
   "main": "server.js",
