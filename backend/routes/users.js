@@ -96,10 +96,58 @@ const getUsers = async (req, res) => {
   }
 };
 
+// @desc    Delete resume from profile
+// @route   DELETE /api/users/resume
+// @access  Private (Job seekers only)
+const deleteResume = async (req, res) => {
+  try {
+    if (req.user.role !== 'jobseeker') {
+      return res.status(403).json({
+        success: false,
+        error: 'Only job seekers can delete resumes'
+      });
+    }
+
+    const user = await User.findById(req.user.id);
+
+    if (!user.profile?.resume?.filename) {
+      return res.status(404).json({
+        success: false,
+        error: 'No resume found to delete'
+      });
+    }
+
+    // Delete the file from the filesystem
+    const fs = require('fs');
+    const path = require('path');
+    const filePath = path.join(__dirname, '..', user.profile.resume.path);
+    
+    if (fs.existsSync(filePath)) {
+      fs.unlinkSync(filePath);
+    }
+
+    // Remove resume from user profile
+    user.profile.resume = undefined;
+    await user.save();
+
+    res.json({
+      success: true,
+      message: 'Resume deleted successfully'
+    });
+  } catch (error) {
+    console.error('Delete resume error:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Server error deleting resume'
+    });
+  }
+};
+
 // Routes
 router.use(protect);
 
 router.post('/upload-resume', authorize('jobseeker'), uploadResume.single('resume'), handleMulterError, uploadResumeToProfile);
+router.delete('/resume', authorize('jobseeker'), deleteResume);
 // router.get('/', authorize('admin'), getUsers); // Uncomment if you need admin functionality
 
 module.exports = router;

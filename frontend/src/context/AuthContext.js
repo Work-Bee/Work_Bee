@@ -214,12 +214,24 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  // Update user function (for immediate state update)
+  const updateUser = (userData) => {
+    // Update localStorage
+    localStorage.setItem('user', JSON.stringify(userData));
+
+    dispatch({
+      type: AUTH_ACTIONS.UPDATE_PROFILE,
+      payload: userData,
+    });
+  };
+
   const value = {
     ...state,
     register,
     login,
     logout,
     updateProfile,
+    updateUser,
     clearError,
     getProfile,
   };

@@ -7,6 +7,8 @@ import ProtectedRoute from './components/ProtectedRoute';
 // Import pages
 import Landing from './pages/Landing';
 import Register from './pages/Register';
+import RegisterJobSeeker from './pages/RegisterJobSeeker';
+import RegisterEmployer from './pages/RegisterEmployer';
 import Jobs from './pages/Jobs';
 import JobDetails from './pages/JobDetails';
 import Profile from './pages/Profile';
@@ -48,6 +50,8 @@ function App() {
               <Route path="/login/employer" element={<LoginEmployer />} />
               <Route path="/login/admin" element={<LoginAdmin />} />
               <Route path="/register" element={<Register />} />
+              <Route path="/register/jobseeker" element={<RegisterJobSeeker />} />
+              <Route path="/register/employer" element={<RegisterEmployer />} />
               <Route path="/unauthorized" element={<Unauthorized />} />
               
               {/* Routes with layout */}

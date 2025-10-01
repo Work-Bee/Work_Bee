@@ -6,7 +6,7 @@ import { useAuth } from '../context/AuthContext';
 const ROLE_CONFIG = {
   jobseeker: {
     label: 'Job Seeker',
-    registerLink: '/register?type=jobseeker',
+    registerLink: '/register/jobseeker',
     registerText: 'Create a job seeker account',
     helperText: 'Sign in to track applications and manage your profile.',
     switchLinks: [
@@ -18,7 +18,7 @@ const ROLE_CONFIG = {
   },
   employer: {
     label: 'Employer',
-    registerLink: '/register?type=employer',
+    registerLink: '/register/employer',
     registerText: 'Create an employer account',
     helperText: 'Log in to post jobs and review applicants.',
     switchLinks: [

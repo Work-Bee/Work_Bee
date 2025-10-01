@@ -154,6 +154,7 @@ export const userAPI = {
       },
     });
   },
+  deleteResume: () => api.delete('/users/resume'),
 };
 
 export { API_URL, API_BASE_URL };
