@@ -124,7 +124,19 @@ export const AuthProvider = ({ children }) => {
 
       return { success: true };
     } catch (error) {
-      const errorMessage = error.response?.data?.error || 'Registration failed';
+      console.error('Registration error:', error.response?.data);
+      let errorMessage = 'Registration failed';
+      
+      if (error.response?.data?.error) {
+        errorMessage = error.response.data.error;
+      } else if (error.response?.data?.details) {
+        // Handle validation errors
+        const details = error.response.data.details;
+        errorMessage = details.map(d => d.msg).join(', ');
+      } else if (error.message) {
+        errorMessage = error.message;
+      }
+      
       dispatch({
         type: AUTH_ACTIONS.AUTH_FAIL,
         payload: errorMessage,

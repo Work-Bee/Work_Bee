@@ -66,11 +66,28 @@ const applyForJob = async (req, res) => {
       });
     }
 
-    // Check if resume file was uploaded
-    if (!req.file) {
+    // Determine resume source: uploaded file or profile resume
+    let resumeData;
+    
+    if (req.file) {
+      // Use newly uploaded resume
+      resumeData = {
+        filename: req.file.filename,
+        originalName: req.file.originalname,
+        path: req.file.path
+      };
+    } else if (req.user.profile && req.user.profile.resume) {
+      // Use profile resume
+      resumeData = {
+        filename: req.user.profile.resume.filename,
+        originalName: req.user.profile.resume.originalName,
+        path: req.user.profile.resume.path
+      };
+    } else {
+      // No resume available
       return res.status(400).json({
         success: false,
-        error: 'Resume file is required'
+        error: 'You cannot apply without uploading a resume. Please upload your resume in your profile first.'
       });
     }
 
@@ -79,11 +96,7 @@ const applyForJob = async (req, res) => {
       job: jobId,
       applicant: req.user.id,
       coverLetter,
-      resume: {
-        filename: req.file.filename,
-        originalName: req.file.originalname,
-        path: req.file.path
-      }
+      resume: resumeData
     };
 
     const application = await Application.create(applicationData);

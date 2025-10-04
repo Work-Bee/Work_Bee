@@ -104,9 +104,10 @@ export const applicationAPI = {
   applyForJob: (applicationData) => {
     const formData = new FormData();
     Object.keys(applicationData).forEach(key => {
-      if (key === 'resume') {
+      if (key === 'resume' && applicationData[key]) {
+        // Only append resume if it's provided (file upload)
         formData.append('resume', applicationData[key]);
-      } else {
+      } else if (key !== 'resume') {
         formData.append(key, applicationData[key]);
       }
     });

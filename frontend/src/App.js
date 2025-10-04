@@ -11,6 +11,7 @@ import RegisterJobSeeker from './pages/RegisterJobSeeker';
 import RegisterEmployer from './pages/RegisterEmployer';
 import Jobs from './pages/Jobs';
 import JobDetails from './pages/JobDetails';
+import JobPreview from './pages/JobPreview';
 import Profile from './pages/Profile';
 import Applications from './pages/Applications';
 import EmployerDashboard from './pages/EmployerDashboard';
@@ -19,6 +20,7 @@ import Unauthorized from './pages/Unauthorized';
 import NotFound from './pages/NotFound';
 import JobSeekerHome from './pages/JobSeekerHome';
 import EmployerHome from './pages/EmployerHome';
+import EmployerProfile from './pages/EmployerProfile';
 import LoginJobSeeker from './pages/LoginJobSeeker';
 import LoginEmployer from './pages/LoginEmployer';
 import LoginAdmin from './pages/LoginAdmin';
@@ -59,6 +61,7 @@ function App() {
                 {/* Public routes */}
                 <Route path="/jobs" element={<Jobs />} />
                 <Route path="/jobs/:id" element={<JobDetails />} />
+                <Route path="/jobs/:id/preview" element={<JobPreview />} />
                 
                 {/* Protected routes - Job seekers */}
                 <Route 
@@ -104,10 +107,10 @@ function App() {
                   } 
                 />
                 <Route 
-                  path="/dashboard/*" 
+                  path="/dashboard/profile" 
                   element={
                     <ProtectedRoute roles={['employer']}>
-                      <EmployerDashboard />
+                      <EmployerProfile />
                     </ProtectedRoute>
                   } 
                 />
