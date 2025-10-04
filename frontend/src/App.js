@@ -14,6 +14,7 @@ import JobDetails from './pages/JobDetails';
 import JobPreview from './pages/JobPreview';
 import Profile from './pages/Profile';
 import Applications from './pages/Applications';
+import Bookmarks from './pages/Bookmarks';
 import EmployerDashboard from './pages/EmployerDashboard';
 import EmployerJobForm from './pages/EmployerJobForm';
 import Unauthorized from './pages/Unauthorized';
@@ -85,6 +86,14 @@ function App() {
                   element={
                     <ProtectedRoute roles={['jobseeker']}>
                       <Applications />
+                    </ProtectedRoute>
+                  } 
+                />
+                <Route 
+                  path="/bookmarks" 
+                  element={
+                    <ProtectedRoute roles={['jobseeker']}>
+                      <Bookmarks />
                     </ProtectedRoute>
                   } 
                 />

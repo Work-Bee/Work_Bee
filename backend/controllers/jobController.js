@@ -437,6 +437,124 @@ const toggleJobStatus = async (req, res) => {
   }
 };
 
+// @desc    Get recommended jobs based on user profile
+// @route   GET /api/jobs/recommended
+// @access  Private (Job seekers only)
+const getRecommendedJobs = async (req, res) => {
+  try {
+    if (req.user.role !== 'jobseeker') {
+      return res.status(403).json({
+        success: false,
+        error: 'Only job seekers can access recommended jobs'
+      });
+    }
+
+    const profile = req.user.profile || {};
+    const limit = parseInt(req.query.limit, 10) || 6;
+
+    // Check if profile is complete enough for recommendations
+    const hasPreferences = profile.preferredLocations?.length > 0 || 
+                          profile.skills?.length > 0 ||
+                          profile.experience ||
+                          profile.recentJobs?.length > 0;
+
+    if (!hasPreferences) {
+      return res.json({
+        success: true,
+        needsProfile: true,
+        message: 'Please complete your profile to get personalized job recommendations',
+        data: []
+      });
+    }
+
+    // Build recommendation query
+    let query = { isActive: true };
+    let scoredJobs = [];
+
+    // Get all active jobs
+    const allJobs = await Job.find(query)
+      .populate('company', 'name logo')
+      .sort({ createdAt: -1 })
+      .limit(50) // Get top 50 recent jobs for scoring
+      .lean();
+
+    // Score each job based on user profile
+    for (const job of allJobs) {
+      let score = 0;
+
+      // Location matching (highest priority)
+      if (profile.preferredLocations?.length > 0) {
+        const jobLocation = `${job.location.city}, ${job.location.state}`.toLowerCase();
+        const hasLocationMatch = profile.preferredLocations.some(loc => 
+          jobLocation.includes(loc.toLowerCase()) || loc.toLowerCase().includes(job.location.city.toLowerCase())
+        );
+        if (hasLocationMatch) score += 50;
+      }
+
+      // Experience level matching
+      if (profile.experience || profile.experienceLevel) {
+        const userExp = profile.experience || profile.experienceLevel;
+        if (job.experienceLevel === userExp) score += 30;
+        // Also match Entry Level jobs for users with "Some Experience"
+        if (userExp === 'Some Experience' && job.experienceLevel === 'Entry Level') score += 20;
+      }
+
+      // Skills matching
+      if (profile.skills?.length > 0 && job.title) {
+        const jobTitleLower = job.title.toLowerCase();
+        const matchingSkills = profile.skills.filter(skill => 
+          jobTitleLower.includes(skill.toLowerCase())
+        );
+        score += matchingSkills.length * 15;
+      }
+
+      // Recent jobs matching (job title similarity)
+      if (profile.recentJobs?.length > 0 && job.title) {
+        const jobTitleLower = job.title.toLowerCase();
+        const hasRelatedJob = profile.recentJobs.some(recentJob => 
+          jobTitleLower.includes(recentJob.toLowerCase()) || 
+          recentJob.toLowerCase().includes(jobTitleLower.split(' ')[0])
+        );
+        if (hasRelatedJob) score += 25;
+      }
+
+      // Prefer jobs with higher salaries (small boost)
+      if (job.salary?.min) {
+        score += Math.min(job.salary.min / 5000, 10); // Max 10 points for salary
+      }
+
+      // Prefer jobs with longer deadlines (more time to apply)
+      const daysUntilDeadline = Math.ceil(
+        (new Date(job.applicationDeadline) - new Date()) / (1000 * 3600 * 24)
+      );
+      if (daysUntilDeadline > 7) score += 5;
+
+      // Only include jobs with a minimum score
+      if (score > 0) {
+        scoredJobs.push({ ...job, recommendationScore: score });
+      }
+    }
+
+    // Sort by score and return top jobs
+    scoredJobs.sort((a, b) => b.recommendationScore - a.recommendationScore);
+    const recommendedJobs = scoredJobs.slice(0, limit);
+
+    res.json({
+      success: true,
+      needsProfile: false,
+      count: recommendedJobs.length,
+      data: recommendedJobs
+    });
+
+  } catch (error) {
+    console.error('Get recommended jobs error:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Server error getting recommended jobs'
+    });
+  }
+};
+
 module.exports = {
   getJobs,
   getJob,
@@ -445,5 +563,6 @@ module.exports = {
   deleteJob,
   getEmployerJobs,
   getFeaturedJobs,
-  toggleJobStatus
+  toggleJobStatus,
+  getRecommendedJobs
 };

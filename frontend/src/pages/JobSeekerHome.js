@@ -1,12 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 import { jobAPI } from '../utils/api';
 import LoadingSpinner from '../components/LoadingSpinner';
 import JobSummaryCard from '../components/JobSummaryCard';
 
 const JobSeekerHome = () => {
+  const { user } = useAuth();
   const [featuredJobs, setFeaturedJobs] = useState([]);
+  const [recommendedJobs, setRecommendedJobs] = useState([]);
+  const [needsProfile, setNeedsProfile] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [recommendedLoading, setRecommendedLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [searchCity, setSearchCity] = useState('');
   const navigate = useNavigate();
@@ -25,6 +30,27 @@ const JobSeekerHome = () => {
 
     fetchFeaturedJobs();
   }, []);
+
+  useEffect(() => {
+    const fetchRecommendedJobs = async () => {
+      if (!user) {
+        setRecommendedLoading(false);
+        return;
+      }
+
+      try {
+        const response = await jobAPI.getRecommendedJobs({ limit: 6 });
+        setRecommendedJobs(response.data.data || []);
+        setNeedsProfile(response.data.needsProfile || false);
+      } catch (error) {
+        console.error('Error fetching recommended jobs:', error);
+      } finally {
+        setRecommendedLoading(false);
+      }
+    };
+
+    fetchRecommendedJobs();
+  }, [user]);
 
   const handleSearch = (event) => {
     event.preventDefault();
@@ -106,6 +132,75 @@ const JobSeekerHome = () => {
               </div>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* Recommended Jobs Section */}
+      <section className="py-16 bg-white border-b border-gray-200">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <div className="inline-flex items-center justify-center p-3 bg-primary-100 rounded-full mb-4">
+              <svg className="w-8 h-8 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+              </svg>
+            </div>
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Recommended For You</h2>
+            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+              Jobs matched to your skills, experience, and preferences
+            </p>
+          </div>
+
+          {recommendedLoading ? (
+            <LoadingSpinner text="Finding your perfect matches..." />
+          ) : needsProfile ? (
+            <div className="max-w-2xl mx-auto text-center py-12 bg-gradient-to-br from-primary-50 to-blue-50 rounded-2xl border-2 border-dashed border-primary-200">
+              <svg className="mx-auto h-16 w-16 text-primary-400 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+              </svg>
+              <h3 className="text-2xl font-bold text-gray-900 mb-3">Complete Your Profile</h3>
+              <p className="text-gray-700 mb-6 px-4">
+                Help us understand you better! Add your skills, experience, and location preferences 
+                to receive personalized job recommendations tailored just for you.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center px-4">
+                <Link to="/profile" className="btn btn-primary btn-lg">
+                  Complete Profile Now
+                </Link>
+                <Link to="/jobs" className="btn btn-outline btn-lg">
+                  Browse All Jobs
+                </Link>
+              </div>
+            </div>
+          ) : recommendedJobs.length > 0 ? (
+            <>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+                {recommendedJobs.map((job) => (
+                  <JobSummaryCard key={job._id} job={job} />
+                ))}
+              </div>
+              <div className="text-center">
+                <Link to="/jobs" className="btn btn-outline btn-lg">
+                  View All Jobs
+                </Link>
+              </div>
+            </>
+          ) : (
+            <div className="text-center py-12">
+              <svg className="mx-auto h-12 w-12 text-gray-400 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+              </svg>
+              <h3 className="text-lg font-medium text-gray-900 mb-2">No Recommendations Yet</h3>
+              <p className="text-gray-600 mb-4">Update your profile with more details to get better recommendations!</p>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <Link to="/profile" className="btn btn-primary">
+                  Update Profile
+                </Link>
+                <Link to="/jobs" className="btn btn-outline">
+                  Browse All Jobs
+                </Link>
+              </div>
+            </div>
+          )}
         </div>
       </section>
 

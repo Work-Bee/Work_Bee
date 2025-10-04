@@ -65,12 +65,20 @@ const Header = () => {
             {user ? (
               <>
                 {user.role === 'jobseeker' && (
-                  <Link
-                    to="/applications"
-                    className={`nav-link ${isActive('/applications') ? 'active' : ''}`}
-                  >
-                    Applications
-                  </Link>
+                  <>
+                    <Link
+                      to="/applications"
+                      className={`nav-link ${isActive('/applications') ? 'active' : ''}`}
+                    >
+                      Applications
+                    </Link>
+                    <Link
+                      to="/bookmarks"
+                      className={`nav-link ${isActive('/bookmarks') ? 'active' : ''}`}
+                    >
+                      Bookmarks
+                    </Link>
+                  </>
                 )}
                 
                 {user.role === 'employer' && (
@@ -335,6 +343,21 @@ const Header = () => {
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                           </svg>
                           Applications
+                        </Link>
+                        
+                        <Link
+                          to="/bookmarks"
+                          className={`flex items-center px-4 py-3.5 rounded-xl text-base font-medium transition-all duration-200 ${
+                            isActive('/bookmarks')
+                              ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-lg'
+                              : 'text-gray-800 hover:bg-white hover:shadow-md'
+                          }`}
+                          onClick={() => setIsMenuOpen(false)}
+                        >
+                          <svg className="w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M5 4a2 2 0 012-2h6a2 2 0 012 2v14l-5-2.5L5 18V4z" />
+                          </svg>
+                          Bookmarks
                         </Link>
                         
                         <Link

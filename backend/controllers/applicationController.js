@@ -76,8 +76,11 @@ const applyForJob = async (req, res) => {
         originalName: req.file.originalname,
         path: req.file.path
       };
-    } else if (req.user.profile && req.user.profile.resume) {
-      // Use profile resume
+    } else if (req.user.profile && 
+               req.user.profile.resume && 
+               req.user.profile.resume.filename &&
+               req.user.profile.resume.path) {
+      // Use profile resume - only if it has all required fields
       resumeData = {
         filename: req.user.profile.resume.filename,
         originalName: req.user.profile.resume.originalName,
@@ -87,7 +90,7 @@ const applyForJob = async (req, res) => {
       // No resume available
       return res.status(400).json({
         success: false,
-        error: 'You cannot apply without uploading a resume. Please upload your resume in your profile first.'
+        error: 'You have not uploaded a resume. Please upload your resume in your profile first.'
       });
     }
 
@@ -165,15 +168,26 @@ const getMyApplications = async (req, res) => {
     const applications = await Application.find(query)
       .populate({
         path: 'job',
-        select: 'title company location salary jobType applicationDeadline',
-        populate: {
-          path: 'company',
-          select: 'name logo'
-        }
+        select: 'title company location salary jobType applicationDeadline category status'
       })
       .sort({ appliedAt: -1 })
       .limit(limit)
-      .skip(startIndex);
+      .skip(startIndex)
+      .lean(); // Use lean() to get plain JavaScript objects
+
+    // Manually populate company for each application
+    const Company = require('../models/Company');
+    for (let app of applications) {
+      if (app.job && app.job.company) {
+        const company = await Company.findById(app.job.company).select('name logo website').lean();
+        if (company) {
+          app.job.company = company;
+        }
+      }
+    }
+
+    // Debug: Log populated data to see what we're getting
+    console.log('Applications with company data:', JSON.stringify(applications.slice(0, 1), null, 2));
 
     const total = await Application.countDocuments(query);
 
@@ -517,7 +531,12 @@ const withdrawApplication = async (req, res) => {
     }
 
     // Check if user owns the application
-    if (application.applicant.toString() !== req.user.id) {
+    // Handle both ObjectId and populated applicant object
+    const applicantId = application.applicant._id 
+      ? application.applicant._id.toString() 
+      : application.applicant.toString();
+    
+    if (applicantId !== req.user.id) {
       return res.status(403).json({
         success: false,
         error: 'Not authorized to withdraw this application'

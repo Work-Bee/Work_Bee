@@ -92,6 +92,7 @@ export const jobAPI = {
   getJobs: (params) => api.get('/jobs', { params }),
   getJob: (id) => api.get(`/jobs/${id}`),
   getFeaturedJobs: () => api.get('/jobs/featured'),
+  getRecommendedJobs: (params) => api.get('/jobs/recommended/for-you', { params }),
   getEmployerJobs: (params) => api.get('/jobs/employer/my-jobs', { params }),
   createJob: (jobData) => api.post('/jobs', jobData),
   updateJob: (id, jobData) => api.put(`/jobs/${id}`, jobData),
@@ -156,6 +157,25 @@ export const userAPI = {
     });
   },
   deleteResume: () => api.delete('/users/resume'),
+  uploadProfilePhoto: (file) => {
+    const formData = new FormData();
+    formData.append('photo', file);
+    
+    return api.post('/users/upload-photo', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+  },
+  deleteProfilePhoto: () => api.delete('/users/photo'),
+};
+
+// Bookmark API calls
+export const bookmarkAPI = {
+  getBookmarks: () => api.get('/bookmarks'),
+  addBookmark: (jobId) => api.post('/bookmarks', { jobId }),
+  removeBookmark: (jobId) => api.delete(`/bookmarks/${jobId}`),
+  checkBookmark: (jobId) => api.get(`/bookmarks/check/${jobId}`),
 };
 
 export { API_URL, API_BASE_URL };

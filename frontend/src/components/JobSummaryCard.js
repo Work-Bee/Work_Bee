@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { applicationAPI } from '../utils/api';
+import { applicationAPI, bookmarkAPI } from '../utils/api';
 import { formatSalaryRange, formatLocation, formatDate } from '../utils/formatters';
 
 const JobSummaryCard = ({ job }) => {
@@ -14,6 +14,9 @@ const JobSummaryCard = ({ job }) => {
   const [applyLoading, setApplyLoading] = useState(false);
   const [applySuccess, setApplySuccess] = useState('');
   const [applyError, setApplyError] = useState('');
+  const [isBookmarked, setIsBookmarked] = useState(false);
+  const [bookmarkLoading, setBookmarkLoading] = useState(false);
+  const [showShareSuccess, setShowShareSuccess] = useState(false);
 
   const companyName = job.company?.name || 'Unknown Company';
   const salaryLabel = formatSalaryRange(job.salary);
@@ -45,6 +48,51 @@ const JobSummaryCard = ({ job }) => {
       checkIfApplied();
     }
   }, [isJobseeker, job._id, expanded]);
+
+  useEffect(() => {
+    const checkBookmarkStatus = async () => {
+      if (!isJobseeker) return;
+      
+      try {
+        const response = await bookmarkAPI.checkBookmark(job._id);
+        setIsBookmarked(response.data.data.isBookmarked);
+      } catch (err) {
+        console.error('Error checking bookmark status', err);
+      }
+    };
+
+    checkBookmarkStatus();
+  }, [isJobseeker, job._id]);
+
+  const handleBookmarkToggle = async () => {
+    if (!isJobseeker) return;
+
+    try {
+      setBookmarkLoading(true);
+      if (isBookmarked) {
+        await bookmarkAPI.removeBookmark(job._id);
+        setIsBookmarked(false);
+      } else {
+        await bookmarkAPI.addBookmark(job._id);
+        setIsBookmarked(true);
+      }
+    } catch (err) {
+      console.error('Error toggling bookmark', err);
+    } finally {
+      setBookmarkLoading(false);
+    }
+  };
+
+  const handleShare = () => {
+    const jobUrl = `${window.location.origin}/jobs/${job._id}`;
+    navigator.clipboard.writeText(jobUrl).then(() => {
+      setShowShareSuccess(true);
+      setTimeout(() => setShowShareSuccess(false), 3000);
+    }).catch(err => {
+      console.error('Failed to copy link', err);
+      alert('Failed to copy link. Please try again.');
+    });
+  };
 
   const handleApplyClick = () => {
     if (!hasResume) {
@@ -107,50 +155,103 @@ const JobSummaryCard = ({ job }) => {
   return (
     <div className="job-card">
       <div className="card-body">
-        {/* Top row compact */}
-        <div className="flex items-start justify-between gap-3">
-          <div className="flex items-start gap-3">
-            <div className="w-10 h-10 bg-primary-100 rounded-lg flex items-center justify-center flex-shrink-0">
-              <svg className="w-5 h-5 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-4m-5 0H3m2 0h3M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+        {/* Job Header */}
+        <div className="flex items-start justify-between gap-3 pb-3 border-b border-gray-100">
+          <div className="flex items-start gap-3 flex-1 min-w-0">
+            <div className="w-12 h-12 bg-gradient-to-br from-primary-50 to-primary-100 rounded-xl flex items-center justify-center flex-shrink-0">
+              <svg className="w-6 h-6 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
               </svg>
             </div>
-            <div>
-              <h3 className="font-semibold text-base text-gray-900 leading-tight">{job.title}</h3>
-              <div className="text-sm text-gray-600 flex flex-wrap items-center gap-x-2 gap-y-1">
-                <span className="text-primary-700 font-medium">{companyName}</span>
-                <span className="text-gray-300">•</span>
-                <span>{job.jobType}</span>
-                {postedDate && (
-                  <>
-                    <span className="text-gray-300">•</span>
-                    <span>Posted {postedDate}</span>
-                  </>
-                )}
-                {job.category && (
-                  <>
-                    <span className="text-gray-300">•</span>
-                    <span>{job.category}</span>
-                  </>
-                )}
-              </div>
+            <div className="flex-1 min-w-0">
+              <h3 className="font-semibold text-lg text-gray-900 mb-1 leading-tight">{job.title}</h3>
+              <p className="text-sm text-primary-600 font-medium">{companyName}</p>
             </div>
           </div>
-          <div className="text-right">
-            <div className="text-sm font-medium text-green-700">{salaryLabel}</div>
-            <div className="text-xs text-gray-500">{locationLabel}</div>
+          <div className="flex gap-1.5 items-start flex-shrink-0">
+            {isJobseeker && (
+              <button
+                onClick={handleBookmarkToggle}
+                disabled={bookmarkLoading}
+                className={`p-1.5 rounded-lg transition-colors ${
+                  isBookmarked 
+                    ? 'text-yellow-600 bg-yellow-50 hover:bg-yellow-100' 
+                    : 'text-gray-400 hover:text-yellow-600 hover:bg-yellow-50'
+                }`}
+                title={isBookmarked ? 'Remove bookmark' : 'Bookmark this job'}
+              >
+                <svg className="w-4 h-4" fill={isBookmarked ? 'currentColor' : 'none'} stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
+                </svg>
+              </button>
+            )}
+            <div className="relative">
+              <button
+                onClick={handleShare}
+                className="p-1.5 rounded-lg text-gray-400 hover:text-blue-600 hover:bg-blue-50 transition-colors"
+                title="Share job link"
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
+                </svg>
+              </button>
+              {showShareSuccess && (
+                <div className="absolute top-full right-0 mt-2 bg-green-50 border border-green-200 rounded-lg px-3 py-2 shadow-lg z-10 whitespace-nowrap">
+                  <p className="text-sm text-green-800 flex items-center gap-1">
+                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                    </svg>
+                    Link copied!
+                  </p>
+                </div>
+              )}
+            </div>
           </div>
         </div>
 
-        <div className="mt-3 flex flex-wrap gap-2 items-center justify-between">
+        {/* Job Details */}
+        <div className="mt-3 flex items-start justify-between gap-4">
+          <div className="flex flex-col gap-2">
+            <div className="flex items-center gap-2 text-sm text-gray-600">
+              <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+              </svg>
+              <span>{locationLabel}</span>
+            </div>
+
+            <div className="flex items-center gap-2 text-sm text-green-700 font-semibold">
+              <svg className="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <span>{salaryLabel}</span>
+            </div>
+          </div>
+
+          <div className="flex flex-col items-end gap-2 text-right">
+            <span className="inline-flex items-center px-2.5 py-1 rounded-lg text-xs font-medium bg-primary-50 text-primary-700 border border-primary-200 whitespace-nowrap">
+              {job.jobType}
+            </span>
+            {postedDate && (
+              <div className="flex items-center gap-1.5 text-xs text-gray-500">
+                <svg className="w-3.5 h-3.5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <span className="whitespace-nowrap">{postedDate}</span>
+              </div>
+            )}
+          </div>
+        </div>
+
+        <div className="mt-3 flex flex-wrap gap-2">
           <button
             type="button"
             onClick={() => setExpanded(true)}
-            className="btn btn-outline btn-sm"
+            className="btn btn-outline btn-sm flex-1 sm:flex-none"
           >
             Show details
           </button>
-          <Link to={`/jobs/${job._id}`} className="btn btn-outline btn-sm">Full details</Link>
+          <Link to={`/jobs/${job._id}`} className="btn btn-outline btn-sm flex-1 sm:flex-none">Full details</Link>
         </div>
 
         {/* Details Modal */}
