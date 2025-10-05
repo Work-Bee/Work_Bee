@@ -22,19 +22,29 @@ const register = async (req, res) => {
       email, 
       password, 
       role, 
-  phone, 
-  secondaryPhone,
-  primaryHasWhatsApp,
-  secondaryHasWhatsApp,
-  location,
+      phone, 
+      secondaryPhone,
+      primaryHasWhatsApp,
+      secondaryHasWhatsApp,
+      location,
       // Job seeker fields
       experienceLevel,
       skills,
+      recentJobs,
+      preferredLocations,
+      degree,
+      languages,
+      expectedSalary,
+      availability,
+      workPreference,
+      willingToRelocate,
+      bio,
       // Employer fields
       companyName,
       industry,
       companySize,
-      website
+      website,
+      companyDetails
     } = req.body;
 
     // Check if user already exists
@@ -63,15 +73,29 @@ const register = async (req, res) => {
     if (role === 'jobseeker') {
       userData.profile = {
         experienceLevel,
-        skills: Array.isArray(skills) ? skills : []
+        skills: Array.isArray(skills) ? skills : [],
+        recentJobs: Array.isArray(recentJobs) ? recentJobs : [],
+        preferredLocations: Array.isArray(preferredLocations) ? preferredLocations : [],
+        degree,
+        languages: Array.isArray(languages) ? languages : [],
+        expectedSalary,
+        availability,
+        workPreference,
+        willingToRelocate,
+        bio
       };
     } else if (role === 'employer') {
-      userData.companyDetails = {
-        companyName,
-        industry,
-        companySize,
-        website
-      };
+      // Support both old format (individual fields) and new format (companyDetails object)
+      if (companyDetails) {
+        userData.companyDetails = companyDetails;
+      } else {
+        userData.companyDetails = {
+          companyName,
+          industry,
+          companySize,
+          website
+        };
+      }
     }
 
     // Create user

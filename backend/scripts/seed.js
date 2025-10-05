@@ -6,15 +6,17 @@ const User = require('../models/User');
 const Company = require('../models/Company');
 const Job = require('../models/Job');
 
-// Connect to MongoDB
-mongoose.connect(process.env.MONGO_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
-
 const seedData = async () => {
   try {
     console.log('🌱 Starting database seeding...');
+    
+    // Connect to MongoDB and wait for connection
+    console.log('📡 Connecting to MongoDB...');
+    await mongoose.connect(process.env.MONGO_URI, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+    console.log('✅ Connected to MongoDB:', mongoose.connection.name);
 
     // Clear existing data
     await User.deleteMany({});
@@ -388,9 +390,16 @@ const seedData = async () => {
   console.log(`  Email: ${demoAdmin.email}`);
   console.log(`  Password: ${adminPassword}`);
 
+    // Close the connection
+    await mongoose.connection.close();
+    console.log('\n📡 Database connection closed');
     process.exit(0);
   } catch (error) {
     console.error('❌ Error seeding database:', error);
+    console.error('Error details:', error.message);
+    if (mongoose.connection.readyState !== 0) {
+      await mongoose.connection.close();
+    }
     process.exit(1);
   }
 };

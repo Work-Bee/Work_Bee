@@ -8,7 +8,8 @@ const {
   deleteJob,
   getEmployerJobs,
   getFeaturedJobs,
-  toggleJobStatus
+  toggleJobStatus,
+  getRecommendedJobs
 } = require('../controllers/jobController');
 const { protect, authorize } = require('../middleware/auth');
 const { validateJob } = require('../middleware/validation');
@@ -20,6 +21,9 @@ router.get('/:id', getJob);
 
 // Protected routes
 router.use(protect);
+
+// Job seeker routes
+router.get('/recommended/for-you', authorize('jobseeker'), getRecommendedJobs);
 
 // Employer routes
 router.get('/employer/my-jobs', authorize('employer'), getEmployerJobs);

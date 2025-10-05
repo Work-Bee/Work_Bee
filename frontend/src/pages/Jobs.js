@@ -32,6 +32,8 @@ const Jobs = () => {
     city: searchParams.get('city') || '',
     category: searchParams.get('category') || '',
     jobType: searchParams.get('jobType') || '',
+    minSalary: searchParams.get('minSalary') || '',
+    maxSalary: searchParams.get('maxSalary') || '',
   });
 
   const [jobs, setJobs] = useState([]);
@@ -39,6 +41,7 @@ const Jobs = () => {
   const [error, setError] = useState('');
   const [total, setTotal] = useState(0);
   const [pagination, setPagination] = useState({});
+  const [isFiltersOpen, setIsFiltersOpen] = useState(false);
 
   useEffect(() => {
     setFormValues({
@@ -46,7 +49,17 @@ const Jobs = () => {
       city: searchParams.get('city') || '',
       category: searchParams.get('category') || '',
       jobType: searchParams.get('jobType') || '',
+      minSalary: searchParams.get('minSalary') || '',
+      maxSalary: searchParams.get('maxSalary') || '',
     });
+
+    // Open filters automatically if any are active; otherwise keep collapsed
+    {
+      const params = Object.fromEntries(searchParams.entries());
+      const keys = ['search', 'city', 'category', 'jobType', 'minSalary', 'maxSalary'];
+      const anyActive = keys.some((k) => params[k] && String(params[k]).trim() !== '');
+      setIsFiltersOpen(anyActive);
+    }
 
     const fetchJobs = async () => {
       if (user?.role === 'employer') {
@@ -90,19 +103,41 @@ const Jobs = () => {
 
   const handleFilterSubmit = (event) => {
     event.preventDefault();
-    const params = {};
-    if (formValues.search) params.search = formValues.search;
-    if (formValues.city) params.city = formValues.city;
-    if (formValues.category) params.category = formValues.category;
-    if (formValues.jobType) params.jobType = formValues.jobType;
+    // Preserve current search; update only filter fields
+    const params = Object.fromEntries(searchParams.entries());
+    if (formValues.search) params.search = formValues.search; else delete params.search;
+    if (formValues.city) params.city = formValues.city; else delete params.city;
+    if (formValues.category) params.category = formValues.category; else delete params.category;
+    if (formValues.jobType) params.jobType = formValues.jobType; else delete params.jobType;
+    if (formValues.minSalary) params.minSalary = formValues.minSalary; else delete params.minSalary;
+    if (formValues.maxSalary) params.maxSalary = formValues.maxSalary; else delete params.maxSalary;
+    params.page = '1';
+    params.limit = '9';
+    setSearchParams(params);
+    setIsFiltersOpen(false);
+  };
+
+  const handleResetFilters = () => {
+    // Clear only filter fields; keep search as-is
+    setFormValues((prev) => ({ ...prev, city: '', category: '', jobType: '', minSalary: '', maxSalary: '' }));
+    const params = Object.fromEntries(searchParams.entries());
+    delete params.city;
+    delete params.category;
+    delete params.jobType;
+    delete params.minSalary;
+    delete params.maxSalary;
     params.page = '1';
     params.limit = '9';
     setSearchParams(params);
   };
 
-  const handleResetFilters = () => {
-    setFormValues({ search: '', city: '', category: '', jobType: '' });
-    setSearchParams({ limit: '9', page: '1' });
+  const handleSearchSubmit = (event) => {
+    event.preventDefault();
+    const params = Object.fromEntries(searchParams.entries());
+    if (formValues.search) params.search = formValues.search; else delete params.search;
+    params.page = '1';
+    params.limit = '9';
+    setSearchParams(params);
   };
 
   const handlePagination = (page) => {
@@ -148,80 +183,130 @@ const Jobs = () => {
   return (
     <div className="bg-gray-50 py-10 lg:py-16 min-h-screen">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-10">
-          <div>
-            <h1 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-2">Find the right opportunity</h1>
-            <p className="text-gray-600">Search flexible and entry-level roles across Kochi and beyond.</p>
-          </div>
-          <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-5 w-full lg:w-auto">
-            <form className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4" onSubmit={handleFilterSubmit}>
+        <div className="mb-6">
+          <div className="w-full">
+            {/* Primary search and filters trigger */}
+            <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-4 flex flex-row items-center gap-2">
+              <form onSubmit={handleSearchSubmit} className="flex-1 flex items-center gap-2">
               <div>
-                <label className="text-xs uppercase text-gray-500 font-semibold block mb-2">Keyword</label>
+                  <label className="sr-only">Search</label>
+              </div>
                 <input
                   type="text"
                   name="search"
                   value={formValues.search}
                   onChange={handleInputChange}
-                  className="form-input"
-                  placeholder="Job title or company"
+                  className="form-input flex-1"
+                  placeholder="Search jobs or companies"
                 />
+                <button type="submit" className="btn btn-primary whitespace-nowrap">Search</button>
+              </form>
+
+              <button
+                type="button"
+                onClick={() => setIsFiltersOpen((v) => !v)}
+                className="btn btn-outline btn-sm relative whitespace-nowrap"
+                aria-expanded={isFiltersOpen}
+              >
+                Filters
+                {(() => {
+                  const params = Object.fromEntries(searchParams.entries());
+                  const keys = ['city', 'category', 'jobType', 'minSalary', 'maxSalary'];
+                  const active = keys.some((k) => params[k] && String(params[k]).trim() !== '');
+                  return active ? (
+                    <span className="absolute -top-1 -right-1 inline-flex items-center justify-center w-5 h-5 rounded-full bg-primary-600 text-white text-[10px]">•</span>
+                  ) : null;
+                })()}
+              </button>
+            </div>
+
+            {isFiltersOpen && (
+              <div className="mt-3 bg-white border border-gray-200 rounded-xl shadow-sm p-5">
+                <form className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4" onSubmit={handleFilterSubmit}>
+                  <div>
+                    <label className="text-xs uppercase text-gray-500 font-semibold block mb-2">City</label>
+                    <input
+                      type="text"
+                      name="city"
+                      value={formValues.city}
+                      onChange={handleInputChange}
+                      className="form-input"
+                      placeholder="e.g. Kochi"
+                    />
+                  </div>
+                  <div>
+                    <label className="text-xs uppercase text-gray-500 font-semibold block mb-2">Category</label>
+                    <select
+                      name="category"
+                      value={formValues.category}
+                      onChange={handleInputChange}
+                      className="form-select"
+                    >
+                      <option value="">All categories</option>
+                      {categories.map((category) => (
+                        <option value={category} key={category}>
+                          {category}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  <div>
+                    <label className="text-xs uppercase text-gray-500 font-semibold block mb-2">Job Type</label>
+                    <select
+                      name="jobType"
+                      value={formValues.jobType}
+                      onChange={handleInputChange}
+                      className="form-select"
+                    >
+                      <option value="">All types</option>
+                      {jobTypes.map((type) => (
+                        <option value={type} key={type}>
+                          {type}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  <div>
+                    <label className="text-xs uppercase text-gray-500 font-semibold block mb-2">Min Salary</label>
+                    <input
+                      type="number"
+                      name="minSalary"
+                      value={formValues.minSalary}
+                      onChange={handleInputChange}
+                      className="form-input"
+                      placeholder="e.g. 100"
+                      min="0"
+                      step="1"
+                    />
+                  </div>
+                  <div>
+                    <label className="text-xs uppercase text-gray-500 font-semibold block mb-2">Max Salary</label>
+                    <input
+                      type="number"
+                      name="maxSalary"
+                      value={formValues.maxSalary}
+                      onChange={handleInputChange}
+                      className="form-input"
+                      placeholder="e.g. 500"
+                      min="0"
+                      step="1"
+                    />
+                  </div>
+                  <div className="md:col-span-2 lg:col-span-4 flex flex-wrap gap-3">
+                    <button type="submit" className="btn btn-primary flex-1 min-w-[120px]">
+                      Apply filters
+                    </button>
+                    <button
+                      type="button"
+                      onClick={handleResetFilters}
+                      className="btn btn-outline flex-1 min-w-[120px]"
+                    >
+                      Clear filters
+                    </button>
+                  </div>
+                </form>
               </div>
-              <div>
-                <label className="text-xs uppercase text-gray-500 font-semibold block mb-2">City</label>
-                <input
-                  type="text"
-                  name="city"
-                  value={formValues.city}
-                  onChange={handleInputChange}
-                  className="form-input"
-                  placeholder="e.g. Kochi"
-                />
-              </div>
-              <div>
-                <label className="text-xs uppercase text-gray-500 font-semibold block mb-2">Category</label>
-                <select
-                  name="category"
-                  value={formValues.category}
-                  onChange={handleInputChange}
-                  className="form-select"
-                >
-                  <option value="">All categories</option>
-                  {categories.map((category) => (
-                    <option value={category} key={category}>
-                      {category}
-                    </option>
-                  ))}
-                </select>
-              </div>
-              <div>
-                <label className="text-xs uppercase text-gray-500 font-semibold block mb-2">Job Type</label>
-                <select
-                  name="jobType"
-                  value={formValues.jobType}
-                  onChange={handleInputChange}
-                  className="form-select"
-                >
-                  <option value="">All types</option>
-                  {jobTypes.map((type) => (
-                    <option value={type} key={type}>
-                      {type}
-                    </option>
-                  ))}
-                </select>
-              </div>
-              <div className="md:col-span-2 lg:col-span-4 flex flex-wrap gap-3">
-                <button type="submit" className="btn btn-primary flex-1 min-w-[120px]">
-                  Apply filters
-                </button>
-                <button
-                  type="button"
-                  onClick={handleResetFilters}
-                  className="btn btn-outline flex-1 min-w-[120px]"
-                >
-                  Reset
-                </button>
-              </div>
-            </form>
+            )}
           </div>
         </div>
 

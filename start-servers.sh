@@ -15,7 +15,7 @@ sleep 2
 
 # Start Backend Server
 echo "🔧 Starting Backend API Server (Port 5000)..."
-cd /home/kiran/mern_WorkBee/backend
+cd /home/kiran/mern_jobportal/backend
 nohup npm start > ../logs/backend.log 2>&1 &
 BACKEND_PID=$!
 echo "Backend PID: $BACKEND_PID"
@@ -25,7 +25,7 @@ sleep 5
 
 # Start Frontend Server  
 echo "🎨 Starting Frontend Server (Port 3000)..."
-cd /home/kiran/mern_WorkBee/frontend
+cd /home/kiran/mern_jobportal/frontend
 nohup serve -s build -l 3000 > ../logs/frontend.log 2>&1 &
 FRONTEND_PID=$!
 echo "Frontend PID: $FRONTEND_PID"

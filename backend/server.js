@@ -12,6 +12,7 @@ const applicationRoutes = require('./routes/applications');
 const userRoutes = require('./routes/users');
 const companyRoutes = require('./routes/companies');
 const adminRoutes = require('./routes/admin');
+const bookmarkRoutes = require('./routes/bookmarks');
 
 // Initialize express
 const app = express();
@@ -22,8 +23,28 @@ app.set('trust proxy', 1);
 // Connect to MongoDB
 connectDB();
 
+// CORS configuration - MUST come before other middleware
+app.use(cors({
+  origin: process.env.NODE_ENV === 'production' 
+    ? ['https://yourdomain.com'] 
+    : ['http://localhost:3000'],
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  exposedHeaders: ['Content-Range', 'X-Content-Range']
+}));
+
+// Handle preflight requests
+app.options('*', cors());
+
+// Body parser middleware - comes before other middleware
+app.use(express.json({ limit: '10mb' }));
+app.use(express.urlencoded({ extended: true, limit: '10mb' }));
+
 // Security middleware
-app.use(helmet());
+app.use(helmet({
+  crossOriginResourcePolicy: { policy: "cross-origin" }
+}));
 
 // Rate limiting
 const limiter = rateLimit({
@@ -32,18 +53,6 @@ const limiter = rateLimit({
   message: 'Too many requests from this IP, please try again later.'
 });
 app.use(limiter);
-
-// CORS configuration
-app.use(cors({
-  origin: process.env.NODE_ENV === 'production' 
-    ? ['https://yourdomain.com'] 
-    : ['http://localhost:3000'],
-  credentials: true
-}));
-
-// Body parser middleware
-app.use(express.json({ limit: '10mb' }));
-app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
 // Static files
 app.use('/uploads', express.static('uploads'));
@@ -55,6 +64,7 @@ app.use('/api/applications', applicationRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/companies', companyRoutes);
 app.use('/api/admin', adminRoutes);
+app.use('/api/bookmarks', bookmarkRoutes);
 
 // Health check route
 app.get('/api/health', (req, res) => {

@@ -7,16 +7,21 @@ import ProtectedRoute from './components/ProtectedRoute';
 // Import pages
 import Landing from './pages/Landing';
 import Register from './pages/Register';
+import RegisterJobSeeker from './pages/RegisterJobSeeker';
+import RegisterEmployer from './pages/RegisterEmployer';
 import Jobs from './pages/Jobs';
 import JobDetails from './pages/JobDetails';
+import JobPreview from './pages/JobPreview';
 import Profile from './pages/Profile';
 import Applications from './pages/Applications';
+import Bookmarks from './pages/Bookmarks';
 import EmployerDashboard from './pages/EmployerDashboard';
 import EmployerJobForm from './pages/EmployerJobForm';
 import Unauthorized from './pages/Unauthorized';
 import NotFound from './pages/NotFound';
 import JobSeekerHome from './pages/JobSeekerHome';
 import EmployerHome from './pages/EmployerHome';
+import EmployerProfile from './pages/EmployerProfile';
 import LoginJobSeeker from './pages/LoginJobSeeker';
 import LoginEmployer from './pages/LoginEmployer';
 import LoginAdmin from './pages/LoginAdmin';
@@ -48,6 +53,8 @@ function App() {
               <Route path="/login/employer" element={<LoginEmployer />} />
               <Route path="/login/admin" element={<LoginAdmin />} />
               <Route path="/register" element={<Register />} />
+              <Route path="/register/jobseeker" element={<RegisterJobSeeker />} />
+              <Route path="/register/employer" element={<RegisterEmployer />} />
               <Route path="/unauthorized" element={<Unauthorized />} />
               
               {/* Routes with layout */}
@@ -55,6 +62,7 @@ function App() {
                 {/* Public routes */}
                 <Route path="/jobs" element={<Jobs />} />
                 <Route path="/jobs/:id" element={<JobDetails />} />
+                <Route path="/jobs/:id/preview" element={<JobPreview />} />
                 
                 {/* Protected routes - Job seekers */}
                 <Route 
@@ -81,6 +89,14 @@ function App() {
                     </ProtectedRoute>
                   } 
                 />
+                <Route 
+                  path="/bookmarks" 
+                  element={
+                    <ProtectedRoute roles={['jobseeker']}>
+                      <Bookmarks />
+                    </ProtectedRoute>
+                  } 
+                />
                 
                 {/* Protected routes - Employers */}
                 <Route 
@@ -100,10 +116,10 @@ function App() {
                   } 
                 />
                 <Route 
-                  path="/dashboard/*" 
+                  path="/dashboard/profile" 
                   element={
                     <ProtectedRoute roles={['employer']}>
-                      <EmployerDashboard />
+                      <EmployerProfile />
                     </ProtectedRoute>
                   } 
                 />

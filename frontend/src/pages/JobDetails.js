@@ -334,7 +334,7 @@ const JobDetails = () => {
                       <Link to="/login/jobseeker" className="btn btn-primary btn-sm text-center">
                         Sign in to apply
                       </Link>
-                      <Link to="/register?type=jobseeker" className="btn btn-outline btn-sm text-center">
+                      <Link to="/register/jobseeker" className="btn btn-outline btn-sm text-center">
                         Create free account
                       </Link>
                     </div>

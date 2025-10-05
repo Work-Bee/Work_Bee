@@ -132,7 +132,7 @@ const Register = () => {
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
               {/* Job Seeker Option */}
               <Link
-                to="/register?type=jobseeker"
+                to="/register/jobseeker"
                 className="relative rounded-lg border border-gray-300 bg-white px-6 py-4 shadow-sm hover:shadow-md focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-200 hover:border-primary-300 block"
               >
                 <div className="flex flex-col items-center">
@@ -146,7 +146,7 @@ const Register = () => {
 
               {/* Employer Option */}
               <Link
-                to="/register?type=employer"
+                to="/register/employer"
                 className="relative rounded-lg border border-gray-300 bg-white px-6 py-4 shadow-sm hover:shadow-md focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-200 hover:border-primary-300 block"
               >
                 <div className="flex flex-col items-center">

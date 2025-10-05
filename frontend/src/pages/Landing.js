@@ -146,7 +146,7 @@ const Landing = () => {
                 {
                   title: 'Community',
                   description: 'Find local training programs, career workshops, and support events across Kochi.',
-                  cta: { label: 'See sessions', href: '/register?type=jobseeker' },
+                  cta: { label: 'See sessions', href: '/register/jobseeker' },
                 },
               ].map((card) => (
                 <div key={card.title} className="rounded-2xl card transition-transform duration-200 hover:-translate-y-1 hover:shadow-glow">
@@ -168,16 +168,16 @@ const Landing = () => {
         <section className="py-16 lg:py-20">
           <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="rounded-3xl bg-gradient-to-br from-white/80 to-gray-100 border border-gray-200/70 shadow-soft text-center px-6 sm:px-12 py-12">
-              <h2 className="text-3xl sm:text-4xl font-bold mb-4">Ready to get started?</h2>
-              <p className="text-lg text-gray-600 mb-8">Choose your path and we’ll guide you through the rest.</p>
+                            <h2 className="text-3xl sm:text-4xl font-bold mb-4">Ready to get started?</h2>
+              <p className="text-lg text-gray-600 mb-8">Choose your path and we'll guide you through the rest.</p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Link to="/register?type=jobseeker" className="btn btn-primary btn-lg shadow-glow group">
+                <Link to="/register/jobseeker" className="btn btn-primary btn-lg shadow-glow group">
                   <span className="inline-flex items-center gap-2">
                     Create Job Seeker Account
                     <span className="transition-transform duration-200 group-hover:translate-x-1">→</span>
                   </span>
                 </Link>
-                <Link to="/register?type=employer" className="btn btn-outline btn-lg group">
+                <Link to="/register/employer" className="btn btn-outline btn-lg group">
                   <span className="inline-flex items-center gap-2">
                     Create Employer Account
                     <span className="transition-transform duration-200 group-hover:translate-x-1">→</span>
