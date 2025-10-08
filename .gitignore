@@ -1,8 +1,16 @@
 node_modules/
 .env
+# Ignore other environment variants but keep examples
+.env.*
+!.env.example
 *.log
 .DS_Store
 dist/
 build/
 uploads/
+# Ignore backend runtime upload dir explicitly
+backend/uploads/
+# Optional local logs
+logs/
+backend/logs/
 *.pem

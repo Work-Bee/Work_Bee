@@ -101,7 +101,21 @@ const RoleLoginForm = ({ role }) => {
         </>
       )}
       <div className="relative z-10 max-w-md w-full">
-        <div className={`glass rounded-2xl p-8 shadow-glow animate-bounce-in ${isJobseeker ? 'bg-white/75' : ''}`}>
+        <div className={`glass rounded-2xl p-8 shadow-glow animate-bounce-in ${isJobseeker ? 'bg-white/75' : ''} relative`}>
+          {/* Close button inside the card -> back to Home */}
+          <Link
+            to="/"
+            aria-label="Close and go to home"
+            className={`absolute top-4 right-4 z-10 inline-flex items-center justify-center rounded-full p-2 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 ${
+              isJobseeker
+                ? 'text-gray-600 hover:bg-white/70 focus:ring-violet-500'
+                : 'text-gray-600 hover:bg-gray-100 focus:ring-primary-500'
+            }`}
+          >
+            <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </Link>
           <div className="text-center">
             <div className="mx-auto h-14 w-14 rounded-xl flex items-center justify-center shadow-md bg-gradient-to-r from-indigo-500 via-violet-500 to-blue-500">
               <svg className="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
