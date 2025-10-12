@@ -20,7 +20,17 @@ const getJobs = async (req, res) => {
       query.category = req.query.category;
     }
 
-    // Filter by job type
+    // Filter by employment type
+    if (req.query.employmentType) {
+      query.employmentType = req.query.employmentType;
+    }
+
+    // Filter by duration
+    if (req.query.duration) {
+      query.duration = req.query.duration;
+    }
+
+    // Backward compatibility: jobType filter
     if (req.query.jobType) {
       query.jobType = req.query.jobType;
     }
@@ -38,16 +48,48 @@ const getJobs = async (req, res) => {
       query['location.state'] = new RegExp(req.query.state, 'i');
     }
 
-    // Filter by salary range
+    // Exclude expired jobs by default (show only jobs whose deadline hasn't passed)
+    if (req.query.includeExpired !== 'true') {
+      query.applicationDeadline = { $gte: new Date() };
+    }
+
+    // Filter by salary range with unit support (normalize to per-hour)
     if (req.query.minSalary || req.query.maxSalary) {
       query.$and = query.$and || [];
-      
-      if (req.query.minSalary) {
-        query.$and.push({ 'salary.min': { $gte: Number(req.query.minSalary) } });
+      const unit = (req.query.salaryUnit || 'hour').toLowerCase();
+
+      const HOURS_PER_DAY = 8;
+      const DAYS_PER_WEEK = 6;
+      const DAYS_PER_MONTH = 26;
+      const MONTHS_PER_YEAR = 12;
+
+      const toPerHour = (value) => {
+        if (value === undefined) return undefined;
+        const v = Number(value);
+        if (Number.isNaN(v)) return undefined;
+        switch (unit) {
+          case 'hour':
+            return v;
+          case 'day':
+            return v / HOURS_PER_DAY;
+          case 'week':
+            return v / (HOURS_PER_DAY * DAYS_PER_WEEK);
+          case 'month':
+            return v / (HOURS_PER_DAY * DAYS_PER_MONTH);
+          case 'year':
+            return v / (HOURS_PER_DAY * DAYS_PER_MONTH * MONTHS_PER_YEAR);
+          default:
+            return v;
+        }
+      };
+
+      const minPerHour = toPerHour(req.query.minSalary);
+      const maxPerHour = toPerHour(req.query.maxSalary);
+      if (minPerHour !== undefined) {
+        query.$and.push({ salaryPerHourMin: { $gte: minPerHour } });
       }
-      
-      if (req.query.maxSalary) {
-        query.$and.push({ 'salary.max': { $lte: Number(req.query.maxSalary) } });
+      if (maxPerHour !== undefined) {
+        query.$and.push({ salaryPerHourMax: { $lte: maxPerHour } });
       }
     }
 
@@ -130,7 +172,7 @@ const getJobs = async (req, res) => {
 
 // @desc    Get single job
 // @route   GET /api/jobs/:id
-// @access  Public
+// @access  Public (increments viewsCount uniquely per account when logged in)
 const getJob = async (req, res) => {
   try {
     const job = await Job.findById(req.params.id)
@@ -144,9 +186,25 @@ const getJob = async (req, res) => {
       });
     }
 
-    // Increment view count
-    job.viewsCount = job.viewsCount + 1;
-    await job.save();
+    // Increment view count uniquely when user is authenticated
+    try {
+      if (req.headers.authorization && req.headers.authorization.startsWith('Bearer') && req.user) {
+        const userId = req.user._id || req.user.id;
+        const hasViewed = job.uniqueViewers?.some(v => v.toString() === userId.toString());
+        if (!hasViewed) {
+          job.viewsCount = (job.viewsCount || 0) + 1;
+          job.uniqueViewers = job.uniqueViewers || [];
+          job.uniqueViewers.push(userId);
+          await job.save();
+        }
+      } else {
+        // For unauthenticated viewers, we avoid inflating counts repeatedly.
+        // Optionally, we could use a short-lived cookie or IP-based throttle here.
+        // For now, do NOT increment to keep counts closer to "unique accounts" as requested.
+      }
+    } catch (viewErr) {
+      console.warn('View count logic warning:', viewErr?.message || viewErr);
+    }
 
     res.json({
       success: true,

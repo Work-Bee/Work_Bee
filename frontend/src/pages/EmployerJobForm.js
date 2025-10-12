@@ -21,7 +21,8 @@ const CATEGORY_OPTIONS = [
   'Other',
 ];
 
-const JOB_TYPE_OPTIONS = ['Full-time', 'Part-time', 'Contract', 'Temporary', 'Seasonal'];
+const EMPLOYMENT_TYPE_OPTIONS = ['Full-time', 'Part-time'];
+const DURATION_OPTIONS = ['Permanent', 'Contract', 'Temporary', 'Seasonal'];
 const EXPERIENCE_OPTIONS = ['Entry Level', '1-2 years', '3-5 years', '5+ years'];
 const SALARY_PERIOD_OPTIONS = ['hour', 'day', 'week', 'month', 'year'];
 const SALARY_CURRENCY_OPTIONS = ['USD', 'INR'];
@@ -66,7 +67,8 @@ const EmployerJobForm = ({ mode = 'create' }) => {
       requirements: '',
       responsibilities: '',
       category: CATEGORY_OPTIONS[0],
-      jobType: JOB_TYPE_OPTIONS[0],
+      employmentType: EMPLOYMENT_TYPE_OPTIONS[0],
+      duration: DURATION_OPTIONS[0],
       experienceLevel: EXPERIENCE_OPTIONS[0],
       salaryMin: '',
       salaryMax: '',
@@ -99,7 +101,8 @@ const EmployerJobForm = ({ mode = 'create' }) => {
         requirements: formatListForTextarea(job.requirements),
         responsibilities: formatListForTextarea(job.responsibilities),
         category: job.category || CATEGORY_OPTIONS[0],
-        jobType: job.jobType || JOB_TYPE_OPTIONS[0],
+        employmentType: job.employmentType || EMPLOYMENT_TYPE_OPTIONS[0],
+        duration: job.duration || DURATION_OPTIONS[0],
         experienceLevel: job.experienceLevel || EXPERIENCE_OPTIONS[0],
         salaryMin: job.salary?.min ?? '',
         salaryMax: job.salary?.max ?? '',
@@ -152,7 +155,8 @@ const EmployerJobForm = ({ mode = 'create' }) => {
         requirements: listFromText(formValues.requirements),
         responsibilities: listFromText(formValues.responsibilities),
         category: formValues.category,
-        jobType: formValues.jobType,
+        employmentType: formValues.employmentType,
+        duration: formValues.duration,
         experienceLevel: formValues.experienceLevel,
         salary: {
           min: Number(formValues.salaryMin),
@@ -253,9 +257,18 @@ const EmployerJobForm = ({ mode = 'create' }) => {
                 </div>
 
                 <div>
-                  <label className="form-label" htmlFor="jobType">Job type *</label>
-                  <select id="jobType" className="form-input" {...register('jobType', { required: true })}>
-                    {JOB_TYPE_OPTIONS.map((option) => (
+                  <label className="form-label" htmlFor="employmentType">Employment type *</label>
+                  <select id="employmentType" className="form-input" {...register('employmentType', { required: true })}>
+                    {EMPLOYMENT_TYPE_OPTIONS.map((option) => (
+                      <option key={option} value={option}>{option}</option>
+                    ))}
+                  </select>
+                </div>
+
+                <div>
+                  <label className="form-label" htmlFor="duration">Duration *</label>
+                  <select id="duration" className="form-input" {...register('duration', { required: true })}>
+                    {DURATION_OPTIONS.map((option) => (
                       <option key={option} value={option}>{option}</option>
                     ))}
                   </select>

@@ -16,6 +16,7 @@ import Profile from './pages/Profile';
 import Applications from './pages/Applications';
 import Bookmarks from './pages/Bookmarks';
 import EmployerDashboard from './pages/EmployerDashboard';
+import EmployerApplications from './pages/EmployerApplications';
 import EmployerJobForm from './pages/EmployerJobForm';
 import Unauthorized from './pages/Unauthorized';
 import NotFound from './pages/NotFound';
@@ -26,6 +27,11 @@ import LoginJobSeeker from './pages/LoginJobSeeker';
 import LoginEmployer from './pages/LoginEmployer';
 import LoginAdmin from './pages/LoginAdmin';
 import AdminDashboard from './pages/AdminDashboard';
+import Contact from './pages/Contact';
+import Help from './pages/Help';
+import Privacy from './pages/Privacy';
+import Terms from './pages/Terms';
+import ApplicationChat from './pages/ApplicationChat';
 
 // Import layout component
 import Layout from './components/Layout';
@@ -53,6 +59,8 @@ function App() {
               <Route path="/login/employer" element={<LoginEmployer />} />
               <Route path="/login/admin" element={<LoginAdmin />} />
               <Route path="/register" element={<Register />} />
+              {/* Temporary debug route to isolate /register issue */}
+              <Route path="/debug/register" element={<div style={{padding: 24}}>Register route OK</div>} />
               <Route path="/register/jobseeker" element={<RegisterJobSeeker />} />
               <Route path="/register/employer" element={<RegisterEmployer />} />
               <Route path="/unauthorized" element={<Unauthorized />} />
@@ -63,6 +71,18 @@ function App() {
                 <Route path="/jobs" element={<Jobs />} />
                 <Route path="/jobs/:id" element={<JobDetails />} />
                 <Route path="/jobs/:id/preview" element={<JobPreview />} />
+                <Route path="/contact" element={<Contact />} />
+                <Route path="/help" element={<Help />} />
+                <Route path="/privacy" element={<Privacy />} />
+                <Route path="/terms" element={<Terms />} />
+                <Route 
+                  path="/applications/:id/chat" 
+                  element={
+                    <ProtectedRoute roles={['jobseeker','employer']}>
+                      <ApplicationChat />
+                    </ProtectedRoute>
+                  }
+                />
                 
                 {/* Protected routes - Job seekers */}
                 <Route 
@@ -112,6 +132,14 @@ function App() {
                   element={
                     <ProtectedRoute roles={['employer']}>
                       <EmployerDashboard />
+                    </ProtectedRoute>
+                  } 
+                />
+                <Route 
+                  path="/employer/applications" 
+                  element={
+                    <ProtectedRoute roles={['employer']}>
+                      <EmployerApplications />
                     </ProtectedRoute>
                   } 
                 />

@@ -154,7 +154,10 @@ const JobSummaryCard = ({ job }) => {
 
   return (
     <div className="job-card">
-      <div className="card-body">
+      <div 
+        className="card-body cursor-pointer hover:shadow-lg transition-shadow duration-200"
+        onClick={() => setExpanded(true)}
+      >
         {/* Job Header */}
         <div className="flex items-start justify-between gap-3 pb-3 border-b border-gray-100">
           <div className="flex items-start gap-3 flex-1 min-w-0">
@@ -171,7 +174,10 @@ const JobSummaryCard = ({ job }) => {
           <div className="flex gap-1.5 items-start flex-shrink-0">
             {isJobseeker && (
               <button
-                onClick={handleBookmarkToggle}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleBookmarkToggle();
+                }}
                 disabled={bookmarkLoading}
                 className={`p-1.5 rounded-lg transition-colors ${
                   isBookmarked 
@@ -187,7 +193,10 @@ const JobSummaryCard = ({ job }) => {
             )}
             <div className="relative">
               <button
-                onClick={handleShare}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleShare();
+                }}
                 className="p-1.5 rounded-lg text-gray-400 hover:text-blue-600 hover:bg-blue-50 transition-colors"
                 title="Share job link"
               >
@@ -230,7 +239,7 @@ const JobSummaryCard = ({ job }) => {
 
           <div className="flex flex-col items-end gap-2 text-right">
             <span className="inline-flex items-center px-2.5 py-1 rounded-lg text-xs font-medium bg-primary-50 text-primary-700 border border-primary-200 whitespace-nowrap">
-              {job.jobType}
+              {job.employmentType} • {job.duration}
             </span>
             {postedDate && (
               <div className="flex items-center gap-1.5 text-xs text-gray-500">
@@ -241,17 +250,6 @@ const JobSummaryCard = ({ job }) => {
               </div>
             )}
           </div>
-        </div>
-
-        <div className="mt-3 flex flex-wrap gap-2">
-          <button
-            type="button"
-            onClick={() => setExpanded(true)}
-            className="btn btn-outline btn-sm flex-1 sm:flex-none"
-          >
-            Show details
-          </button>
-          <Link to={`/jobs/${job._id}`} className="btn btn-outline btn-sm flex-1 sm:flex-none">Full details</Link>
         </div>
 
         {/* Details Modal */}
@@ -271,7 +269,7 @@ const JobSummaryCard = ({ job }) => {
                   <div className="text-xs text-gray-600 flex flex-wrap items-center gap-x-2 gap-y-1 mt-1">
                     <span className="text-primary-700 font-medium">{companyName}</span>
                     <span className="text-gray-300">•</span>
-                    <span>{job.jobType}</span>
+                    <span>{job.employmentType} • {job.duration}</span>
                     {job.category && (
                       <>
                         <span className="text-gray-300">•</span>

@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { applicationAPI, API_BASE_URL } from '../utils/api';
 import LoadingSpinner from '../components/LoadingSpinner';
+// Chat happens on a dedicated page now
 import { formatDate, formatLocation, formatSalaryRange } from '../utils/formatters';
 
 const statusStyles = {
@@ -247,6 +248,11 @@ const Applications = () => {
                     {resumeUrl && (
                       <ResumeButton resumeUrl={resumeUrl} />
                     )}
+                    {application.status === 'shortlisted' && (
+                      <Link className="btn btn-outline btn-sm" to={`/applications/${application._id}/chat`}>
+                        Open Chat
+                      </Link>
+                    )}
                     <button
                       onClick={() => setShowDeleteConfirm(application._id)}
                       className="btn btn-outline btn-sm text-red-600 border-red-200 hover:bg-red-50 hover:border-red-300"
@@ -344,6 +350,7 @@ const Applications = () => {
           document.body
         )}
       </div>
+      {/* Chat is now a dedicated page at /applications/:id/chat */}
     </div>
   );
 };

@@ -82,12 +82,20 @@ const Header = () => {
                 )}
                 
                 {user.role === 'employer' && (
-                  <Link
-                    to="/dashboard"
-                    className={`nav-link ${location.pathname.startsWith('/dashboard') ? 'active' : ''}`}
-                  >
-                    Dashboard
-                  </Link>
+                  <>
+                    <Link
+                      to="/dashboard"
+                      className={`nav-link ${location.pathname.startsWith('/dashboard') ? 'active' : ''}`}
+                    >
+                      Dashboard
+                    </Link>
+                    <Link
+                      to="/employer/applications"
+                      className={`nav-link ${location.pathname === '/employer/applications' ? 'active' : ''}`}
+                    >
+                      Applications
+                    </Link>
+                  </>
                 )}
 
                 {user.role === 'admin' && (
@@ -129,39 +137,52 @@ const Header = () => {
                       <div className="px-4 py-2 text-sm text-gray-500 border-b">
                         {user.email}
                       </div>
-                      {user.role === 'jobseeker' && (
-                        <Link
-                          to="/profile"
-                          className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                          onClick={() => setIsProfileMenuOpen(false)}
-                        >
-                          My Profile
-                        </Link>
-                      )}
                       {user.role === 'employer' && (
-                        <Link
-                          to="/dashboard/profile"
-                          className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                          onClick={() => setIsProfileMenuOpen(false)}
-                        >
-                          Company Profile
-                        </Link>
+                        <>
+                          <Link
+                            to="/dashboard"
+                            className={`flex items-center px-4 py-3.5 rounded-xl text-base font-medium transition-all duration-200 ${
+                              location.pathname.startsWith('/dashboard')
+                                ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-lg'
+                                : 'text-gray-800 hover:bg-white hover:shadow-md'
+                            }`}
+                            onClick={() => setIsMenuOpen(false)}
+                          >
+                            <svg className="w-5 h-5 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2z" />
+                            </svg>
+                            Dashboard
+                          </Link>
+
+                          <Link
+                            to="/employer/applications"
+                            className={`flex items-center px-4 py-3.5 rounded-xl text-base font-medium transition-all duration-200 ${
+                              location.pathname === '/employer/applications'
+                                ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-lg'
+                                : 'text-gray-800 hover:bg-white hover:shadow-md'
+                            }`}
+                            onClick={() => setIsMenuOpen(false)}
+                          >
+                            <svg className="w-5 h-5 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
+                            Applications
+                          </Link>
+
+                          <Link
+                            to="/dashboard/profile"
+                            className={`flex items-center px-4 py-3.5 rounded-xl text-base font-medium transition-all duration-200 ${
+                              location.pathname === '/dashboard/profile'
+                                ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-lg'
+                                : 'text-gray-800 hover:bg-white hover:shadow-md'
+                            }`}
+                            onClick={() => setIsMenuOpen(false)}
+                          >
+                            <svg className="w-5 h-5 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                            </svg>
+                            Company Profile
+                          </Link>
+                        </>
                       )}
-                      {user.role === 'admin' && (
-                        <Link
-                          to="/admin/dashboard"
-                          className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                          onClick={() => setIsProfileMenuOpen(false)}
-                        >
-                          Admin Dashboard
-                        </Link>
-                      )}
-                      <button
-                        onClick={handleLogout}
-                        className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                      >
-                        Sign out
-                      </button>
                     </div>
                   )}
                 </div>
@@ -392,6 +413,19 @@ const Header = () => {
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
                           </svg>
                           Dashboard
+                        </Link>
+
+                        <Link
+                          to="/employer/applications"
+                          className={`flex items-center px-4 py-3.5 rounded-xl text-base font-medium transition-all duration-200 ${
+                            location.pathname === '/employer/applications'
+                              ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-lg'
+                              : 'text-gray-800 hover:bg-white hover:shadow-md'
+                          }`}
+                          onClick={() => setIsMenuOpen(false)}
+                        >
+                          <svg className="w-5 h-5 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
+                          Applications
                         </Link>
 
                         <Link

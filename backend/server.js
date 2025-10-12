@@ -13,6 +13,8 @@ const userRoutes = require('./routes/users');
 const companyRoutes = require('./routes/companies');
 const adminRoutes = require('./routes/admin');
 const bookmarkRoutes = require('./routes/bookmarks');
+const savedFilterRoutes = require('./routes/savedFilters');
+const messageRoutes = require('./routes/messages');
 
 // Initialize express
 const app = express();
@@ -49,7 +51,7 @@ app.use(helmet({
 // Rate limiting
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100, // limit each IP to 100 requests per windowMs
+  max: process.env.NODE_ENV === 'production' ? 100 : 1000, // Higher limit for development
   message: 'Too many requests from this IP, please try again later.'
 });
 app.use(limiter);
@@ -65,6 +67,8 @@ app.use('/api/users', userRoutes);
 app.use('/api/companies', companyRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/bookmarks', bookmarkRoutes);
+app.use('/api/saved-filters', savedFilterRoutes);
+app.use('/api/messages', messageRoutes);
 
 // Health check route
 app.get('/api/health', (req, res) => {

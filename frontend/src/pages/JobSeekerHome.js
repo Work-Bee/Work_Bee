@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { jobAPI } from '../utils/api';
 import LoadingSpinner from '../components/LoadingSpinner';
-import JobSummaryCard from '../components/JobSummaryCard';
+import DashboardJobCard from '../components/DashboardJobCard';
 
 const JobSeekerHome = () => {
   const { user } = useAuth();
@@ -182,7 +182,14 @@ const JobSeekerHome = () => {
             <>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
                 {recommendedJobs.map((job) => (
-                  <JobSummaryCard key={job._id} job={job} />
+                  <DashboardJobCard
+                    key={job._id}
+                    job={job}
+                    showStatus={false}
+                    showStats={false}
+                    tags={[job.employmentType || job.jobType, job.category].filter(Boolean)}
+                    onClick={() => navigate(`/jobs/${job._id}`)}
+                  />
                 ))}
               </div>
               <div className="text-center">
@@ -226,7 +233,14 @@ const JobSeekerHome = () => {
             <>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
                 {featuredJobs.map((job) => (
-                  <JobSummaryCard key={job._id} job={job} />
+                  <DashboardJobCard
+                    key={job._id}
+                    job={job}
+                    showStatus={false}
+                    showStats={false}
+                    tags={[job.employmentType || job.jobType, job.category].filter(Boolean)}
+                    onClick={() => navigate(`/jobs/${job._id}`)}
+                  />
                 ))}
               </div>
               <div className="text-center">

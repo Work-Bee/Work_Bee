@@ -2,12 +2,16 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { jobAPI } from '../utils/api';
 import LoadingSpinner from '../components/LoadingSpinner';
-import { formatDate, formatLocation, formatSalaryRange } from '../utils/formatters';
+import { formatDate } from '../utils/formatters';
+import DashboardJobCard from '../components/DashboardJobCard';
+import EmployerJobModal from '../components/EmployerJobModal';
 
 const EmployerHome = () => {
   const [jobs, setJobs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [selectedJob, setSelectedJob] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     const fetchJobs = async () => {
@@ -26,6 +30,8 @@ const EmployerHome = () => {
 
     fetchJobs();
   }, []);
+
+  // no navigate needed; we open a modal inline when clicking a job card
 
   return (
     <div className="bg-white min-h-screen">
@@ -111,31 +117,17 @@ const EmployerHome = () => {
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {jobs.map((job) => (
-                <div key={job._id} className="bg-white border border-gray-200 rounded-2xl shadow-sm hover:shadow-md transition-shadow p-6 space-y-4">
-                  <div className="flex items-start justify-between">
-                    <div>
-                      <h3 className="text-lg font-semibold text-gray-900">{job.title}</h3>
-                      <p className="text-sm text-gray-500">{formatLocation(job.location)}</p>
-                    </div>
-                    <span className={`px-3 py-1 rounded-full text-xs font-semibold ${job.isActive ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700'}`}>
-                      {job.isActive ? 'Active' : 'Paused'}
-                    </span>
-                  </div>
-                  <div className="text-sm text-gray-600 space-y-1">
-                    <p>{job.jobType} • {job.experienceLevel}</p>
-                    <p>{formatSalaryRange(job.salary)}</p>
-                    <p>Applicants: <span className="font-semibold text-gray-900">{job.applicationsCount}</span></p>
-                    {job.applicationDeadline && (
-                      <p>Apply by {formatDate(job.applicationDeadline)}</p>
-                    )}
-                  </div>
-                  <div className="flex gap-3">
-                    <Link to={`/employer/jobs/${job._id}/edit`} className="btn btn-outline btn-sm flex-1">Edit</Link>
-                    <Link to="/employer/jobs/new" state={{ duplicateFrom: job }} className="btn btn-outline btn-sm flex-1">
-                      Duplicate
-                    </Link>
-                  </div>
-                </div>
+                <DashboardJobCard
+                  key={job._id}
+                  job={job}
+                  showStatus
+                  showStats
+                  tags={[job.jobType, job.category].filter(Boolean)}
+                  onClick={() => {
+                    setSelectedJob(job);
+                    setIsModalOpen(true);
+                  }}
+                />
               ))}
             </div>
           )}
@@ -194,6 +186,13 @@ const EmployerHome = () => {
           </div>
         </div>
       </section>
+
+      {/* Job details and applications modal */}
+      <EmployerJobModal
+        job={selectedJob}
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+      />
     </div>
   );
 };

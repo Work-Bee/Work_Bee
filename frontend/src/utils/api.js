@@ -178,5 +178,21 @@ export const bookmarkAPI = {
   checkBookmark: (jobId) => api.get(`/bookmarks/check/${jobId}`),
 };
 
+// Saved Filters API calls
+export const savedFiltersAPI = {
+  getSavedFilters: () => api.get('/saved-filters'),
+  getSavedFilter: (id) => api.get(`/saved-filters/${id}`),
+  createSavedFilter: (data) => api.post('/saved-filters', data),
+  updateSavedFilter: (id, data) => api.patch(`/saved-filters/${id}`, data),
+  deleteSavedFilter: (id) => api.delete(`/saved-filters/${id}`),
+};
+
+// Messages API (per application)
+export const messagesAPI = {
+  getMessages: (applicationId) => api.get(`/messages/${applicationId}`),
+  postMessage: (applicationId, body) => api.post(`/messages/${applicationId}`, { body }),
+  deleteMessage: (messageId) => api.delete(`/messages/${messageId}`),
+};
+
 export { API_URL, API_BASE_URL };
 export default api;
