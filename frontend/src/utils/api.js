@@ -92,6 +92,7 @@ export const jobAPI = {
   getJobs: (params) => api.get('/jobs', { params }),
   getJob: (id) => api.get(`/jobs/${id}`),
   getFeaturedJobs: () => api.get('/jobs/featured'),
+  getRecommendedJobs: (params) => api.get('/jobs/recommended/for-you', { params }),
   getEmployerJobs: (params) => api.get('/jobs/employer/my-jobs', { params }),
   createJob: (jobData) => api.post('/jobs', jobData),
   updateJob: (id, jobData) => api.put(`/jobs/${id}`, jobData),
@@ -104,9 +105,10 @@ export const applicationAPI = {
   applyForJob: (applicationData) => {
     const formData = new FormData();
     Object.keys(applicationData).forEach(key => {
-      if (key === 'resume') {
+      if (key === 'resume' && applicationData[key]) {
+        // Only append resume if it's provided (file upload)
         formData.append('resume', applicationData[key]);
-      } else {
+      } else if (key !== 'resume') {
         formData.append(key, applicationData[key]);
       }
     });
@@ -154,6 +156,42 @@ export const userAPI = {
       },
     });
   },
+  deleteResume: () => api.delete('/users/resume'),
+  uploadProfilePhoto: (file) => {
+    const formData = new FormData();
+    formData.append('photo', file);
+    
+    return api.post('/users/upload-photo', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+  },
+  deleteProfilePhoto: () => api.delete('/users/photo'),
+};
+
+// Bookmark API calls
+export const bookmarkAPI = {
+  getBookmarks: () => api.get('/bookmarks'),
+  addBookmark: (jobId) => api.post('/bookmarks', { jobId }),
+  removeBookmark: (jobId) => api.delete(`/bookmarks/${jobId}`),
+  checkBookmark: (jobId) => api.get(`/bookmarks/check/${jobId}`),
+};
+
+// Saved Filters API calls
+export const savedFiltersAPI = {
+  getSavedFilters: () => api.get('/saved-filters'),
+  getSavedFilter: (id) => api.get(`/saved-filters/${id}`),
+  createSavedFilter: (data) => api.post('/saved-filters', data),
+  updateSavedFilter: (id, data) => api.patch(`/saved-filters/${id}`, data),
+  deleteSavedFilter: (id) => api.delete(`/saved-filters/${id}`),
+};
+
+// Messages API (per application)
+export const messagesAPI = {
+  getMessages: (applicationId) => api.get(`/messages/${applicationId}`),
+  postMessage: (applicationId, body) => api.post(`/messages/${applicationId}`, { body }),
+  deleteMessage: (messageId) => api.delete(`/messages/${messageId}`),
 };
 
 export { API_URL, API_BASE_URL };

@@ -29,7 +29,7 @@ A comprehensive job portal application for unskilled jobs built with the MERN st
 ## 🏗️ Project Structure
 
 ```
-mern-jobportal/
+mern-WorkBee/
 ├── backend/                 # Node.js/Express API Server
 │   ├── controllers/         # Route controllers
 │   │   ├── authController.js
@@ -101,7 +101,7 @@ mern-jobportal/
 ### 1. Clone the Repository
 ```bash
 git clone <repository-url>
-cd mern-jobportal
+cd mern-WorkBee
 ```
 
 ### 2. Install Dependencies
@@ -123,9 +123,9 @@ PORT=5000
 NODE_ENV=development
 
 # Database Configuration
-MONGO_URI=mongodb://localhost:27017/jobportal
+MONGO_URI=mongodb://localhost:27017/WorkBee
 # For MongoDB Atlas:
-# MONGO_URI=mongodb+srv://username:password@cluster.mongodb.net/jobportal
+# MONGO_URI=mongodb+srv://username:password@cluster.mongodb.net/WorkBee
 
 # JWT Configuration
 JWT_SECRET=your-super-secret-jwt-key-change-in-production
@@ -323,7 +323,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 👥 Support
 
-For support, email support@jobportal.com or create an issue on GitHub.
+For support, email support@WorkBee.com or create an issue on GitHub.
 
 ## 🚀 Deployment
 

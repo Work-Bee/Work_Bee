@@ -48,15 +48,15 @@ else
 fi
 
 # Save PIDs for later management
-echo $BACKEND_PID > /tmp/jobportal_backend.pid
-echo $FRONTEND_PID > /tmp/jobportal_frontend.pid
+echo $BACKEND_PID > /tmp/WorkBee_backend.pid
+echo $FRONTEND_PID > /tmp/WorkBee_frontend.pid
 
 echo "🎉 Server startup complete!"
 echo "📱 Access your application at: http://localhost:3000"
 echo "🔗 Backend API available at: http://localhost:5000"
 echo ""
 echo "📝 Logs available at:"
-echo "   Backend:  /home/kiran/mern_jobportal/logs/backend.log"
-echo "   Frontend: /home/kiran/mern_jobportal/logs/frontend.log"
+echo "   Backend:  /home/kiran/mern_WorkBee/logs/backend.log"
+echo "   Frontend: /home/kiran/mern_WorkBee/logs/frontend.log"
 echo ""
 echo "🛑 To stop servers, run: ./stop-servers.sh"

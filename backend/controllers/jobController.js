@@ -20,7 +20,17 @@ const getJobs = async (req, res) => {
       query.category = req.query.category;
     }
 
-    // Filter by job type
+    // Filter by employment type
+    if (req.query.employmentType) {
+      query.employmentType = req.query.employmentType;
+    }
+
+    // Filter by duration
+    if (req.query.duration) {
+      query.duration = req.query.duration;
+    }
+
+    // Backward compatibility: jobType filter
     if (req.query.jobType) {
       query.jobType = req.query.jobType;
     }
@@ -38,16 +48,48 @@ const getJobs = async (req, res) => {
       query['location.state'] = new RegExp(req.query.state, 'i');
     }
 
-    // Filter by salary range
+    // Exclude expired jobs by default (show only jobs whose deadline hasn't passed)
+    if (req.query.includeExpired !== 'true') {
+      query.applicationDeadline = { $gte: new Date() };
+    }
+
+    // Filter by salary range with unit support (normalize to per-hour)
     if (req.query.minSalary || req.query.maxSalary) {
       query.$and = query.$and || [];
-      
-      if (req.query.minSalary) {
-        query.$and.push({ 'salary.min': { $gte: Number(req.query.minSalary) } });
+      const unit = (req.query.salaryUnit || 'hour').toLowerCase();
+
+      const HOURS_PER_DAY = 8;
+      const DAYS_PER_WEEK = 6;
+      const DAYS_PER_MONTH = 26;
+      const MONTHS_PER_YEAR = 12;
+
+      const toPerHour = (value) => {
+        if (value === undefined) return undefined;
+        const v = Number(value);
+        if (Number.isNaN(v)) return undefined;
+        switch (unit) {
+          case 'hour':
+            return v;
+          case 'day':
+            return v / HOURS_PER_DAY;
+          case 'week':
+            return v / (HOURS_PER_DAY * DAYS_PER_WEEK);
+          case 'month':
+            return v / (HOURS_PER_DAY * DAYS_PER_MONTH);
+          case 'year':
+            return v / (HOURS_PER_DAY * DAYS_PER_MONTH * MONTHS_PER_YEAR);
+          default:
+            return v;
+        }
+      };
+
+      const minPerHour = toPerHour(req.query.minSalary);
+      const maxPerHour = toPerHour(req.query.maxSalary);
+      if (minPerHour !== undefined) {
+        query.$and.push({ salaryPerHourMin: { $gte: minPerHour } });
       }
-      
-      if (req.query.maxSalary) {
-        query.$and.push({ 'salary.max': { $lte: Number(req.query.maxSalary) } });
+      if (maxPerHour !== undefined) {
+        query.$and.push({ salaryPerHourMax: { $lte: maxPerHour } });
       }
     }
 
@@ -130,7 +172,7 @@ const getJobs = async (req, res) => {
 
 // @desc    Get single job
 // @route   GET /api/jobs/:id
-// @access  Public
+// @access  Public (increments viewsCount uniquely per account when logged in)
 const getJob = async (req, res) => {
   try {
     const job = await Job.findById(req.params.id)
@@ -144,9 +186,25 @@ const getJob = async (req, res) => {
       });
     }
 
-    // Increment view count
-    job.viewsCount = job.viewsCount + 1;
-    await job.save();
+    // Increment view count uniquely when user is authenticated
+    try {
+      if (req.headers.authorization && req.headers.authorization.startsWith('Bearer') && req.user) {
+        const userId = req.user._id || req.user.id;
+        const hasViewed = job.uniqueViewers?.some(v => v.toString() === userId.toString());
+        if (!hasViewed) {
+          job.viewsCount = (job.viewsCount || 0) + 1;
+          job.uniqueViewers = job.uniqueViewers || [];
+          job.uniqueViewers.push(userId);
+          await job.save();
+        }
+      } else {
+        // For unauthenticated viewers, we avoid inflating counts repeatedly.
+        // Optionally, we could use a short-lived cookie or IP-based throttle here.
+        // For now, do NOT increment to keep counts closer to "unique accounts" as requested.
+      }
+    } catch (viewErr) {
+      console.warn('View count logic warning:', viewErr?.message || viewErr);
+    }
 
     res.json({
       success: true,
@@ -437,6 +495,124 @@ const toggleJobStatus = async (req, res) => {
   }
 };
 
+// @desc    Get recommended jobs based on user profile
+// @route   GET /api/jobs/recommended
+// @access  Private (Job seekers only)
+const getRecommendedJobs = async (req, res) => {
+  try {
+    if (req.user.role !== 'jobseeker') {
+      return res.status(403).json({
+        success: false,
+        error: 'Only job seekers can access recommended jobs'
+      });
+    }
+
+    const profile = req.user.profile || {};
+    const limit = parseInt(req.query.limit, 10) || 6;
+
+    // Check if profile is complete enough for recommendations
+    const hasPreferences = profile.preferredLocations?.length > 0 || 
+                          profile.skills?.length > 0 ||
+                          profile.experience ||
+                          profile.recentJobs?.length > 0;
+
+    if (!hasPreferences) {
+      return res.json({
+        success: true,
+        needsProfile: true,
+        message: 'Please complete your profile to get personalized job recommendations',
+        data: []
+      });
+    }
+
+    // Build recommendation query
+    let query = { isActive: true };
+    let scoredJobs = [];
+
+    // Get all active jobs
+    const allJobs = await Job.find(query)
+      .populate('company', 'name logo')
+      .sort({ createdAt: -1 })
+      .limit(50) // Get top 50 recent jobs for scoring
+      .lean();
+
+    // Score each job based on user profile
+    for (const job of allJobs) {
+      let score = 0;
+
+      // Location matching (highest priority)
+      if (profile.preferredLocations?.length > 0) {
+        const jobLocation = `${job.location.city}, ${job.location.state}`.toLowerCase();
+        const hasLocationMatch = profile.preferredLocations.some(loc => 
+          jobLocation.includes(loc.toLowerCase()) || loc.toLowerCase().includes(job.location.city.toLowerCase())
+        );
+        if (hasLocationMatch) score += 50;
+      }
+
+      // Experience level matching
+      if (profile.experience || profile.experienceLevel) {
+        const userExp = profile.experience || profile.experienceLevel;
+        if (job.experienceLevel === userExp) score += 30;
+        // Also match Entry Level jobs for users with "Some Experience"
+        if (userExp === 'Some Experience' && job.experienceLevel === 'Entry Level') score += 20;
+      }
+
+      // Skills matching
+      if (profile.skills?.length > 0 && job.title) {
+        const jobTitleLower = job.title.toLowerCase();
+        const matchingSkills = profile.skills.filter(skill => 
+          jobTitleLower.includes(skill.toLowerCase())
+        );
+        score += matchingSkills.length * 15;
+      }
+
+      // Recent jobs matching (job title similarity)
+      if (profile.recentJobs?.length > 0 && job.title) {
+        const jobTitleLower = job.title.toLowerCase();
+        const hasRelatedJob = profile.recentJobs.some(recentJob => 
+          jobTitleLower.includes(recentJob.toLowerCase()) || 
+          recentJob.toLowerCase().includes(jobTitleLower.split(' ')[0])
+        );
+        if (hasRelatedJob) score += 25;
+      }
+
+      // Prefer jobs with higher salaries (small boost)
+      if (job.salary?.min) {
+        score += Math.min(job.salary.min / 5000, 10); // Max 10 points for salary
+      }
+
+      // Prefer jobs with longer deadlines (more time to apply)
+      const daysUntilDeadline = Math.ceil(
+        (new Date(job.applicationDeadline) - new Date()) / (1000 * 3600 * 24)
+      );
+      if (daysUntilDeadline > 7) score += 5;
+
+      // Only include jobs with a minimum score
+      if (score > 0) {
+        scoredJobs.push({ ...job, recommendationScore: score });
+      }
+    }
+
+    // Sort by score and return top jobs
+    scoredJobs.sort((a, b) => b.recommendationScore - a.recommendationScore);
+    const recommendedJobs = scoredJobs.slice(0, limit);
+
+    res.json({
+      success: true,
+      needsProfile: false,
+      count: recommendedJobs.length,
+      data: recommendedJobs
+    });
+
+  } catch (error) {
+    console.error('Get recommended jobs error:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Server error getting recommended jobs'
+    });
+  }
+};
+
 module.exports = {
   getJobs,
   getJob,
@@ -445,5 +621,6 @@ module.exports = {
   deleteJob,
   getEmployerJobs,
   getFeaturedJobs,
-  toggleJobStatus
+  toggleJobStatus,
+  getRecommendedJobs
 };

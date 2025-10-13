@@ -6,15 +6,17 @@ const User = require('../models/User');
 const Company = require('../models/Company');
 const Job = require('../models/Job');
 
-// Connect to MongoDB
-mongoose.connect(process.env.MONGO_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
-
 const seedData = async () => {
   try {
     console.log('🌱 Starting database seeding...');
+    
+    // Connect to MongoDB and wait for connection
+    console.log('📡 Connecting to MongoDB...');
+    await mongoose.connect(process.env.MONGO_URI, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+    console.log('✅ Connected to MongoDB:', mongoose.connection.name);
 
     // Clear existing data
     await User.deleteMany({});
@@ -28,12 +30,12 @@ const seedData = async () => {
     const adminPassword = process.env.ADMIN_SEED_PASSWORD || 'admin123';
 
     const demoJobSeeker = await User.create({
-      name: 'John Doe',
+      name: 'Akash Nair',
       email: 'jobseeker@demo.com',
       password: demoPassword,
       role: 'jobseeker',
-      phone: '(555) 123-4567',
-      location: 'New York, NY',
+      phone: '98765 43210',
+      location: 'Kochi, Kerala',
       profile: {
         bio: 'Motivated job seeker looking for entry-level opportunities',
         skills: ['Communication', 'Teamwork', 'Reliability', 'Customer Service'],
@@ -42,12 +44,12 @@ const seedData = async () => {
     });
 
     const demoEmployer = await User.create({
-      name: 'Jane Smith',
+      name: 'Meera Varma',
       email: 'employer@demo.com',
       password: demoPassword,
       role: 'employer',
-      phone: '(555) 987-6543',
-      location: 'Los Angeles, CA'
+      phone: '98470 11111',
+      location: 'Kochi, Kerala'
     });
 
     const demoAdmin = await User.create({
@@ -64,20 +66,20 @@ const seedData = async () => {
     // Create demo companies
     const companies = [
       {
-        name: 'ABC Manufacturing Inc.',
+        name: 'ABC Manufacturing Pvt Ltd',
         description: 'Leading manufacturer of consumer goods with over 50 years of experience.',
         website: 'https://abc-manufacturing.com',
         industry: 'Manufacturing',
         size: '201-500',
         location: {
-          address: '123 Industrial Blvd',
-          city: 'Chicago',
-          state: 'IL',
-          zipCode: '60601'
+          address: 'Kalamassery Industrial Estate',
+          city: 'Kochi',
+          state: 'Kerala',
+          zipCode: '683104'
         },
         contactInfo: {
           email: 'hr@abc-manufacturing.com',
-          phone: '(312) 555-0123'
+          phone: '0484 123 4567'
         },
         owner: demoEmployer._id
       },
@@ -88,14 +90,14 @@ const seedData = async () => {
         industry: 'Retail',
         size: '51-200',
         location: {
-          address: '456 Commerce St',
-          city: 'Austin',
-          state: 'TX',
-          zipCode: '73301'
+          address: 'Panampilly Nagar',
+          city: 'Kochi',
+          state: 'Kerala',
+          zipCode: '682036'
         },
         contactInfo: {
           email: 'careers@quickmart.com',
-          phone: '(512) 555-0456'
+          phone: '0484 234 5678'
         },
         owner: demoEmployer._id
       },
@@ -105,14 +107,14 @@ const seedData = async () => {
         industry: 'Food Service',
         size: '11-50',
         location: {
-          address: '789 Main St',
-          city: 'Denver',
-          state: 'CO',
-          zipCode: '80202'
+          address: 'MG Road',
+          city: 'Kochi',
+          state: 'Kerala',
+          zipCode: '682001'
         },
         contactInfo: {
           email: 'jobs@citydiner.com',
-          phone: '(303) 555-0789'
+          phone: '0484 345 6789'
         },
         owner: demoEmployer._id
       },
@@ -123,14 +125,14 @@ const seedData = async () => {
         industry: 'Construction',
         size: '11-50',
         location: {
-          address: '321 Builder Ave',
-          city: 'Phoenix',
-          state: 'AZ',
-          zipCode: '85001'
+          address: 'Infopark Road, Kakkanad',
+          city: 'Kochi',
+          state: 'Kerala',
+          zipCode: '682030'
         },
         contactInfo: {
           email: 'hiring@buildright.com',
-          phone: '(602) 555-0321'
+          phone: '0484 456 7890'
         },
         owner: demoEmployer._id
       }
@@ -223,7 +225,7 @@ const seedData = async () => {
       },
       {
         title: 'Kitchen Assistant',
-        description: 'Join our kitchen team as a Kitchen Assistant! Great opportunity for those looking to enter the food service industry. We offer flexible schedules and advancement opportunities.',
+        description: 'Join our kitchen team as a Kitchen Assistant at City Diner on MG Road, Kochi. Great entry role with flexible schedules and growth.',
         requirements: [
           'Ability to work in fast-paced environment',
           'Physical stamina for standing long periods',
@@ -240,15 +242,16 @@ const seedData = async () => {
         jobType: 'Full-time',
         experienceLevel: 'Entry Level',
         salary: {
-          min: 15,
-          max: 18,
-          period: 'hour'
+          min: 700,
+          max: 900,
+          currency: 'INR',
+          period: 'day'
         },
         location: {
-          address: '789 Main St',
-          city: 'Denver',
-          state: 'CO',
-          zipCode: '80202',
+          address: 'City Diner, MG Road',
+          city: 'Kochi',
+          state: 'Kerala',
+          zipCode: '682001',
           remote: false
         },
         company: createdCompanies[2]._id,
@@ -298,9 +301,9 @@ const seedData = async () => {
       },
       {
         title: 'Warehouse Associate',
-        description: 'Join our warehouse team! We are looking for detail-oriented individuals to help with inventory management and order fulfillment. Great benefits package included.',
+        description: 'Join our warehouse team at ABC Manufacturing (Kalamassery). Help with inventory and order fulfillment. Benefits included.',
         requirements: [
-          'Ability to lift 40+ pounds',
+          'Ability to lift 20+ kg',
           'Basic computer skills',
           'Attention to detail',
           'Team player'
@@ -315,15 +318,16 @@ const seedData = async () => {
         jobType: 'Full-time',
         experienceLevel: 'Entry Level',
         salary: {
-          min: 17,
-          max: 21,
-          period: 'hour'
+          min: 19000,
+          max: 23000,
+          currency: 'INR',
+          period: 'month'
         },
         location: {
-          address: '123 Industrial Blvd',
-          city: 'Chicago',
-          state: 'IL',
-          zipCode: '60601',
+          address: 'Kalamassery Industrial Estate',
+          city: 'Kochi',
+          state: 'Kerala',
+          zipCode: '683104',
           remote: false
         },
         company: createdCompanies[0]._id,
@@ -388,9 +392,16 @@ const seedData = async () => {
   console.log(`  Email: ${demoAdmin.email}`);
   console.log(`  Password: ${adminPassword}`);
 
+    // Close the connection
+    await mongoose.connection.close();
+    console.log('\n📡 Database connection closed');
     process.exit(0);
   } catch (error) {
     console.error('❌ Error seeding database:', error);
+    console.error('Error details:', error.message);
+    if (mongoose.connection.readyState !== 0) {
+      await mongoose.connection.close();
+    }
     process.exit(1);
   }
 };
