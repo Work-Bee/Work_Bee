@@ -17,103 +17,103 @@ if (!MONGO_URI) {
 const employersSeed = [
   {
     user: {
-      name: 'Atlas Manufacturing',
-      email: 'hiring@atlasmanufacturing.com',
-      password: 'AtlasHire#2025',
+      name: 'ABC Manufacturing Kochi',
+      email: 'hiring@abc-mfg.in',
+      password: 'AbcMfg#2025',
       role: 'employer',
-      phone: '+1-415-555-0191',
+      phone: '0484-295-0101',
       primaryHasWhatsApp: true,
-      location: 'San Francisco, CA',
+      location: 'Kochi, Kerala',
       companyDetails: {
-        companyName: 'Atlas Manufacturing',
+        companyName: 'ABC Manufacturing Pvt Ltd',
         industry: 'Manufacturing',
-        companySize: '201-500',
-        website: 'https://www.atlasmanufacturing.com'
+  companySize: '200+',
+        website: 'https://abc-manufacturing.in'
       }
     },
     company: {
-      name: 'Atlas Manufacturing',
-      description: 'Precision metal fabrication and industrial equipment manufacturing.',
-      website: 'https://www.atlasmanufacturing.com',
+      name: 'ABC Manufacturing Pvt Ltd',
+      description: 'Consumer goods manufacturing unit in Kalamassery Industrial Estate.',
+      website: 'https://abc-manufacturing.in',
       industry: 'Manufacturing',
-      size: '201-500',
+  size: '201-500',
       location: {
-        address: '455 Market Street',
-        city: 'San Francisco',
-        state: 'CA',
-        zipCode: '94105'
+        address: 'Kalamassery Industrial Estate',
+        city: 'Kochi',
+        state: 'Kerala',
+        zipCode: '683104'
       },
       contactInfo: {
-        email: 'contact@atlasmanufacturing.com',
-        phone: '+1-415-555-0107'
+        email: 'hr@abc-manufacturing.in',
+        phone: '0484-295-0101'
       }
     }
   },
   {
     user: {
-      name: 'Brightline Logistics',
-      email: 'talent@brightlinelogistics.com',
+      name: 'Brightline Logistics Kochi',
+      email: 'talent@brightline.in',
       password: 'Brightline!2025',
       role: 'employer',
-      phone: '+1-206-555-0144',
+      phone: '0484-295-0202',
       primaryHasWhatsApp: true,
-      location: 'Seattle, WA',
+      location: 'Kochi, Kerala',
       companyDetails: {
         companyName: 'Brightline Logistics',
         industry: 'Transportation',
-        companySize: '51-200',
-        website: 'https://www.brightlinelogistics.com'
+  companySize: '51-200',
+        website: 'https://brightline.in'
       }
     },
     company: {
       name: 'Brightline Logistics',
-      description: 'Regional logistics provider specializing in last-mile delivery services.',
-      website: 'https://www.brightlinelogistics.com',
+      description: 'Kerala logistics provider specializing in last-mile delivery services.',
+      website: 'https://brightline.in',
       industry: 'Transportation',
-      size: '51-200',
+  size: '51-200',
       location: {
-        address: '908 Western Ave',
-        city: 'Seattle',
-        state: 'WA',
-        zipCode: '98104'
+        address: 'Kaloor',
+        city: 'Kochi',
+        state: 'Kerala',
+        zipCode: '682017'
       },
       contactInfo: {
-        email: 'hr@brightlinelogistics.com',
-        phone: '+1-206-555-0155'
+        email: 'hr@brightline.in',
+        phone: '0484-295-0202'
       }
     }
   },
   {
     user: {
-      name: 'Summit Hospitality Group',
-      email: 'careers@summithospitalitygroup.com',
+      name: 'Summit Hospitality Kochi',
+      email: 'careers@summithospitality.in',
       password: 'SummitStay#88',
       role: 'employer',
-      phone: '+1-312-555-0186',
+      phone: '0484-295-0303',
       primaryHasWhatsApp: false,
-      location: 'Chicago, IL',
+      location: 'Kochi, Kerala',
       companyDetails: {
         companyName: 'Summit Hospitality Group',
         industry: 'Food Service',
-        companySize: '11-50',
-        website: 'https://www.summithospitalitygroup.com'
+  companySize: '11-50',
+        website: 'https://summithospitality.in'
       }
     },
     company: {
       name: 'Summit Hospitality Group',
-      description: 'Boutique hotel and resort management company focused on elevated guest experiences.',
-      website: 'https://www.summithospitalitygroup.com',
+      description: 'Boutique hotel and restaurant group in Kochi focused on guest experiences.',
+      website: 'https://summithospitality.in',
       industry: 'Hospitality',
       size: '11-50',
       location: {
-        address: '1225 Lakeshore Dr',
-        city: 'Chicago',
-        state: 'IL',
-        zipCode: '60611'
+        address: 'MG Road',
+        city: 'Kochi',
+        state: 'Kerala',
+        zipCode: '682001'
       },
       contactInfo: {
-        email: 'hello@summithospitalitygroup.com',
-        phone: '+1-312-555-0210'
+        email: 'hello@summithospitality.in',
+        phone: '0484-295-0303'
       }
     }
   }
@@ -121,76 +121,46 @@ const employersSeed = [
 
 const jobSeekersSeed = [
   {
-    name: 'Priya Desai',
-    email: 'priya.desai@example.com',
-    password: 'PriyaWork#25',
+    name: 'Anu Nair',
+    email: 'anu.nair@example.com',
+    password: 'AnuWork#25',
     role: 'jobseeker',
-    phone: '+1-510-555-0331',
+    phone: '98470 12345',
     primaryHasWhatsApp: true,
-    location: 'Oakland, CA',
+    location: 'Kochi, Kerala',
     profile: {
-      bio: 'Experienced CNC machinist with a focus on precision aerospace components.',
-      skills: ['CNC Machining', 'Blueprint Reading', 'Quality Control'],
-      experience: 'Experienced',
-      experienceLevel: 'Experienced'
+      bio: 'Entry-level warehouse associate looking to start in Kochi.',
+      skills: ['Teamwork', 'Punctuality', 'Inventory Basics'],
+      experience: 'Entry Level',
+      experienceLevel: 'Entry Level'
     }
   },
   {
-    name: 'Marcus Reed',
-    email: 'marcus.reed@example.com',
-    password: 'MarcusSkilled!7',
+    name: 'Vishnu Raj',
+    email: 'vishnu.raj@example.com',
+    password: 'Vishnu#2025',
     role: 'jobseeker',
-    phone: '+1-206-555-0442',
-    primaryHasWhatsApp: false,
-    location: 'Tacoma, WA',
-    profile: {
-      bio: 'Forklift-certified warehouse associate with five years of inventory management experience.',
-      skills: ['Forklift Operation', 'Inventory Management', 'Shipping & Receiving'],
-      experience: 'Experienced',
-      experienceLevel: 'Experienced'
-    }
-  },
-  {
-    name: 'Elena Vargas',
-    email: 'elena.vargas@example.com',
-    password: 'ElenaCareer#9',
-    role: 'jobseeker',
-    phone: '+1-312-555-0527',
+    phone: '98950 22222',
     primaryHasWhatsApp: true,
-    location: 'Chicago, IL',
+    location: 'Thrissur, Kerala',
     profile: {
-      bio: 'Hospitality supervisor skilled in team leadership and guest services.',
-      skills: ['Guest Relations', 'Team Leadership', 'Event Coordination'],
-      experience: 'Experienced',
-      experienceLevel: 'Experienced'
-    }
-  },
-  {
-    name: 'Noah Patel',
-    email: 'noah.patel@example.com',
-    password: 'NoahBuilds#4',
-    role: 'jobseeker',
-    phone: '+1-303-555-0612',
-    primaryHasWhatsApp: true,
-    location: 'Denver, CO',
-    profile: {
-      bio: 'Apprentice electrician pursuing opportunities in commercial construction projects.',
-      skills: ['Electrical Wiring', 'Blueprint Reading', 'Safety Compliance'],
+      bio: 'Delivery executive with knowledge of routes in central Kochi.',
+      skills: ['Driving', 'Maps', 'Customer Service'],
       experience: 'Some Experience',
       experienceLevel: 'Some Experience'
     }
   },
   {
-    name: 'Jasmine Lee',
-    email: 'jasmine.lee@example.com',
-    password: 'JasmineJobs#3',
+    name: 'Fathima Shereef',
+    email: 'fathima.shereef@example.com',
+    password: 'Fathima@2025',
     role: 'jobseeker',
-    phone: '+1-404-555-0728',
-    primaryHasWhatsApp: false,
-    location: 'Atlanta, GA',
+    phone: '97450 33333',
+    primaryHasWhatsApp: true,
+    location: 'Kochi, Kerala',
     profile: {
-      bio: 'Customer service representative with a passion for helping clients find solutions.',
-      skills: ['Customer Support', 'CRM Tools', 'Conflict Resolution'],
+      bio: 'Hospitality trainee interested in front office roles.',
+      skills: ['Guest Relations', 'Communication'],
       experience: 'Entry Level',
       experienceLevel: 'Entry Level'
     }
@@ -199,108 +169,114 @@ const jobSeekersSeed = [
 
 const jobSeed = [
   {
-    employerEmail: 'hiring@atlasmanufacturing.com',
+    employerEmail: 'hiring@abc-mfg.in',
     job: {
-      title: 'CNC Machinist',
-      description: 'Operate CNC machines to produce precision aerospace components with tight tolerances.',
+      title: 'Production Worker',
+      description: 'Assist in production line operations at Kalamassery unit. Training provided.',
       requirements: [
-        '3+ years of CNC machining experience',
-        'Ability to read and interpret technical drawings',
-        'Knowledge of precision measuring instruments'
+        'Ability to lift 20kg',
+        '8-hour standing shifts',
+        'Safety-first approach'
       ],
       responsibilities: [
-        'Set up and operate CNC mills and lathes',
-        'Perform routine maintenance and inspections',
-        'Collaborate with quality team to ensure specifications'
+        'Operate machinery and pack finished goods',
+        'Perform quality checks and maintain logs',
+        'Keep work area clean and safe'
       ],
-      category: 'Manufacturing',
-      jobType: 'Full-time',
-      experienceLevel: '3-5 years',
+  category: 'Manufacturing',
+  employmentType: 'Full-time',
+  duration: 'Permanent',
+  jobType: 'Full-time',
+      experienceLevel: 'Entry Level',
       salary: {
-        min: 28,
-        max: 36,
-        currency: 'USD',
-        period: 'hour'
+        min: 18500,
+        max: 23000,
+        currency: 'INR',
+        period: 'month'
       },
       location: {
-        address: '455 Market Street',
-        city: 'San Francisco',
-        state: 'CA',
-        zipCode: '94105',
+        address: 'Kalamassery Industrial Estate',
+        city: 'Kochi',
+        state: 'Kerala',
+        zipCode: '683104',
         remote: false
       },
       applicationDeadline: new Date(Date.now() + 45 * 24 * 60 * 60 * 1000),
-      tags: ['CNC', 'Manufacturing', 'Aerospace']
+      tags: ['Manufacturing', 'Entry Level', 'Training']
     }
   },
   {
-    employerEmail: 'talent@brightlinelogistics.com',
+    employerEmail: 'talent@brightline.in',
     job: {
-      title: 'Warehouse Team Lead',
-      description: 'Lead a team of warehouse associates to fulfill daily order volume and ensure safety compliance.',
+      title: 'Warehouse Associate',
+      description: 'Assist with picking, packing and inventory at Kaloor warehouse.',
       requirements: [
-        'Supervisory experience in warehouse settings',
-        'Forklift certification preferred',
-        'Knowledge of inventory management systems'
+        'Basic computer skills',
+        'Attention to detail',
+        'Team player'
       ],
       responsibilities: [
-        'Coordinate daily picking and shipping activities',
-        'Train and mentor new warehouse staff',
-        'Maintain accurate inventory records'
+        'Pick and pack orders',
+        'Maintain stock levels',
+        'Update inventory records'
       ],
-      category: 'Warehouse',
-      jobType: 'Full-time',
-      experienceLevel: '3-5 years',
+  category: 'Warehouse',
+  employmentType: 'Full-time',
+  duration: 'Permanent',
+  jobType: 'Full-time',
+      experienceLevel: 'Entry Level',
       salary: {
-        min: 24,
-        max: 29,
-        currency: 'USD',
-        period: 'hour'
+        min: 18000,
+        max: 22000,
+        currency: 'INR',
+        period: 'month'
       },
       location: {
-        address: '908 Western Ave',
-        city: 'Seattle',
-        state: 'WA',
-        zipCode: '98104',
+        address: 'Kaloor',
+        city: 'Kochi',
+        state: 'Kerala',
+        zipCode: '682017',
         remote: false
       },
       applicationDeadline: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
-      tags: ['Warehouse', 'Logistics', 'Leadership']
+      tags: ['Warehouse', 'Logistics']
     }
   },
   {
-    employerEmail: 'careers@summithospitalitygroup.com',
+    employerEmail: 'careers@summithospitality.in',
     job: {
-      title: 'Assistant Front Office Manager',
-      description: 'Support daily front office operations across Summit Hospitality resorts and ensure exceptional guest service.',
+      title: 'Front Office Assistant',
+      description: 'Assist front office at hotel on MG Road, Kochi and support guest services.',
       requirements: [
-        '2+ years in hospitality front office roles',
-        'Experience with hotel PMS software',
-        'Strong communication and leadership skills'
+        'Good communication skills',
+        'Basic computer knowledge',
+        'Customer-first attitude'
       ],
       responsibilities: [
-        'Supervise front desk associates',
-        'Handle guest escalations and special requests',
-        'Coordinate with housekeeping and events teams'
+        'Greet guests and handle check-in/out',
+        'Support billing and call handling',
+        'Coordinate with housekeeping'
       ],
-      category: 'Hospitality',
-      jobType: 'Full-time',
-      experienceLevel: '1-2 years',
+  category: 'Hospitality',
+  employmentType: 'Full-time',
+  duration: 'Permanent',
+  jobType: 'Full-time',
+      experienceLevel: 'Entry Level',
       salary: {
-        min: 45000,
-        max: 52000,
-        currency: 'USD',
-        period: 'year'
+        min: 12000,
+        max: 16000,
+        currency: 'INR',
+        period: 'month'
       },
       location: {
-        address: '1225 Lakeshore Dr',
-        city: 'Chicago',
-        state: 'IL',
-        zipCode: '60611',
+        address: 'MG Road',
+        city: 'Kochi',
+        state: 'Kerala',
+        zipCode: '682001',
         remote: false
       },
       applicationDeadline: new Date(Date.now() + 60 * 24 * 60 * 60 * 1000),
-      tags: ['Hospitality', 'Guest Services', 'Management']
+      tags: ['Hospitality', 'Guest Services']
     }
   }
 ];

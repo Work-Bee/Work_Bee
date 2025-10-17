@@ -360,6 +360,100 @@ const changePassword = async (req, res) => {
   }
 };
 
+// @desc    Sign in / Register with Google ID token
+// @route   POST /api/auth/google
+// @access  Public
+const googleSignIn = async (req, res) => {
+  try {
+    const { idToken } = req.body;
+    if (!idToken) {
+      return res.status(400).json({ success: false, error: 'ID token is required' });
+    }
+
+    // Lazy require to avoid adding dep to other parts
+    const { OAuth2Client } = require('google-auth-library');
+    const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+    const ticket = await client.verifyIdToken({ idToken, audience: process.env.GOOGLE_CLIENT_ID });
+    const payload = ticket.getPayload();
+
+    const { sub: googleId, email, email_verified, name, picture } = payload;
+    if (!email) {
+      return res.status(400).json({ success: false, error: 'Google account has no email' });
+    }
+
+    // Find user by googleId or email
+    let user = await User.findOne({ googleId });
+    if (!user) {
+      // If user exists with same email and is local, do NOT auto-link - require explicit linking
+      const existingByEmail = await User.findOne({ email });
+      if (existingByEmail && existingByEmail.provider === 'local') {
+        return res.status(409).json({
+          success: false,
+          error: 'An account with this email exists. Please sign in and link Google from account settings.'
+        });
+      }
+
+      // Create new user via Google
+      user = await User.create({
+        name: name || email.split('@')[0],
+        email,
+        password: Math.random().toString(36).slice(-10), // random placeholder (never used)
+        provider: 'google',
+        googleId,
+        isActive: true
+      });
+    }
+
+    // Generate token
+    const token = generateToken(user._id);
+
+    res.json({
+      success: true,
+      message: 'Google sign-in successful',
+      data: { user: { id: user._id, name: user.name, email: user.email, role: user.role }, token }
+    });
+  } catch (error) {
+    console.error('Google sign-in error:', error);
+    res.status(500).json({ success: false, error: 'Server error during Google sign-in' });
+  }
+};
+
+// @desc    Link Google account to existing logged-in user
+// @route   POST /api/auth/google/link
+// @access  Private
+const googleLink = async (req, res) => {
+  try {
+    const { idToken } = req.body;
+    if (!idToken) {
+      return res.status(400).json({ success: false, error: 'ID token is required' });
+    }
+
+    const { OAuth2Client } = require('google-auth-library');
+    const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+    const ticket = await client.verifyIdToken({ idToken, audience: process.env.GOOGLE_CLIENT_ID });
+    const payload = ticket.getPayload();
+
+    const { sub: googleId, email } = payload;
+
+    // Ensure the token email matches logged-in user's email
+    const user = await User.findById(req.user.id);
+    if (!user) return res.status(404).json({ success: false, error: 'User not found' });
+    if (user.email !== email) {
+      return res.status(400).json({ success: false, error: 'Google account email does not match user email' });
+    }
+
+    // Link account
+    user.provider = 'google';
+    user.googleId = googleId;
+    await user.save();
+
+    res.json({ success: true, message: 'Google account linked successfully' });
+  } catch (error) {
+    console.error('Google link error:', error);
+    res.status(500).json({ success: false, error: 'Server error during Google link' });
+  }
+};
+
 // @desc    Deactivate account
 // @route   PUT /api/auth/deactivate
 // @access  Private
@@ -386,5 +480,7 @@ module.exports = {
   getProfile,
   updateProfile,
   changePassword,
-  deactivateAccount
+  deactivateAccount,
+  googleSignIn,
+  googleLink
 };

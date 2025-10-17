@@ -30,7 +30,7 @@ const RegisterJobSeeker = () => {
     languages: [],
     expectedSalaryMin: '',
     expectedSalaryMax: '',
-    salaryCurrency: 'INR',
+  salaryCurrency: 'INR',
     salaryPeriod: 'month',
     availability: 'Immediate',
     workPreference: 'Flexible',

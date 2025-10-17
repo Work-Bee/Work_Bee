@@ -13,11 +13,30 @@ const {
 } = require('../controllers/jobController');
 const { protect, authorize } = require('../middleware/auth');
 const { validateJob } = require('../middleware/validation');
+const jwt = require('jsonwebtoken');
+const User = require('../models/User');
+
+// Optional auth middleware: set req.user if token present and valid; otherwise continue
+const optionalAuth = async (req, res, next) => {
+  try {
+    if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
+      const token = req.headers.authorization.split(' ')[1];
+      const decoded = jwt.verify(token, process.env.JWT_SECRET);
+      const user = await User.findById(decoded.id).select('-password');
+      if (user && user.isActive) {
+        req.user = user;
+      }
+    }
+  } catch (e) {
+    // ignore auth errors to keep route public
+  }
+  next();
+};
 
 // Public routes
 router.get('/', getJobs);
 router.get('/featured', getFeaturedJobs);
-router.get('/:id', getJob);
+router.get('/:id', optionalAuth, getJob);
 
 // Protected routes
 router.use(protect);
