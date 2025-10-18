@@ -76,15 +76,21 @@ const applyForJob = async (req, res) => {
         originalName: req.file.originalname,
         path: req.file.path
       };
-    } else if (req.user.profile && 
-               req.user.profile.resume && 
-               req.user.profile.resume.filename &&
-               req.user.profile.resume.path) {
-      // Use profile resume - only if it has all required fields
+    } else if (req.user.profile && req.user.profile.resume) {
+      // Use profile resume - check if it has at least a path
+      const profileResume = req.user.profile.resume;
+      
+      if (!profileResume.path) {
+        return res.status(400).json({
+          success: false,
+          error: 'Your resume file is missing. Please re-upload your resume in your profile.'
+        });
+      }
+      
       resumeData = {
-        filename: req.user.profile.resume.filename,
-        originalName: req.user.profile.resume.originalName,
-        path: req.user.profile.resume.path
+        filename: profileResume.filename || 'resume',
+        originalName: profileResume.originalName || 'Resume',
+        path: profileResume.path
       };
     } else {
       // No resume available
@@ -168,26 +174,16 @@ const getMyApplications = async (req, res) => {
     const applications = await Application.find(query)
       .populate({
         path: 'job',
-        select: 'title company location salary jobType applicationDeadline category status'
+        select: 'title company location salary jobType applicationDeadline category status',
+        populate: {
+          path: 'company',
+          select: 'name logo website'
+        }
       })
       .sort({ appliedAt: -1 })
       .limit(limit)
       .skip(startIndex)
-      .lean(); // Use lean() to get plain JavaScript objects
-
-    // Manually populate company for each application
-    const Company = require('../models/Company');
-    for (let app of applications) {
-      if (app.job && app.job.company) {
-        const company = await Company.findById(app.job.company).select('name logo website').lean();
-        if (company) {
-          app.job.company = company;
-        }
-      }
-    }
-
-    // Debug: Log populated data to see what we're getting
-    console.log('Applications with company data:', JSON.stringify(applications.slice(0, 1), null, 2));
+      .lean();
 
     const total = await Application.countDocuments(query);
 

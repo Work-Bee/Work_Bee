@@ -84,6 +84,16 @@ const RoleLoginForm = ({ role }) => {
     }
   };
 
+  const startGoogleLogin = () => {
+    const apiBase = process.env.REACT_APP_API_URL || 'http://localhost:5555/api';
+    const next = location.state?.from?.pathname || '';
+    // Use path relative to api base to ensure /api prefix is preserved
+    const url = new URL('auth/google', apiBase);
+    url.searchParams.set('role', safeRole);
+    if (next) url.searchParams.set('next', next);
+    window.location.href = url.toString();
+  };
+
   return (
     <div
       className={
@@ -167,6 +177,32 @@ const RoleLoginForm = ({ role }) => {
           )}
 
           <form className="mt-8 space-y-6" onSubmit={handleSubmit(attemptLogin)}>
+            {/* Google OAuth Button - Show First */}
+            <div>
+              <button
+                type="button"
+                onClick={startGoogleLogin}
+                className={`w-full btn btn-lg flex items-center justify-center gap-3 border-2 ${isJobseeker ? 'border-violet-600 text-violet-700 hover:bg-violet-50 hover:border-violet-700' : 'border-gray-300 hover:border-gray-900 hover:shadow-md'} transition-all duration-200`}
+              >
+                <span className="inline-flex h-6 w-6 items-center justify-center rounded-sm bg-white">
+                  <svg aria-hidden="true" viewBox="0 0 24 24" className="h-5 w-5">
+                    <path fill="#EA4335" d="M12 10.2h10.5c.1.6.1 1.2.1 1.8 0 6-4 10-10.6 10-6.1 0-11-4.9-11-11s4.9-11 11-11c2.9 0 5.3 1.1 7.2 2.8l-2.9 2.8C15.1 4.7 13.7 4 12 4 8.7 4 6 6.7 6 10s2.7 6 6 6c3 0 4.9-1.7 5.4-4.1H12v-1.7z"/>
+                  </svg>
+                </span>
+                <span className="font-medium">Continue with Google</span>
+              </button>
+            </div>
+
+            {/* Divider */}
+            <div className="relative">
+              <div className="absolute inset-0 flex items-center">
+                <div className="w-full border-t border-gray-300"></div>
+              </div>
+              <div className="relative flex justify-center text-sm">
+                <span className={`px-2 ${isJobseeker ? 'bg-white/75' : 'bg-white'} text-gray-500`}>Or continue with email</span>
+              </div>
+            </div>
+
             <div className="rounded-md space-y-4">
               <div>
                 <label htmlFor="email" className="form-label">

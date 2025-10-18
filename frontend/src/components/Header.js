@@ -85,7 +85,7 @@ const Header = () => {
                   <>
                     <Link
                       to="/dashboard"
-                      className={`nav-link ${location.pathname.startsWith('/dashboard') ? 'active' : ''}`}
+                      className={`nav-link ${location.pathname === '/dashboard' ? 'active' : ''}`}
                     >
                       Dashboard
                     </Link>
@@ -137,52 +137,39 @@ const Header = () => {
                       <div className="px-4 py-2 text-sm text-gray-500 border-b">
                         {user.email}
                       </div>
-                      {user.role === 'employer' && (
-                        <>
-                          <Link
-                            to="/dashboard"
-                            className={`flex items-center px-4 py-3.5 rounded-xl text-base font-medium transition-all duration-200 ${
-                              location.pathname.startsWith('/dashboard')
-                                ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-lg'
-                                : 'text-gray-800 hover:bg-white hover:shadow-md'
-                            }`}
-                            onClick={() => setIsMenuOpen(false)}
-                          >
-                            <svg className="w-5 h-5 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2z" />
-                            </svg>
-                            Dashboard
-                          </Link>
-
-                          <Link
-                            to="/employer/applications"
-                            className={`flex items-center px-4 py-3.5 rounded-xl text-base font-medium transition-all duration-200 ${
-                              location.pathname === '/employer/applications'
-                                ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-lg'
-                                : 'text-gray-800 hover:bg-white hover:shadow-md'
-                            }`}
-                            onClick={() => setIsMenuOpen(false)}
-                          >
-                            <svg className="w-5 h-5 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
-                            Applications
-                          </Link>
-
-                          <Link
-                            to="/dashboard/profile"
-                            className={`flex items-center px-4 py-3.5 rounded-xl text-base font-medium transition-all duration-200 ${
-                              location.pathname === '/dashboard/profile'
-                                ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-lg'
-                                : 'text-gray-800 hover:bg-white hover:shadow-md'
-                            }`}
-                            onClick={() => setIsMenuOpen(false)}
-                          >
-                            <svg className="w-5 h-5 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-                            </svg>
-                            Company Profile
-                          </Link>
-                        </>
+                      {user.role === 'jobseeker' && (
+                        <Link
+                          to="/profile"
+                          className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                          onClick={() => setIsProfileMenuOpen(false)}
+                        >
+                          My Profile
+                        </Link>
                       )}
+                      {user.role === 'employer' && (
+                        <Link
+                          to="/dashboard/profile"
+                          className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                          onClick={() => setIsProfileMenuOpen(false)}
+                        >
+                          Company Profile
+                        </Link>
+                      )}
+                      {user.role === 'admin' && (
+                        <Link
+                          to="/admin/dashboard"
+                          className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                          onClick={() => setIsProfileMenuOpen(false)}
+                        >
+                          Admin Dashboard
+                        </Link>
+                      )}
+                      <button
+                        onClick={handleLogout}
+                        className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                      >
+                        Sign out
+                      </button>
                     </div>
                   )}
                 </div>
@@ -244,13 +231,13 @@ const Header = () => {
             />
             
             {/* Slide-in Panel */}
-            <div className="fixed inset-y-0 right-0 h-screen w-64 bg-white shadow-2xl z-50 md:hidden transform transition-transform duration-300 ease-in-out border-l-4 border-indigo-600 flex flex-col">
+            <div className="fixed inset-y-0 right-0 h-screen w-64 bg-white shadow-2xl z-50 md:hidden transform transition-transform duration-300 ease-in-out border-l-4 border-purple-300 flex flex-col">
               {/* Panel Header */}
-              <div className="flex items-center justify-between px-6 py-5 border-b-4 border-indigo-500 bg-indigo-600">
-                <h2 className="text-xl font-bold text-white">Menu</h2>
+              <div className="flex items-center justify-between px-6 py-5 border-b border-gray-200 bg-gradient-to-r from-purple-50 to-green-50">
+                <h2 className="text-xl font-bold text-gray-900">Menu</h2>
                 <button
                   onClick={() => setIsMenuOpen(false)}
-                  className="text-white hover:text-indigo-200 focus:outline-none hover:bg-indigo-700 rounded-lg p-2 transition-colors"
+                  className="text-gray-700 hover:text-gray-900 focus:outline-none hover:bg-gray-100 rounded-lg p-2 transition-colors"
                 >
                   <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" />
@@ -278,7 +265,7 @@ const Header = () => {
                       {user.role === 'jobseeker' && (
                         <Link
                           to="/profile"
-                          className="inline-flex items-center justify-center px-3 py-2 rounded-lg text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700"
+                          className="inline-flex items-center justify-center px-3 py-2 rounded-lg text-sm font-medium text-white bg-gradient-to-r from-purple-500 to-green-500 hover:shadow-lg transition-all"
                           onClick={() => setIsMenuOpen(false)}
                         >
                           <svg className="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
@@ -288,7 +275,7 @@ const Header = () => {
                       {user.role === 'employer' && (
                         <Link
                           to="/dashboard/profile"
-                          className="inline-flex items-center justify-center px-3 py-2 rounded-lg text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700"
+                          className="inline-flex items-center justify-center px-3 py-2 rounded-lg text-sm font-medium text-white bg-gradient-to-r from-purple-500 to-green-500 hover:shadow-lg transition-all"
                           onClick={() => setIsMenuOpen(false)}
                         >
                           <svg className="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
@@ -298,7 +285,7 @@ const Header = () => {
                       {user.role === 'admin' && (
                         <Link
                           to="/admin/dashboard"
-                          className="inline-flex items-center justify-center px-3 py-2 rounded-lg text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700"
+                          className="inline-flex items-center justify-center px-3 py-2 rounded-lg text-sm font-medium text-white bg-gradient-to-r from-purple-500 to-green-500 hover:shadow-lg transition-all"
                           onClick={() => setIsMenuOpen(false)}
                         >
                           <svg className="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
@@ -319,7 +306,7 @@ const Header = () => {
                   to={homePath}
                   className={`flex items-center px-4 py-3.5 rounded-xl text-base font-medium transition-all duration-200 ${
                     isActive(homePath)
-                      ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-lg'
+                      ? 'bg-gradient-to-r from-purple-500 to-green-500 text-white shadow-lg'
                       : 'text-gray-800 hover:bg-white hover:shadow-md'
                   }`}
                   onClick={() => setIsMenuOpen(false)}
@@ -335,7 +322,7 @@ const Header = () => {
                     to="/jobs"
                     className={`flex items-center px-4 py-3.5 rounded-xl text-base font-medium transition-all duration-200 ${
                       isActive('/jobs')
-                        ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-lg'
+                        ? 'bg-gradient-to-r from-purple-500 to-green-500 text-white shadow-lg'
                         : 'text-gray-800 hover:bg-white hover:shadow-md'
                     }`}
                     onClick={() => setIsMenuOpen(false)}
@@ -355,7 +342,7 @@ const Header = () => {
                           to="/applications"
                           className={`flex items-center px-4 py-3.5 rounded-xl text-base font-medium transition-all duration-200 ${
                             isActive('/applications')
-                              ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-lg'
+                              ? 'bg-gradient-to-r from-purple-500 to-green-500 text-white shadow-lg'
                               : 'text-gray-800 hover:bg-white hover:shadow-md'
                           }`}
                           onClick={() => setIsMenuOpen(false)}
@@ -370,7 +357,7 @@ const Header = () => {
                           to="/bookmarks"
                           className={`flex items-center px-4 py-3.5 rounded-xl text-base font-medium transition-all duration-200 ${
                             isActive('/bookmarks')
-                              ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-lg'
+                              ? 'bg-gradient-to-r from-purple-500 to-green-500 text-white shadow-lg'
                               : 'text-gray-800 hover:bg-white hover:shadow-md'
                           }`}
                           onClick={() => setIsMenuOpen(false)}
@@ -385,7 +372,7 @@ const Header = () => {
                           to="/profile"
                           className={`flex items-center px-4 py-3.5 rounded-xl text-base font-medium transition-all duration-200 ${
                             isActive('/profile')
-                              ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-lg'
+                              ? 'bg-gradient-to-r from-purple-500 to-green-500 text-white shadow-lg'
                               : 'text-gray-800 hover:bg-white hover:shadow-md'
                           }`}
                           onClick={() => setIsMenuOpen(false)}
@@ -403,8 +390,8 @@ const Header = () => {
                         <Link
                           to="/dashboard"
                           className={`flex items-center px-4 py-3.5 rounded-xl text-base font-medium transition-all duration-200 ${
-                            location.pathname.startsWith('/dashboard')
-                              ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-lg'
+                            location.pathname === '/dashboard'
+                              ? 'bg-gradient-to-r from-purple-500 to-green-500 text-white shadow-lg'
                               : 'text-gray-800 hover:bg-white hover:shadow-md'
                           }`}
                           onClick={() => setIsMenuOpen(false)}
@@ -419,12 +406,14 @@ const Header = () => {
                           to="/employer/applications"
                           className={`flex items-center px-4 py-3.5 rounded-xl text-base font-medium transition-all duration-200 ${
                             location.pathname === '/employer/applications'
-                              ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-lg'
+                              ? 'bg-gradient-to-r from-purple-500 to-green-500 text-white shadow-lg'
                               : 'text-gray-800 hover:bg-white hover:shadow-md'
                           }`}
                           onClick={() => setIsMenuOpen(false)}
                         >
-                          <svg className="w-5 h-5 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
+                          <svg className="w-5 h-5 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                          </svg>
                           Applications
                         </Link>
 
@@ -432,7 +421,7 @@ const Header = () => {
                           to="/dashboard/profile"
                           className={`flex items-center px-4 py-3.5 rounded-xl text-base font-medium transition-all duration-200 ${
                             location.pathname === '/dashboard/profile'
-                              ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-lg'
+                              ? 'bg-gradient-to-r from-purple-500 to-green-500 text-white shadow-lg'
                               : 'text-gray-800 hover:bg-white hover:shadow-md'
                           }`}
                           onClick={() => setIsMenuOpen(false)}
@@ -450,7 +439,7 @@ const Header = () => {
                         to="/admin/dashboard"
                         className={`flex items-center px-4 py-3.5 rounded-xl text-base font-medium transition-all duration-200 ${
                           location.pathname.startsWith('/admin')
-                            ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-lg'
+                            ? 'bg-gradient-to-r from-purple-500 to-green-500 text-white shadow-lg'
                             : 'text-gray-800 hover:bg-white hover:shadow-md'
                         }`}
                         onClick={() => setIsMenuOpen(false)}
@@ -502,7 +491,7 @@ const Header = () => {
                     </Link>
                     <Link
                       to="/register"
-                      className="flex items-center px-4 py-3.5 rounded-xl text-base font-medium bg-gradient-to-r from-indigo-600 to-purple-600 text-white hover:from-indigo-700 hover:to-purple-700 shadow-lg transition-all duration-200"
+                      className="flex items-center px-4 py-3.5 rounded-xl text-base font-medium bg-gradient-to-r from-purple-500 to-green-500 text-white hover:from-purple-600 hover:to-green-600 shadow-lg transition-all duration-200"
                       onClick={() => setIsMenuOpen(false)}
                     >
                       <svg className="w-5 h-5 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">

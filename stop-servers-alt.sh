@@ -22,17 +22,17 @@ stop_port() {
     fi
 }
 
-# Stop backend on port 5001
-stop_port 5001 "Backend"
+# Stop backend on port 5555
+stop_port 5555 "Backend"
 
-# Stop frontend on port 3001
-stop_port 3001 "Frontend"
+# Stop frontend on port 3333
+stop_port 3333 "Frontend"
 
 # Clean up any remaining node/serve processes
 echo ""
 echo "🧹 Cleaning up any remaining processes..."
-pkill -f "node.*5001" 2>/dev/null || true
-pkill -f "serve.*3001" 2>/dev/null || true
+pkill -f "node.*5555" 2>/dev/null || true
+pkill -f "serve.*3333" 2>/dev/null || true
 
 echo ""
 echo -e "${GREEN}🎉 All servers stopped successfully!${NC}"

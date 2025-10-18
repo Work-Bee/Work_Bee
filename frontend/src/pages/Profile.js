@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
-import { authAPI, userAPI } from '../utils/api';
+import { authAPI, userAPI, API_BASE_URL } from '../utils/api';
 import LoadingSpinner from '../components/LoadingSpinner';
 
 const Profile = () => {
@@ -367,7 +367,7 @@ const Profile = () => {
               <div className="relative group">
                 {authUser.profile?.profilePhoto?.filename ? (
                   <img 
-                    src={`http://localhost:5000/uploads/images/${authUser.profile.profilePhoto.filename}`}
+                    src={`${API_BASE_URL}/uploads/images/${authUser.profile.profilePhoto.filename}`}
                     alt="Profile"
                     className="w-28 h-28 rounded-full object-cover border-4 border-white shadow-lg"
                   />
@@ -1177,7 +1177,7 @@ const Profile = () => {
                     </div>
                     <div className="flex items-center p-4 bg-gray-50 rounded-lg">
                       <img 
-                        src={`http://localhost:5000/uploads/images/${authUser.profile.profilePhoto.filename}`}
+                        src={`${API_BASE_URL}/uploads/images/${authUser.profile.profilePhoto.filename}`}
                         alt="Profile"
                         className="w-20 h-20 rounded-full object-cover mr-4 border-2 border-blue-500"
                       />

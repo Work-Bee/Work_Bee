@@ -1,6 +1,99 @@
 const { validationResult } = require('express-validator');
+const { OAuth2Client } = require('google-auth-library');
 const User = require('../models/User');
 const { generateToken } = require('../middleware/auth');
+
+// Google OAuth client
+let googleClient;
+const getGoogleClient = () => {
+  if (!googleClient) {
+    const clientId = process.env.GOOGLE_CLIENT_ID;
+    const clientSecret = process.env.GOOGLE_CLIENT_SECRET;
+    const redirectUri = process.env.GOOGLE_REDIRECT_URI || 'http://localhost:5555/api/auth/google/callback';
+
+    if (!clientId || !clientSecret) {
+      throw new Error('Google OAuth env vars missing: GOOGLE_CLIENT_ID/GOOGLE_CLIENT_SECRET');
+    }
+
+    googleClient = new OAuth2Client({ clientId, clientSecret, redirectUri });
+  }
+  return googleClient;
+};
+
+// @desc    Start Google OAuth
+// @route   GET /api/auth/google
+// @access  Public
+const googleAuthStart = async (req, res) => {
+  try {
+    const client = getGoogleClient();
+    const frontendBase = process.env.FRONTEND_BASE_URL || 'http://localhost:3333';
+    const redirectUri = client.redirectUri;
+    const role = req.query.role || 'jobseeker';
+
+    const url = client.generateAuthUrl({
+      access_type: 'offline',
+      scope: ['openid', 'email', 'profile'],
+      include_granted_scopes: true,
+      prompt: 'consent',
+      redirect_uri: redirectUri,
+      state: encodeURIComponent(JSON.stringify({ role, next: req.query.next || '' }))
+    });
+    res.redirect(url);
+  } catch (err) {
+    console.error('googleAuthStart error:', err);
+    res.status(500).json({ success: false, error: 'Failed to start Google OAuth' });
+  }
+};
+
+// @desc    Google OAuth callback
+// @route   GET /api/auth/google/callback
+// @access  Public
+const googleAuthCallback = async (req, res) => {
+  try {
+    const client = getGoogleClient();
+    const { code, state } = req.query;
+    const parsedState = (() => { try { return JSON.parse(decodeURIComponent(state || '')); } catch { return {}; } })();
+    const role = ['jobseeker','employer','admin'].includes(parsedState.role) ? parsedState.role : 'jobseeker';
+    const frontendBase = process.env.FRONTEND_BASE_URL || 'http://localhost:3333';
+
+    const { tokens } = await client.getToken({ code, redirect_uri: client.redirectUri });
+    const idToken = tokens.id_token;
+    if (!idToken) throw new Error('No id_token from Google');
+
+    // Verify ID token
+    const ticket = await client.verifyIdToken({ idToken, audience: process.env.GOOGLE_CLIENT_ID });
+    const payload = ticket.getPayload();
+    const email = payload.email;
+    const name = payload.name || email.split('@')[0];
+
+    // Find or create user
+    let user = await User.findOne({ email });
+    if (!user) {
+      user = await User.create({
+        name,
+        email,
+        password: Math.random().toString(36).slice(2) + Math.random().toString(36).slice(2),
+        role: role
+      });
+    }
+
+    // If existing user has different role, keep their role
+    const effectiveRole = user.role || role;
+
+    // Issue our JWT
+    const appToken = generateToken(user._id);
+
+    // Redirect back to frontend with token
+    const nextPath = parsedState.next || '';
+    const redirectTo = new URL('/auth/callback', frontendBase);
+    redirectTo.searchParams.set('token', appToken);
+    redirectTo.searchParams.set('role', effectiveRole);
+    res.redirect(redirectTo.toString());
+  } catch (err) {
+    console.error('googleAuthCallback error:', err);
+    res.status(500).json({ success: false, error: 'Google OAuth failed' });
+  }
+};
 
 // @desc    Register user
 // @route   POST /api/auth/register
@@ -274,13 +367,24 @@ const updateProfile = async (req, res) => {
       'primaryHasWhatsApp',
       'secondaryHasWhatsApp',
       'location',
-      'profile'
+      'profile',
+      // Allow employer-specific details to be updated via profile API
+      'companyDetails'
     ];
-    const updates = {};
+  const updates = {};
 
     // Only include allowed fields
     Object.keys(req.body).forEach(key => {
-      if (allowedFields.includes(key)) {
+      if (!allowedFields.includes(key)) return;
+      if (key === 'companyDetails' && req.body.companyDetails && typeof req.body.companyDetails === 'object') {
+        // Use dot-notation for nested updates to avoid overwriting the whole companyDetails object
+        Object.keys(req.body.companyDetails).forEach(k => {
+          const val = req.body.companyDetails[k];
+          if (val !== undefined && val !== null && val !== '') {
+            updates[`companyDetails.${k}`] = val;
+          }
+        });
+      } else if (req.body[key] !== undefined) {
         updates[key] = req.body[key];
       }
     });
@@ -386,5 +490,7 @@ module.exports = {
   getProfile,
   updateProfile,
   changePassword,
-  deactivateAccount
+  deactivateAccount,
+  googleAuthStart,
+  googleAuthCallback
 };

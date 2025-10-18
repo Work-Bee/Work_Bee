@@ -3,19 +3,27 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
 const RegisterEmployer = () => {
+  const [showForm, setShowForm] = useState(false); // New state to control form visibility
   const [currentStep, setCurrentStep] = useState(1);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const { register: registerUser, loading, error, clearError } = useAuth();
   const navigate = useNavigate();
 
+  // Google OAuth handler
+  const startGoogleLogin = () => {
+    const apiBase = process.env.REACT_APP_API_URL || 'http://localhost:5555/api';
+    const url = new URL('auth/google', apiBase);
+    url.searchParams.set('role', 'employer');
+    window.location.href = url.toString();
+  };
+
   // Form data state
   const [formData, setFormData] = useState({
     // Step 1: Company Details (Mandatory)
     companyName: '',
-    officialEmail: '',
+    email: '',
     website: '',
-    linkedInPage: '',
     contactPersonName: '',
     contactPersonRole: '',
     phone: '',
@@ -31,9 +39,7 @@ const RegisterEmployer = () => {
     companySize: '',
     companyAddress: '',
     city: '',
-    state: '',
-    glassdoorUrl: '',
-    otherSocialLink: ''
+    state: ''
   });
 
   // Validation errors
@@ -62,17 +68,10 @@ const RegisterEmployer = () => {
       newErrors.companyName = 'Company name must be at least 2 characters';
     }
 
-    if (!formData.officialEmail.trim()) {
-      newErrors.officialEmail = 'Company email is required';
-    } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(formData.officialEmail)) {
-      newErrors.officialEmail = 'Please enter a valid email address';
-    } else if (/gmail\.com|yahoo\.com|hotmail\.com|outlook\.com/i.test(formData.officialEmail)) {
-      newErrors.officialEmail = 'Please use an official company email (not Gmail, Yahoo, etc.)';
-    }
-
-    if (!formData.website.trim() && !formData.linkedInPage.trim()) {
-      newErrors.website = 'Please provide either a company website or LinkedIn page';
-      newErrors.linkedInPage = 'Please provide either a company website or LinkedIn page';
+    if (!formData.email.trim()) {
+      newErrors.email = 'Email is required';
+    } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(formData.email)) {
+      newErrors.email = 'Please enter a valid email address';
     }
 
     if (!formData.contactPersonName.trim()) {
@@ -144,7 +143,7 @@ const RegisterEmployer = () => {
     const userData = {
       role: 'employer',
       name: formData.contactPersonName.trim(),
-      email: formData.officialEmail.trim(),
+      email: formData.email.trim(),
       password: formData.password,
       phone: formData.phone.trim(),
       secondaryPhone: formData.secondaryPhone.trim(),
@@ -153,17 +152,14 @@ const RegisterEmployer = () => {
       secondaryHasWhatsApp: formData.secondaryHasWhatsApp,
       companyDetails: {
         companyName: formData.companyName.trim(),
-        officialEmail: formData.officialEmail.trim(),
+        officialEmail: formData.email.trim(),
         website: formData.website.trim() || undefined,
-        linkedInPage: formData.linkedInPage.trim() || undefined,
         contactPersonRole: formData.contactPersonRole.trim(),
         industry: formData.industry || undefined,
         companySize: formData.companySize || undefined,
         companyAddress: formData.companyAddress.trim() || undefined,
         city: formData.city.trim() || undefined,
-        state: formData.state.trim() || undefined,
-        glassdoorUrl: formData.glassdoorUrl.trim() || undefined,
-        otherSocialLink: formData.otherSocialLink.trim() || undefined
+        state: formData.state.trim() || undefined
       }
     };
 
@@ -195,38 +191,94 @@ const RegisterEmployer = () => {
           </p>
         </div>
 
-        {/* Progress Indicator */}
-        <div className="mb-8">
-          <div className="flex items-center justify-center">
-            <div className="flex items-center">
-              {/* Step 1 */}
-              <div className="flex flex-col items-center">
-                <div className={`w-10 h-10 rounded-full flex items-center justify-center ${
-                  currentStep >= 1 ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-500'
-                }`}>
-                  {currentStep > 1 ? '✓' : '1'}
+        {/* Google OAuth Prompt - Show first if form not started */}
+        {!showForm ? (
+          <div className="bg-white rounded-xl shadow-lg p-8">
+            <h3 className="text-lg font-semibold text-gray-900 mb-2 text-center">
+              Get Started Quickly
+            </h3>
+            <p className="text-center text-sm text-gray-600 mb-6">
+              Choose how you want to create your employer account
+            </p>
+
+            <div className="space-y-3">
+              {/* Google Sign Up Button */}
+              <button
+                type="button"
+                onClick={startGoogleLogin}
+                className="w-full flex items-center justify-center gap-3 px-6 py-3 border-2 border-gray-300 rounded-lg hover:border-blue-600 hover:shadow-md transition-all duration-200 bg-white"
+              >
+                <span className="inline-flex h-6 w-6 items-center justify-center rounded-sm bg-white">
+                  <svg aria-hidden="true" viewBox="0 0 24 24" className="h-5 w-5">
+                    <path fill="#EA4335" d="M12 10.2h10.5c.1.6.1 1.2.1 1.8 0 6-4 10-10.6 10-6.1 0-11-4.9-11-11s4.9-11 11-11c2.9 0 5.3 1.1 7.2 2.8l-2.9 2.8C15.1 4.7 13.7 4 12 4 8.7 4 6 6.7 6 10s2.7 6 6 6c3 0 4.9-1.7 5.4-4.1H12v-1.7z"/>
+                  </svg>
+                </span>
+                <span className="font-medium text-gray-900">Continue with Google</span>
+              </button>
+
+              {/* Divider */}
+              <div className="relative">
+                <div className="absolute inset-0 flex items-center">
+                  <div className="w-full border-t border-gray-300"></div>
                 </div>
-                <span className="mt-2 text-xs font-medium text-gray-600">Company Details</span>
-              </div>
-              
-              {/* Connector */}
-              <div className={`w-24 h-1 mx-4 ${currentStep >= 2 ? 'bg-blue-600' : 'bg-gray-200'}`}></div>
-              
-              {/* Step 2 */}
-              <div className="flex flex-col items-center">
-                <div className={`w-10 h-10 rounded-full flex items-center justify-center ${
-                  currentStep >= 2 ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-500'
-                }`}>
-                  2
+                <div className="relative flex justify-center text-sm">
+                  <span className="px-2 bg-white text-gray-500">Or</span>
                 </div>
-                <span className="mt-2 text-xs font-medium text-gray-600">Additional Info</span>
               </div>
+
+              {/* Email Sign Up Button */}
+              <button
+                type="button"
+                onClick={() => setShowForm(true)}
+                className="w-full flex items-center justify-center gap-2 px-6 py-3 border-2 border-gray-300 rounded-lg hover:border-blue-600 hover:shadow-md transition-all duration-200 bg-white"
+              >
+                <svg className="h-5 w-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                </svg>
+                <span className="font-medium text-gray-900">Continue with Email</span>
+              </button>
+            </div>
+
+            <div className="mt-6 text-center">
+              <Link to="/register" className="text-sm text-gray-600 hover:text-gray-900">
+                ← Choose different account type
+              </Link>
             </div>
           </div>
-        </div>
+        ) : (
+          <>
+            {/* Progress Indicator */}
+            <div className="mb-8">
+              <div className="flex items-center justify-center">
+                <div className="flex items-center">
+                  {/* Step 1 */}
+                  <div className="flex flex-col items-center">
+                    <div className={`w-10 h-10 rounded-full flex items-center justify-center ${
+                      currentStep >= 1 ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-500'
+                    }`}>
+                      {currentStep > 1 ? '✓' : '1'}
+                    </div>
+                    <span className="mt-2 text-xs font-medium text-gray-600">Company Details</span>
+                  </div>
+                  
+                  {/* Connector */}
+                  <div className={`w-24 h-1 mx-4 ${currentStep >= 2 ? 'bg-blue-600' : 'bg-gray-200'}`}></div>
+                  
+                  {/* Step 2 */}
+                  <div className="flex flex-col items-center">
+                    <div className={`w-10 h-10 rounded-full flex items-center justify-center ${
+                      currentStep >= 2 ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-500'
+                    }`}>
+                      2
+                    </div>
+                    <span className="mt-2 text-xs font-medium text-gray-600">Additional Info</span>
+                  </div>
+                </div>
+              </div>
+            </div>
 
-        {/* Form Card */}
-        <div className="bg-white rounded-xl shadow-lg p-8">
+            {/* Form Card */}
+            <div className="bg-white rounded-xl shadow-lg p-8">
           {/* Global Error Message */}
           {error && (
             <div className="mb-6 p-4 bg-red-50 border-l-4 border-red-500 text-red-700 rounded">
@@ -263,65 +315,38 @@ const RegisterEmployer = () => {
                   )}
                 </div>
 
-                {/* Company Email (Official) */}
+                {/* Email */}
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Company Email (Official) <span className="text-red-500">*</span>
+                    Email <span className="text-red-500">*</span>
                   </label>
                   <input
                     type="email"
-                    name="officialEmail"
-                    value={formData.officialEmail}
+                    name="email"
+                    value={formData.email}
                     onChange={handleInputChange}
-                    placeholder="contact@company.com (No personal Gmail)"
+                    placeholder="your@email.com"
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   />
-                  <p className="mt-1 text-xs text-gray-500">
-                    Use your official company email for verification (not Gmail, Yahoo, etc.)
-                  </p>
-                  {errors.officialEmail && (
-                    <p className="mt-1 text-sm text-red-600">{errors.officialEmail}</p>
+                  {errors.email && (
+                    <p className="mt-1 text-sm text-red-600">{errors.email}</p>
                   )}
                 </div>
 
-                {/* Company Website / LinkedIn */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Company Website
-                    </label>
-                    <input
-                      type="url"
-                      name="website"
-                      value={formData.website}
-                      onChange={handleInputChange}
-                      placeholder="https://www.company.com"
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                    />
-                    {errors.website && (
-                      <p className="mt-1 text-sm text-red-600">{errors.website}</p>
-                    )}
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      LinkedIn Page
-                    </label>
-                    <input
-                      type="url"
-                      name="linkedInPage"
-                      value={formData.linkedInPage}
-                      onChange={handleInputChange}
-                      placeholder="https://linkedin.com/company/..."
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                    />
-                    {errors.linkedInPage && (
-                      <p className="mt-1 text-sm text-red-600">{errors.linkedInPage}</p>
-                    )}
-                  </div>
+                {/* Company Website */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Company Website (Optional)
+                  </label>
+                  <input
+                    type="url"
+                    name="website"
+                    value={formData.website}
+                    onChange={handleInputChange}
+                    placeholder="https://www.company.com"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  />
                 </div>
-                <p className="text-xs text-gray-500 -mt-3">
-                  Provide at least one (Website or LinkedIn) to help job seekers trust your company
-                </p>
 
                 {/* Contact Person Name & Role */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -610,40 +635,6 @@ const RegisterEmployer = () => {
                   </div>
                 </div>
 
-                {/* Social Links */}
-                <div className="border-t border-gray-200 pt-4 mt-4">
-                  <h4 className="text-sm font-semibold text-gray-700 mb-3">Social Links (Optional)</h4>
-                  
-                  <div className="space-y-3">
-                    <div>
-                      <label className="block text-sm font-medium text-gray-600 mb-1">
-                        Glassdoor Profile
-                      </label>
-                      <input
-                        type="url"
-                        name="glassdoorUrl"
-                        value={formData.glassdoorUrl}
-                        onChange={handleInputChange}
-                        placeholder="https://glassdoor.com/..."
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-600 mb-1">
-                        Other Social Link (Facebook, Twitter, etc.)
-                      </label>
-                      <input
-                        type="url"
-                        name="otherSocialLink"
-                        value={formData.otherSocialLink}
-                        onChange={handleInputChange}
-                        placeholder="https://..."
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                      />
-                    </div>
-                  </div>
-                </div>
-
                 {/* Action Buttons */}
                 <div className="flex justify-between pt-6 border-t border-gray-200">
                   <button
@@ -675,6 +666,8 @@ const RegisterEmployer = () => {
             </Link>
           </p>
         </div>
+        </>
+        )}
       </div>
     </div>
   );

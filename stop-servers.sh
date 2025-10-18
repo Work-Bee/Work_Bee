@@ -24,9 +24,9 @@ if [ -f /tmp/WorkBee_frontend.pid ]; then
     rm -f /tmp/WorkBee_frontend.pid
 fi
 
-# Kill any remaining processes on ports 3000 and 5000
+# Kill any remaining processes on ports 3333 and 5555
 echo "🧹 Cleaning up any remaining processes..."
-lsof -ti:3000 | xargs -r kill -9
-lsof -ti:5000 | xargs -r kill -9
+lsof -ti:3333 | xargs -r kill -9
+lsof -ti:5555 | xargs -r kill -9
 
 echo "🎉 All servers stopped successfully!"

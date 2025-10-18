@@ -3,11 +3,20 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
 const RegisterJobSeeker = () => {
+  const [showForm, setShowForm] = useState(false); // New state to control form visibility
   const [currentStep, setCurrentStep] = useState(1);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const { register: registerUser, loading, error, clearError } = useAuth();
   const navigate = useNavigate();
+
+  // Google OAuth handler
+  const startGoogleLogin = () => {
+    const apiBase = process.env.REACT_APP_API_URL || 'http://localhost:5555/api';
+    const url = new URL('auth/google', apiBase);
+    url.searchParams.set('role', 'jobseeker');
+    window.location.href = url.toString();
+  };
 
   // Form data state
   const [formData, setFormData] = useState({
@@ -223,59 +232,115 @@ const RegisterJobSeeker = () => {
           </p>
         </div>
 
-        {/* Progress Indicator */}
-        <div className="bg-white rounded-lg shadow-sm p-6">
-          <div className="flex items-center justify-between">
-            {[1, 2, 3].map((step) => (
-              <React.Fragment key={step}>
-                <div className="flex flex-col items-center flex-1">
-                  <div
-                    className={`w-10 h-10 rounded-full flex items-center justify-center font-semibold ${
-                      step < currentStep
-                        ? 'bg-green-500 text-white'
-                        : step === currentStep
-                        ? 'bg-blue-600 text-white'
-                        : 'bg-gray-200 text-gray-600'
-                    }`}
-                  >
-                    {step < currentStep ? (
-                      <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
-                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                      </svg>
-                    ) : (
-                      step
-                    )}
-                  </div>
-                  <p className={`text-xs mt-2 text-center ${step === currentStep ? 'font-semibold text-gray-900' : 'text-gray-600'}`}>
-                    {step === 1 ? 'Account Setup' : step === 2 ? 'Professional Info' : 'Complete Profile'}
-                  </p>
-                </div>
-                {step < 3 && (
-                  <div className={`h-1 flex-1 mx-2 ${step < currentStep ? 'bg-green-500' : 'bg-gray-200'}`} />
-                )}
-              </React.Fragment>
-            ))}
-          </div>
-        </div>
+        {/* Google OAuth Prompt - Show first if form not started */}
+        {!showForm ? (
+          <div className="bg-white rounded-lg shadow-md p-8">
+            <h3 className="text-lg font-semibold text-gray-900 mb-2 text-center">
+              Get Started Quickly
+            </h3>
+            <p className="text-center text-sm text-gray-600 mb-6">
+              Choose how you want to create your account
+            </p>
 
-        {/* Error Alert */}
-        {error && (
-          <div className="bg-red-50 border border-red-200 text-red-800 rounded-lg p-4">
-            <div className="flex">
-              <svg className="h-5 w-5 mr-2 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
-              </svg>
-              <div>
-                <p className="font-semibold">Registration Failed</p>
-                <p className="text-sm mt-1">{error}</p>
-                <p className="text-xs mt-2 text-red-600">Please check all required fields and try again. If the problem persists, you may already have an account with this email.</p>
+            <div className="space-y-3">
+              {/* Google Sign Up Button */}
+              <button
+                type="button"
+                onClick={startGoogleLogin}
+                className="w-full flex items-center justify-center gap-3 px-6 py-3 border-2 border-gray-300 rounded-lg hover:border-gray-900 hover:shadow-md transition-all duration-200 bg-white"
+              >
+                <span className="inline-flex h-6 w-6 items-center justify-center rounded-sm bg-white">
+                  <svg aria-hidden="true" viewBox="0 0 24 24" className="h-5 w-5">
+                    <path fill="#EA4335" d="M12 10.2h10.5c.1.6.1 1.2.1 1.8 0 6-4 10-10.6 10-6.1 0-11-4.9-11-11s4.9-11 11-11c2.9 0 5.3 1.1 7.2 2.8l-2.9 2.8C15.1 4.7 13.7 4 12 4 8.7 4 6 6.7 6 10s2.7 6 6 6c3 0 4.9-1.7 5.4-4.1H12v-1.7z"/>
+                  </svg>
+                </span>
+                <span className="font-medium text-gray-900">Continue with Google</span>
+              </button>
+
+              {/* Divider */}
+              <div className="relative">
+                <div className="absolute inset-0 flex items-center">
+                  <div className="w-full border-t border-gray-300"></div>
+                </div>
+                <div className="relative flex justify-center text-sm">
+                  <span className="px-2 bg-white text-gray-500">Or</span>
+                </div>
               </div>
+
+              {/* Email Sign Up Button */}
+              <button
+                type="button"
+                onClick={() => setShowForm(true)}
+                className="w-full flex items-center justify-center gap-2 px-6 py-3 border-2 border-gray-300 rounded-lg hover:border-gray-900 hover:shadow-md transition-all duration-200 bg-white"
+              >
+                <svg className="h-5 w-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                </svg>
+                <span className="font-medium text-gray-900">Continue with Email</span>
+              </button>
+            </div>
+
+            <div className="mt-6 text-center">
+              <Link to="/register" className="text-sm text-gray-600 hover:text-gray-900">
+                ← Choose different account type
+              </Link>
             </div>
           </div>
-        )}
+        ) : (
+          <>
+            {/* Progress Indicator */}
+            <div className="bg-white rounded-lg shadow-sm p-6">
+              <div className="flex items-center justify-between">
+                {[1, 2, 3].map((step) => (
+                  <React.Fragment key={step}>
+                    <div className="flex flex-col items-center flex-1">
+                      <div
+                        className={`w-10 h-10 rounded-full flex items-center justify-center font-semibold ${
+                          step < currentStep
+                            ? 'bg-green-500 text-white'
+                            : step === currentStep
+                            ? 'bg-blue-600 text-white'
+                            : 'bg-gray-200 text-gray-600'
+                        }`}
+                      >
+                        {step < currentStep ? (
+                          <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                            <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                          </svg>
+                        ) : (
+                          step
+                        )}
+                      </div>
+                      <p className={`text-xs mt-2 text-center ${step === currentStep ? 'font-semibold text-gray-900' : 'text-gray-600'}`}>
+                        {step === 1 ? 'Account Setup' : step === 2 ? 'Professional Info' : 'Complete Profile'}
+                      </p>
+                    </div>
+                    {step < 3 && (
+                      <div className={`h-1 flex-1 mx-2 ${step < currentStep ? 'bg-green-500' : 'bg-gray-200'}`} />
+                    )}
+                  </React.Fragment>
+                ))}
+              </div>
+            </div>
 
-        {/* Form */}
-        <form onSubmit={handleSubmit} className="bg-white rounded-lg shadow-md p-8 space-y-6">
+            {/* Error Alert */}
+            {error && (
+              <div className="bg-red-50 border border-red-200 text-red-800 rounded-lg p-4">
+                <div className="flex">
+                  <svg className="h-5 w-5 mr-2 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+                  </svg>
+                  <div>
+                    <p className="font-semibold">Registration Failed</p>
+                    <p className="text-sm mt-1">{error}</p>
+                    <p className="text-xs mt-2 text-red-600">Please check all required fields and try again. If the problem persists, you may already have an account with this email.</p>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Form */}
+            <form onSubmit={handleSubmit} className="bg-white rounded-lg shadow-md p-8 space-y-6">
           {/* STEP 1: Basic Identity */}
           {currentStep === 1 && (
             <div className="space-y-4">
@@ -880,6 +945,8 @@ const RegisterJobSeeker = () => {
             </Link>
           </p>
         </div>
+        </>
+        )}
       </div>
     </div>
   );

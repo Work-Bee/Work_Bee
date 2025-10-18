@@ -20,17 +20,7 @@ const getJobs = async (req, res) => {
       query.category = req.query.category;
     }
 
-    // Filter by employment type
-    if (req.query.employmentType) {
-      query.employmentType = req.query.employmentType;
-    }
-
-    // Filter by duration
-    if (req.query.duration) {
-      query.duration = req.query.duration;
-    }
-
-    // Backward compatibility: jobType filter
+    // Filter by job type
     if (req.query.jobType) {
       query.jobType = req.query.jobType;
     }
@@ -48,48 +38,16 @@ const getJobs = async (req, res) => {
       query['location.state'] = new RegExp(req.query.state, 'i');
     }
 
-    // Exclude expired jobs by default (show only jobs whose deadline hasn't passed)
-    if (req.query.includeExpired !== 'true') {
-      query.applicationDeadline = { $gte: new Date() };
-    }
-
-    // Filter by salary range with unit support (normalize to per-hour)
+    // Filter by salary range
     if (req.query.minSalary || req.query.maxSalary) {
       query.$and = query.$and || [];
-      const unit = (req.query.salaryUnit || 'hour').toLowerCase();
-
-      const HOURS_PER_DAY = 8;
-      const DAYS_PER_WEEK = 6;
-      const DAYS_PER_MONTH = 26;
-      const MONTHS_PER_YEAR = 12;
-
-      const toPerHour = (value) => {
-        if (value === undefined) return undefined;
-        const v = Number(value);
-        if (Number.isNaN(v)) return undefined;
-        switch (unit) {
-          case 'hour':
-            return v;
-          case 'day':
-            return v / HOURS_PER_DAY;
-          case 'week':
-            return v / (HOURS_PER_DAY * DAYS_PER_WEEK);
-          case 'month':
-            return v / (HOURS_PER_DAY * DAYS_PER_MONTH);
-          case 'year':
-            return v / (HOURS_PER_DAY * DAYS_PER_MONTH * MONTHS_PER_YEAR);
-          default:
-            return v;
-        }
-      };
-
-      const minPerHour = toPerHour(req.query.minSalary);
-      const maxPerHour = toPerHour(req.query.maxSalary);
-      if (minPerHour !== undefined) {
-        query.$and.push({ salaryPerHourMin: { $gte: minPerHour } });
+      
+      if (req.query.minSalary) {
+        query.$and.push({ 'salary.min': { $gte: Number(req.query.minSalary) } });
       }
-      if (maxPerHour !== undefined) {
-        query.$and.push({ salaryPerHourMax: { $lte: maxPerHour } });
+      
+      if (req.query.maxSalary) {
+        query.$and.push({ 'salary.max': { $lte: Number(req.query.maxSalary) } });
       }
     }
 
@@ -172,7 +130,7 @@ const getJobs = async (req, res) => {
 
 // @desc    Get single job
 // @route   GET /api/jobs/:id
-// @access  Public (increments viewsCount uniquely per account when logged in)
+// @access  Public
 const getJob = async (req, res) => {
   try {
     const job = await Job.findById(req.params.id)
@@ -186,25 +144,9 @@ const getJob = async (req, res) => {
       });
     }
 
-    // Increment view count uniquely when user is authenticated
-    try {
-      if (req.headers.authorization && req.headers.authorization.startsWith('Bearer') && req.user) {
-        const userId = req.user._id || req.user.id;
-        const hasViewed = job.uniqueViewers?.some(v => v.toString() === userId.toString());
-        if (!hasViewed) {
-          job.viewsCount = (job.viewsCount || 0) + 1;
-          job.uniqueViewers = job.uniqueViewers || [];
-          job.uniqueViewers.push(userId);
-          await job.save();
-        }
-      } else {
-        // For unauthenticated viewers, we avoid inflating counts repeatedly.
-        // Optionally, we could use a short-lived cookie or IP-based throttle here.
-        // For now, do NOT increment to keep counts closer to "unique accounts" as requested.
-      }
-    } catch (viewErr) {
-      console.warn('View count logic warning:', viewErr?.message || viewErr);
-    }
+    // Increment view count
+    job.viewsCount = job.viewsCount + 1;
+    await job.save();
 
     res.json({
       success: true,
@@ -233,6 +175,7 @@ const createJob = async (req, res) => {
     // Check validation results
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
+      console.log('Validation errors:', JSON.stringify(errors.array(), null, 2));
       return res.status(400).json({
         success: false,
         error: 'Validation failed',
@@ -248,17 +191,79 @@ const createJob = async (req, res) => {
       });
     }
 
-    // Check if user has a company
-    if (!req.user.company) {
+    // Debug: Log user data
+    console.log('User data:', {
+      id: req.user.id,
+      role: req.user.role,
+      hasCompanyDetails: !!req.user.companyDetails,
+      companyName: req.user.companyDetails?.companyName,
+      industry: req.user.companyDetails?.industry,
+      hasCompany: !!req.user.company
+    });
+
+    // Check if user has company details filled
+    if (!req.user.companyDetails?.companyName || !req.user.companyDetails?.industry) {
+      console.log('Missing company details:', {
+        companyDetails: req.user.companyDetails
+      });
       return res.status(400).json({
         success: false,
-        error: 'Employer must have a company profile to post jobs'
+        error: 'Please complete your company profile before posting jobs'
       });
+    }
+
+    // Create or get company document
+    let companyId = req.user.company;
+    
+    if (!companyId) {
+      // Auto-create company from companyDetails if it doesn't exist
+      // Map user industry enum to company industry enum
+      const industryMap = {
+        'IT': 'Other',
+        'Finance': 'Other',
+        'Healthcare': 'Other',
+        'Manufacturing': 'Manufacturing',
+        'Retail': 'Retail',
+        'Construction': 'Construction',
+        'Education': 'Other',
+        'Food Service': 'Food Service',
+        'Transportation': 'Transportation',
+        'Real Estate': 'Other',
+        'Other': 'Other'
+      };
+
+      const companyData = {
+        name: req.user.companyDetails.companyName,
+        description: req.user.companyDetails.companyName 
+          ? `${req.user.companyDetails.companyName} is hiring! Check out our job openings.`
+          : 'We are hiring talented individuals to join our team.',
+        industry: industryMap[req.user.companyDetails.industry] || 'Other',
+        size: req.user.companyDetails.companySize || '1-10',
+        website: req.user.companyDetails.website,
+        location: {
+          address: req.user.companyDetails.companyAddress || req.user.companyDetails.city || 'Not specified',
+          city: req.user.companyDetails.city || 'Not specified',
+          state: req.user.companyDetails.state || 'Kerala',
+          zipCode: req.user.companyDetails.city ? '682001' : '000000' // Default zipcode if not available
+        },
+        contactInfo: {
+          email: req.user.companyDetails.officialEmail || req.user.email,
+          phone: req.user.phone || '0000000000' // Use user phone or default
+        },
+        owner: req.user.id
+      };
+
+      const company = await Company.create(companyData);
+      companyId = company._id;
+
+      // Update user with company reference
+      req.user.company = companyId;
+      await req.user.save();
     }
 
     // Add user and company to req.body
     req.body.postedBy = req.user.id;
-    req.body.company = req.user.company;
+    req.body.company = companyId;
 
     const job = await Job.create(req.body);
 
@@ -273,7 +278,18 @@ const createJob = async (req, res) => {
       data: populatedJob
     });
   } catch (error) {
-    console.error('Create job error:', error);
+    // Surface validation errors clearly
+    if (error.name === 'ValidationError') {
+      const details = Object.values(error.errors).map((e) => e.message);
+      console.error('Create job validation error:', details);
+      return res.status(400).json({
+        success: false,
+        error: 'Validation failed',
+        details
+      });
+    }
+
+    console.error('Create job error:', error.message || error, error.stack ? `\n${error.stack}` : '');
     res.status(500).json({
       success: false,
       error: 'Server error creating job'

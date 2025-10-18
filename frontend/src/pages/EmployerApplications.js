@@ -124,10 +124,46 @@ const EmployerApplications = () => {
   return (
     <div className="bg-gray-50 min-h-screen py-10 lg:py-16">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="mb-8 flex items-start justify-between gap-4">
-          <div>
-            <h1 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-2">All Applications</h1>
-            <p className="text-gray-600">Review every application you received across all postings.</p>
+        {/* Enhanced Header with Illustration */}
+        <div className="mb-8 relative bg-gradient-to-r from-green-500 to-purple-500 rounded-3xl p-8 overflow-hidden shadow-lg">
+          {/* Decorative background elements */}
+          <div className="absolute top-0 left-0 w-64 h-64 bg-white/10 rounded-full -translate-y-1/2 -translate-x-1/2 blur-2xl"></div>
+          <div className="absolute bottom-0 right-0 w-48 h-48 bg-white/10 rounded-full translate-y-1/2 translate-x-1/2 blur-xl"></div>
+          
+          {/* Floating decorative shapes */}
+          <div className="absolute top-10 right-1/3 animate-pulse">
+            <div className="w-2.5 h-2.5 bg-white/30 rounded-full"></div>
+          </div>
+          <div className="absolute bottom-10 left-1/4 animate-pulse" style={{animationDelay: '0.7s'}}>
+            <div className="w-2 h-2 bg-white/40 rounded-full"></div>
+          </div>
+          
+          <div className="relative z-10 flex items-center justify-between">
+            <div className="flex items-center space-x-4">
+              {/* Icon */}
+              <div className="flex-shrink-0 w-16 h-16 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center border border-white/30">
+                <svg className="w-8 h-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
+              </div>
+              
+              <div>
+                <h1 className="text-3xl lg:text-4xl font-bold text-white mb-1">All Applications</h1>
+                <p className="text-white/90">Review every application you received across all postings.</p>
+              </div>
+            </div>
+            
+            {/* Stats badge */}
+            {!loading && applications.length > 0 && (
+              <div className="hidden lg:block">
+                <div className="bg-white/20 backdrop-blur-sm rounded-2xl px-6 py-4 border border-white/30">
+                  <div className="text-center">
+                    <p className="text-3xl font-bold text-white">{applications.length}</p>
+                    <p className="text-sm text-white/80 font-medium">Total Applications</p>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         </div>
 

@@ -22,7 +22,7 @@ LOCATION="Bangalore, Karnataka"
 echo "📋 Test Case 1: Complete Registration with All Fields"
 echo "------------------------------------------------------"
 
-RESPONSE=$(curl -s -X POST http://localhost:5000/api/auth/register \
+RESPONSE=$(curl -s -X POST http://localhost:5555/api/auth/register \
   -H "Content-Type: application/json" \
   -d "{
     \"role\": \"employer\",
@@ -113,7 +113,7 @@ echo ""
 echo "📋 Test Case 2: Registration with Minimum Required Fields"
 echo "----------------------------------------------------------"
 
-RESPONSE2=$(curl -s -X POST http://localhost:5000/api/auth/register \
+RESPONSE2=$(curl -s -X POST http://localhost:5555/api/auth/register \
   -H "Content-Type: application/json" \
   -d "{
     \"role\": \"employer\",

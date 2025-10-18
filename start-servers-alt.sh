@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Start MERN Job Portal Servers on Alternative Ports
-# Backend: 5001, Frontend: 3001
+# Backend: 5555, Frontend: 3333 (aligned with fixed local ports)
 
 echo "🚀 Starting MERN Job Portal Servers (Alternative Ports)..."
 echo ""
@@ -14,18 +14,18 @@ BLUE='\033[0;34m'
 NC='\033[0m' # No Color
 
 # Clean up any existing processes on alternative ports
-echo "🧹 Cleaning up existing processes on ports 5001 and 3001..."
-lsof -ti:5001 | xargs kill -9 2>/dev/null || true
-lsof -ti:3001 | xargs kill -9 2>/dev/null || true
+echo "🧹 Cleaning up existing processes on ports 5555 and 3333..."
+lsof -ti:5555 | xargs kill -9 2>/dev/null || true
+lsof -ti:3333 | xargs kill -9 2>/dev/null || true
 sleep 1
 
 # Create logs directory if it doesn't exist
 mkdir -p logs
 
 # Start Backend on port 5001
-echo -e "${BLUE}🔧 Starting Backend API Server (Port 5001)...${NC}"
+echo -e "${BLUE}🔧 Starting Backend API Server (Port 5555)...${NC}"
 cd backend
-PORT=5001 nohup node server.js > ../logs/backend-alt.log 2>&1 &
+PORT=5555 nohup node server.js > ../logs/backend-alt.log 2>&1 &
 BACKEND_PID=$!
 echo "Backend PID: $BACKEND_PID"
 cd ..
@@ -34,9 +34,9 @@ cd ..
 sleep 2
 
 # Start Frontend on port 3001
-echo -e "${BLUE}🎨 Starting Frontend Server (Port 3001)...${NC}"
+echo -e "${BLUE}🎨 Starting Frontend Server (Port 3333)...${NC}"
 cd frontend
-PORT=3001 nohup serve -s build -l 3001 > ../logs/frontend-alt.log 2>&1 &
+PORT=3333 nohup serve -s build -l 3333 > ../logs/frontend-alt.log 2>&1 &
 FRONTEND_PID=$!
 echo "Frontend PID: $FRONTEND_PID"
 cd ..
@@ -49,15 +49,15 @@ echo ""
 echo "📊 Checking Server Status..."
 
 # Check backend
-if curl -s http://localhost:5001 > /dev/null 2>&1; then
-    echo -e "${GREEN}✅ Backend Server: RUNNING on http://localhost:5001${NC}"
+if curl -s http://localhost:5555 > /dev/null 2>&1; then
+    echo -e "${GREEN}✅ Backend Server: RUNNING on http://localhost:5555${NC}"
 else
     echo -e "${RED}❌ Backend Server: FAILED TO START${NC}"
 fi
 
 # Check frontend
-if curl -s http://localhost:3001 > /dev/null 2>&1; then
-    echo -e "${GREEN}✅ Frontend Server: RUNNING on http://localhost:3001${NC}"
+if curl -s http://localhost:3333 > /dev/null 2>&1; then
+    echo -e "${GREEN}✅ Frontend Server: RUNNING on http://localhost:3333${NC}"
 else
     echo -e "${RED}❌ Frontend Server: FAILED TO START${NC}"
 fi
@@ -65,8 +65,8 @@ fi
 echo ""
 echo -e "${GREEN}🎉 Server startup complete!${NC}"
 echo ""
-echo -e "${YELLOW}📱 Access your application at: http://localhost:3001${NC}"
-echo -e "${YELLOW}🔗 Backend API available at: http://localhost:5001${NC}"
+echo -e "${YELLOW}📱 Access your application at: http://localhost:3333${NC}"
+echo -e "${YELLOW}🔗 Backend API available at: http://localhost:5555${NC}"
 echo ""
 echo -e "${BLUE}📝 Logs available at:${NC}"
 echo "   Backend:  $(pwd)/logs/backend-alt.log"

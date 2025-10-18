@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
-import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { applicationAPI, bookmarkAPI } from '../utils/api';
+import { applicationAPI, bookmarkAPI, authAPI } from '../utils/api';
 import { formatSalaryRange, formatLocation, formatDate } from '../utils/formatters';
 
 const JobSummaryCard = ({ job }) => {
-  const { user } = useAuth();
+  const { user, updateUser } = useAuth();
   const [expanded, setExpanded] = useState(false);
   const [showApplyModal, setShowApplyModal] = useState(false);
+  const [showFull, setShowFull] = useState(false);
   const [hasApplied, setHasApplied] = useState(false);
   const [coverLetter, setCoverLetter] = useState('');
   const [applyLoading, setApplyLoading] = useState(false);
@@ -17,6 +17,7 @@ const JobSummaryCard = ({ job }) => {
   const [isBookmarked, setIsBookmarked] = useState(false);
   const [bookmarkLoading, setBookmarkLoading] = useState(false);
   const [showShareSuccess, setShowShareSuccess] = useState(false);
+  const [checkingResume, setCheckingResume] = useState(false);
 
   const companyName = job.company?.name || 'Unknown Company';
   const salaryLabel = formatSalaryRange(job.salary);
@@ -24,7 +25,6 @@ const JobSummaryCard = ({ job }) => {
   const postedDate = job.createdAt ? formatDate(job.createdAt) : null;
   
   const isJobseeker = user?.role === 'jobseeker';
-  const hasResume = isJobseeker && user?.profile?.resume;
   const isJobClosed = job.status === 'closed';
   // No body scroll lock so the page feels continuous under the overlay
 
@@ -94,14 +94,34 @@ const JobSummaryCard = ({ job }) => {
     });
   };
 
-  const handleApplyClick = () => {
-    if (!hasResume) {
-      setApplyError('Please upload your resume in your profile before applying.');
-      return;
-    }
-    setShowApplyModal(true);
+  const handleApplyClick = async () => {
     setApplyError('');
-    setApplySuccess('');
+    setCheckingResume(true);
+    
+    try {
+      // Refresh user profile to get the latest resume status from backend
+      const profileResponse = await authAPI.getProfile();
+      const latestUser = profileResponse.data.data.user;
+      updateUser(latestUser);
+      
+      // Check if resume exists in the latest user data
+      const currentHasResume = latestUser?.profile?.resume;
+      
+      if (!currentHasResume) {
+        setApplyError('Please upload your resume in your profile before applying.');
+        setCheckingResume(false);
+        return;
+      }
+      
+      // Resume exists, open the modal
+      setShowApplyModal(true);
+      setApplySuccess('');
+    } catch (error) {
+      console.error('Error checking resume status:', error);
+      setApplyError('Unable to verify resume status. Please try again.');
+    } finally {
+      setCheckingResume(false);
+    }
   };
 
   const handleApplySubmit = async (event) => {
@@ -109,19 +129,26 @@ const JobSummaryCard = ({ job }) => {
     setApplyError('');
     setApplySuccess('');
 
-    // Double-check resume availability before submission
-    if (!hasResume) {
-      setApplyError('You cannot apply without uploading a resume. Please upload your resume in your profile first.');
-      return;
-    }
-
     try {
       setApplyLoading(true);
-      // Don't send resume field - backend will use profile resume
+      
+      // Fetch the latest profile to ensure resume is still available
+      const profileResponse = await authAPI.getProfile();
+      const latestUser = profileResponse.data.data.user;
+      
+      // Final check: verify resume exists
+      if (!latestUser?.profile?.resume) {
+        setApplyError('You cannot apply without uploading a resume. Please upload your resume in your profile first.');
+        setApplyLoading(false);
+        return;
+      }
+      
+      // Resume exists - proceed with application
       await applicationAPI.applyForJob({
         jobId: job._id,
         coverLetter: coverLetter || '', // Send empty string if no cover letter
       });
+      
       setApplySuccess('Your application has been submitted successfully!');
       setHasApplied(true);
       setCoverLetter('');
@@ -239,7 +266,7 @@ const JobSummaryCard = ({ job }) => {
 
           <div className="flex flex-col items-end gap-2 text-right">
             <span className="inline-flex items-center px-2.5 py-1 rounded-lg text-xs font-medium bg-primary-50 text-primary-700 border border-primary-200 whitespace-nowrap">
-              {job.employmentType} • {job.duration}
+              {job.jobType}{job.experienceLevel ? ` • ${job.experienceLevel}` : ''}
             </span>
             {postedDate && (
               <div className="flex items-center gap-1.5 text-xs text-gray-500">
@@ -291,10 +318,10 @@ const JobSummaryCard = ({ job }) => {
 
               <div className="px-5 py-4">
                 <div className="flex items-start justify-between gap-4 mb-3">
-                  <div className="text-xs">
-                    <div className="text-sm font-medium text-green-700">{salaryLabel}</div>
-                    <div className="text-xs text-gray-500">{locationLabel}</div>
-                  </div>
+                    <div className="text-xs">
+                      <div className="text-sm font-medium text-green-700">{salaryLabel}</div>
+                      <div className="text-xs text-gray-500">{locationLabel}</div>
+                    </div>
                 </div>
 
                 <div className="text-sm text-gray-700 space-y-2">
@@ -321,6 +348,37 @@ const JobSummaryCard = ({ job }) => {
                   )}
                 </div>
 
+                {showFull && (
+                  <div className="mt-4 pt-4 border-t border-gray-100 space-y-4">
+                    {job.description && (
+                      <div>
+                        <div className="font-semibold text-gray-900 mb-1">Role Description</div>
+                        <p className="text-gray-700 whitespace-pre-line">{job.description}</p>
+                      </div>
+                    )}
+                    {Array.isArray(job.responsibilities) && job.responsibilities.length > 0 && (
+                      <div>
+                        <div className="font-semibold text-gray-900 mb-1">Full Responsibilities</div>
+                        <ul className="list-disc list-inside space-y-1">
+                          {job.responsibilities.map((r, i) => (
+                            <li key={`resp-${job._id}-${i}`}>{r}</li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+                    {Array.isArray(job.requirements) && job.requirements.length > 0 && (
+                      <div>
+                        <div className="font-semibold text-gray-900 mb-1">Full Requirements</div>
+                        <ul className="list-disc list-inside space-y-1">
+                          {job.requirements.map((r, i) => (
+                            <li key={`req-${job._id}-${i}`}>{r}</li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+                  </div>
+                )}
+
                 <div className="mt-4 pt-3 border-t border-gray-100 flex flex-wrap items-center justify-between gap-2">
                   <button type="button" className="btn btn-outline btn-sm" onClick={() => setExpanded(false)}>
                     Close
@@ -331,12 +389,18 @@ const JobSummaryCard = ({ job }) => {
                         type="button"
                         className="btn btn-primary btn-sm"
                         onClick={handleApplyClick}
-                        disabled={hasApplied || isJobClosed}
+                        disabled={hasApplied || isJobClosed || checkingResume}
                       >
-                        {hasApplied ? 'Applied' : isJobClosed ? 'Closed' : 'Apply'}
+                        {checkingResume ? 'Checking...' : hasApplied ? 'Applied' : isJobClosed ? 'Closed' : 'Apply'}
                       </button>
                     )}
-                    <Link to={`/jobs/${job._id}`} className="btn btn-outline btn-sm">Full details</Link>
+                    <button
+                      type="button"
+                      className="btn btn-outline btn-sm"
+                      onClick={() => setShowFull((v) => !v)}
+                    >
+                      {showFull ? 'Hide details' : 'View full details'}
+                    </button>
                   </div>
                 </div>
               </div>

@@ -116,7 +116,7 @@
 
 ### Next Steps for Manual Testing
 
-1. **Open Browser:** http://localhost:3000/register
+1. **Open Browser:** http://localhost:3333/register
 2. **Click:** "Looking for a Job" button
 3. **Test Step 1:**
    - Fill in name, email, password, phone
@@ -145,8 +145,8 @@
 
 ### Server Status
 
-✅ Backend: Running on http://localhost:5000
-✅ Frontend: Running on http://localhost:3000
+✅ Backend: Running on http://localhost:5555
+✅ Frontend: Running on http://localhost:3333
 ✅ MongoDB: Connected successfully
 ✅ API Endpoints: Responding correctly
 

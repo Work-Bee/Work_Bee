@@ -39,19 +39,9 @@ const jobSchema = new mongoose.Schema({
       'Other'
     ]
   },
-  employmentType: {
-    type: String,
-    required: [true, 'Please specify employment type'],
-    enum: ['Full-time', 'Part-time']
-  },
-  duration: {
-    type: String,
-    required: [true, 'Please specify duration'],
-    enum: ['Permanent', 'Contract', 'Temporary', 'Seasonal']
-  },
-  // Keep jobType for backward compatibility during migration
   jobType: {
     type: String,
+    required: [true, 'Please specify job type'],
     enum: ['Full-time', 'Part-time', 'Contract', 'Temporary', 'Seasonal']
   },
   experienceLevel: {
@@ -70,18 +60,14 @@ const jobSchema = new mongoose.Schema({
     },
     currency: {
       type: String,
-      default: 'INR',
-      enum: ['INR']
+      default: 'INR'
     },
     period: {
       type: String,
       enum: ['hour', 'day', 'week', 'month', 'year'],
-      default: 'hour'
+      default: 'month'
     }
   },
-  // Normalized salary per hour for consistent filtering
-  salaryPerHourMin: { type: Number, default: 0 },
-  salaryPerHourMax: { type: Number, default: 0 },
   location: {
     address: {
       type: String,
@@ -134,11 +120,6 @@ const jobSchema = new mongoose.Schema({
     type: Number,
     default: 0
   },
-  // Track which users have viewed this job (for unique view counting)
-  uniqueViewers: [{
-    type: mongoose.Schema.ObjectId,
-    ref: 'User'
-  }],
   tags: [{
     type: String,
     maxlength: [50, 'Tag cannot be more than 50 characters']
@@ -167,108 +148,12 @@ jobSchema.index({ experienceLevel: 1 });
 jobSchema.index({ 'location.city': 1 });
 jobSchema.index({ 'location.state': 1 });
 jobSchema.index({ 'salary.min': 1, 'salary.max': 1 });
-jobSchema.index({ salaryPerHourMin: 1, salaryPerHourMax: 1 });
 jobSchema.index({ createdAt: -1 });
 jobSchema.index({ applicationDeadline: 1 });
 
 // Update the updatedAt field before saving
 jobSchema.pre('save', function(next) {
   this.updatedAt = Date.now();
-
-  // Normalize salary to per-hour values for consistent filtering
-  try {
-    const HOURS_PER_DAY = 8;
-    const DAYS_PER_WEEK = 6;
-    const DAYS_PER_MONTH = 26;
-    const MONTHS_PER_YEAR = 12;
-
-    const toPerHour = (value, period) => {
-      if (!value || value <= 0) return 0;
-      switch (period) {
-        case 'hour':
-          return value;
-        case 'day':
-          return value / HOURS_PER_DAY;
-        case 'week':
-          return value / (HOURS_PER_DAY * DAYS_PER_WEEK);
-        case 'month':
-          return value / (HOURS_PER_DAY * DAYS_PER_MONTH);
-        case 'year':
-          return value / (HOURS_PER_DAY * DAYS_PER_MONTH * MONTHS_PER_YEAR);
-        default:
-          return value;
-      }
-    };
-
-    if (this.salary && this.salary.min != null && this.salary.max != null) {
-      const period = this.salary.period || 'hour';
-      this.salaryPerHourMin = toPerHour(this.salary.min, period);
-      this.salaryPerHourMax = toPerHour(this.salary.max, period);
-    }
-  } catch (e) {
-    // If normalization fails, keep previous values
-  }
-  next();
-});
-
-// Ensure normalization also happens on findOneAndUpdate
-jobSchema.pre('findOneAndUpdate', function(next) {
-  try {
-    const update = this.getUpdate() || {};
-    const $set = update.$set || update;
-
-    const HOURS_PER_DAY = 8;
-    const DAYS_PER_WEEK = 6;
-    const DAYS_PER_MONTH = 26;
-    const MONTHS_PER_YEAR = 12;
-
-    const toPerHour = (value, period) => {
-      if (!value || value <= 0) return 0;
-      switch (period) {
-        case 'hour':
-          return value;
-        case 'day':
-          return value / HOURS_PER_DAY;
-        case 'week':
-          return value / (HOURS_PER_DAY * DAYS_PER_WEEK);
-        case 'month':
-          return value / (HOURS_PER_DAY * DAYS_PER_MONTH);
-        case 'year':
-          return value / (HOURS_PER_DAY * DAYS_PER_MONTH * MONTHS_PER_YEAR);
-        default:
-          return value;
-      }
-    };
-
-    // If salary is being updated, recompute normalized fields
-    if ($set.salary && ($set.salary.min != null || $set.salary.max != null || $set.salary.period)) {
-      const period = $set.salary.period || this.get('salary.period') || 'hour';
-      const min = $set.salary.min != null ? $set.salary.min : this.get('salary.min');
-      const max = $set.salary.max != null ? $set.salary.max : this.get('salary.max');
-      const salaryPerHourMin = toPerHour(min, period);
-      const salaryPerHourMax = toPerHour(max, period);
-      this.setUpdate({
-        ...update,
-        $set: {
-          ...$set,
-          salaryPerHourMin,
-          salaryPerHourMax,
-          updatedAt: Date.now(),
-        }
-      });
-    } else {
-      // still update updatedAt
-      this.setUpdate({
-        ...update,
-        $set: {
-          ...$set,
-          updatedAt: Date.now(),
-        }
-      });
-    }
-  } catch (e) {
-    // swallow and continue
-  }
   next();
 });
 

@@ -7,7 +7,7 @@ echo "=================================================="
 
 # Test 1: Minimal required fields only
 echo -e "\n1. Testing with MINIMAL required fields (Step 1 & 2 only)..."
-response1=$(curl -s -X POST http://localhost:5000/api/auth/register \
+response1=$(curl -s -X POST http://localhost:5555/api/auth/register \
   -H "Content-Type: application/json" \
   -d '{
     "name": "Test User Minimal",
@@ -25,7 +25,7 @@ echo "$response1" | jq '.'
 
 # Test 2: Full registration with all optional fields
 echo -e "\n2. Testing with ALL fields (Step 1, 2 & 3 complete)..."
-response2=$(curl -s -X POST http://localhost:5000/api/auth/register \
+response2=$(curl -s -X POST http://localhost:5555/api/auth/register \
   -H "Content-Type: application/json" \
   -d '{
     "name": "Test User Complete",
@@ -64,7 +64,7 @@ echo "$response2" | jq '.'
 
 # Test 3: Validation error test - missing required fields
 echo -e "\n3. Testing VALIDATION - missing required fields (should fail)..."
-response3=$(curl -s -X POST http://localhost:5000/api/auth/register \
+response3=$(curl -s -X POST http://localhost:5555/api/auth/register \
   -H "Content-Type: application/json" \
   -d '{
     "name": "Test User Invalid",

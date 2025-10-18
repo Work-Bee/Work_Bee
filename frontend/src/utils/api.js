@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const DEFAULT_API_URL = 'http://localhost:5000/api';
+const DEFAULT_API_URL = 'http://localhost:5555/api';
 
 const normalizeApiUrl = (value) => {
   const trimmed = (value || '').trim();
@@ -146,6 +146,7 @@ export const adminAPI = {
 
 // User API calls
 export const userAPI = {
+  updateProfile: (userData) => api.put('/auth/profile', userData),
   uploadResume: (file) => {
     const formData = new FormData();
     formData.append('resume', file);
@@ -178,20 +179,20 @@ export const bookmarkAPI = {
   checkBookmark: (jobId) => api.get(`/bookmarks/check/${jobId}`),
 };
 
-// Saved Filters API calls
+// Saved Filters API calls (jobseeker only)
 export const savedFiltersAPI = {
-  getSavedFilters: () => api.get('/saved-filters'),
-  getSavedFilter: (id) => api.get(`/saved-filters/${id}`),
-  createSavedFilter: (data) => api.post('/saved-filters', data),
-  updateSavedFilter: (id, data) => api.patch(`/saved-filters/${id}`, data),
-  deleteSavedFilter: (id) => api.delete(`/saved-filters/${id}`),
+  list: () => api.get('/saved-filters'),
+  getSavedFilters: () => api.get('/saved-filters'), // Alias for backwards compatibility
+  get: (id) => api.get(`/saved-filters/${id}`),
+  create: (payload) => api.post('/saved-filters', payload),
+  update: (id, payload) => api.patch(`/saved-filters/${id}`, payload),
+  remove: (id) => api.delete(`/saved-filters/${id}`),
 };
 
-// Messages API (per application)
+// Messages API calls (for chat functionality)
 export const messagesAPI = {
-  getMessages: (applicationId) => api.get(`/messages/${applicationId}`),
-  postMessage: (applicationId, body) => api.post(`/messages/${applicationId}`, { body }),
-  deleteMessage: (messageId) => api.delete(`/messages/${messageId}`),
+  getMessages: (applicationId) => api.get(`/applications/${applicationId}/messages`),
+  postMessage: (applicationId, text) => api.post(`/applications/${applicationId}/messages`, { text }),
 };
 
 export { API_URL, API_BASE_URL };

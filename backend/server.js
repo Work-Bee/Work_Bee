@@ -13,8 +13,7 @@ const userRoutes = require('./routes/users');
 const companyRoutes = require('./routes/companies');
 const adminRoutes = require('./routes/admin');
 const bookmarkRoutes = require('./routes/bookmarks');
-const savedFilterRoutes = require('./routes/savedFilters');
-const messageRoutes = require('./routes/messages');
+const savedFiltersRoutes = require('./routes/savedFilters');
 
 // Initialize express
 const app = express();
@@ -29,7 +28,7 @@ connectDB();
 app.use(cors({
   origin: process.env.NODE_ENV === 'production' 
     ? ['https://yourdomain.com'] 
-    : ['http://localhost:3000'],
+    : ['http://localhost:3333'],
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
@@ -51,7 +50,7 @@ app.use(helmet({
 // Rate limiting
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
-  max: process.env.NODE_ENV === 'production' ? 100 : 1000, // Higher limit for development
+  max: 500, // limit each IP to 500 requests per windowMs (increased for bookmark checks)
   message: 'Too many requests from this IP, please try again later.'
 });
 app.use(limiter);
@@ -67,8 +66,20 @@ app.use('/api/users', userRoutes);
 app.use('/api/companies', companyRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/bookmarks', bookmarkRoutes);
-app.use('/api/saved-filters', savedFilterRoutes);
-app.use('/api/messages', messageRoutes);
+app.use('/api/saved-filters', savedFiltersRoutes);
+
+// Compatibility redirects for OAuth without /api prefix
+app.get('/auth/google', (req, res) => {
+  const qsIndex = req.url.indexOf('?');
+  const qs = qsIndex !== -1 ? req.url.substring(qsIndex) : '';
+  res.redirect(302, `/api/auth/google${qs}`);
+});
+
+app.get('/auth/google/callback', (req, res) => {
+  const qsIndex = req.url.indexOf('?');
+  const qs = qsIndex !== -1 ? req.url.substring(qsIndex) : '';
+  res.redirect(302, `/api/auth/google/callback${qs}`);
+});
 
 // Health check route
 app.get('/api/health', (req, res) => {
@@ -131,7 +142,7 @@ app.use('*', (req, res) => {
   });
 });
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5555;
 
 app.listen(PORT, () => {
   console.log(`Server running in ${process.env.NODE_ENV} mode on port ${PORT}`);

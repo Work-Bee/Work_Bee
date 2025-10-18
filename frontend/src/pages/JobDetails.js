@@ -122,35 +122,7 @@ const JobDetails = () => {
     );
   }
 
-  const postedById = job.postedBy?._id || job.postedBy?.id || job.postedBy;
-  const employerOwnsJob = isEmployer && postedById && user?.id && String(postedById) === String(user.id);
-  if (isEmployer && !employerOwnsJob) {
-    return (
-      <div className="min-h-screen bg-gray-50 py-16">
-        <div className="max-w-4xl mx-auto px-4">
-          <div className="bg-white border border-gray-200 rounded-2xl shadow-sm p-10 text-center space-y-6">
-            <div className="mx-auto w-14 h-14 rounded-full bg-primary-100 flex items-center justify-center">
-              <svg className="w-7 h-7 text-primary-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 17v-1a4 4 0 00-4-4H5m11 5l3 3m-3-3l3-3M5 7h14" />
-              </svg>
-            </div>
-            <h1 className="text-3xl font-bold text-gray-900">This job isn’t available to view</h1>
-            <p className="text-gray-600 text-base">
-              Employer accounts can only manage their own postings. Head back to your dashboard to review your listings or create something new.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-3 justify-center">
-              <Link to="/dashboard" className="btn btn-primary min-w-[160px]">
-                Open Dashboard
-              </Link>
-              <Link to="/employer/jobs/new" className="btn btn-outline min-w-[160px]">
-                Post a Job
-              </Link>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  }
+  // Employers can view job details. If it's not their posting, we simply avoid edit/apply affordances elsewhere.
 
   const companyName = job.company?.name || 'Unknown Company';
   const companyLogo = job.company?.logo ? `${API_BASE_URL}/${job.company.logo.replace(/^\//, '')}` : null;

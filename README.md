@@ -1,4 +1,4 @@
-# MERN Stack Job Portal
+# Work_Bee — MERN Job Portal
 
 A comprehensive job portal application for unskilled jobs built with the MERN stack (MongoDB, Express.js, React, Node.js).
 
@@ -29,7 +29,7 @@ A comprehensive job portal application for unskilled jobs built with the MERN st
 ## 🏗️ Project Structure
 
 ```
-mern-WorkBee/
+Work_Bee/
 ├── backend/                 # Node.js/Express API Server
 │   ├── controllers/         # Route controllers
 │   │   ├── authController.js
@@ -101,7 +101,7 @@ mern-WorkBee/
 ### 1. Clone the Repository
 ```bash
 git clone <repository-url>
-cd mern-WorkBee
+cd Work_Bee
 ```
 
 ### 2. Install Dependencies
@@ -119,7 +119,7 @@ Create a `.env` file in the `backend` directory:
 
 ```env
 # Server Configuration
-PORT=5000
+PORT=5555
 NODE_ENV=development
 
 # Database Configuration
@@ -130,6 +130,14 @@ MONGO_URI=mongodb://localhost:27017/WorkBee
 # JWT Configuration
 JWT_SECRET=your-super-secret-jwt-key-change-in-production
 JWT_EXPIRE=30d
+
+# Google OAuth (optional but recommended)
+GOOGLE_CLIENT_ID=your-google-client-id.apps.googleusercontent.com
+GOOGLE_CLIENT_SECRET=your-google-client-secret
+# Keep default if running locally with backend on 5555
+GOOGLE_REDIRECT_URI=http://localhost:5555/api/auth/google/callback
+# Used by backend to redirect users back after OAuth
+FRONTEND_BASE_URL=http://localhost:3333
 ```
 
 ### 4. Database Setup
@@ -150,21 +158,21 @@ Just ensure your MongoDB is running and the connection string is correct.
 
 #### Development Mode (Recommended)
 ```bash
-# From the root directory, start both backend and frontend
-npm run dev
+# From the repo root, start both backend and frontend
+./start-servers.sh
 ```
 
 This will start:
-- Backend server on http://localhost:5000
-- Frontend React app on http://localhost:3000
+- Backend server on http://localhost:5555
+- Frontend React app on http://localhost:3333
 
-#### Production Mode
+#### Alternate: Individual servers (dev)
 ```bash
-# Start backend only
-npm run server
+# Terminal 1 — backend
+cd backend && npm start
 
-# In another terminal, start frontend
-npm run client
+# Terminal 2 — frontend
+cd frontend && PORT=3333 npm start
 ```
 
 ## 🎯 Demo Accounts
@@ -257,7 +265,32 @@ PUT  /api/companies/:id          # Update company (Employer only)
 ### File Upload Endpoints
 ```
 POST /api/users/upload-resume    # Upload resume to profile
+POST /api/users/upload-photo     # Upload profile photo
+DELETE /api/users/photo          # Delete profile photo
+DELETE /api/users/resume         # Delete resume
 ```
+
+### Saved Filters Endpoints (Jobseeker)
+```
+GET    /api/saved-filters          # List my saved filters
+GET    /api/saved-filters/:id      # Get one
+POST   /api/saved-filters          # Create { name, filters }
+PATCH  /api/saved-filters/:id      # Update name/filters
+DELETE /api/saved-filters/:id      # Delete
+```
+
+## 🔑 Google Sign-in
+
+### Google Cloud Console setup
+1. Create an OAuth 2.0 Client ID (Web application).
+2. Authorized JavaScript origins: `http://localhost:3333`.
+3. Authorized redirect URIs: `http://localhost:5555/api/auth/google/callback`.
+4. Download the client credentials JSON and copy the Client ID and Client Secret to backend `.env` as shown above.
+
+### Local flow
+- Login page includes a "Continue with Google" button which hits `GET /api/auth/google?role=jobseeker` (or employer/admin depending on page).
+- After authentication, backend creates/links the user and redirects to `http://localhost:3333/auth/callback?token=...&role=...`.
+- The callback page stores the token, loads profile, and routes the user to the correct home.
 
 ## 🔒 Security Features
 
@@ -344,3 +377,8 @@ Docker configuration files can be added for containerized deployment.
 ---
 
 **Built with ❤️ using the MERN Stack**# Work_Bee
+```diff
+# Local development ports
++ API:     http://localhost:5555
++ Frontend:http://localhost:3333
+```

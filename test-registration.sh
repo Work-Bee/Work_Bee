@@ -7,7 +7,7 @@ echo ""
 
 # Test Job Seeker Registration
 echo "1️⃣ Testing Job Seeker Registration..."
-curl -X POST http://localhost:5000/api/auth/register \
+curl -X POST http://localhost:5555/api/auth/register \
   -H "Content-Type: application/json" \
   -d '{
     "name": "Test Job Seeker",
@@ -22,7 +22,7 @@ curl -X POST http://localhost:5000/api/auth/register \
 
 echo ""
 echo "2️⃣ Testing Employer Registration..."
-curl -X POST http://localhost:5000/api/auth/register \
+curl -X POST http://localhost:5555/api/auth/register \
   -H "Content-Type: application/json" \
   -d '{
     "name": "John Manager",

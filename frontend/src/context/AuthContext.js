@@ -60,7 +60,7 @@ const authReducer = (state, action) => {
     case AUTH_ACTIONS.UPDATE_PROFILE:
       return {
         ...state,
-        user: { ...state.user, ...action.payload },
+        user: action.payload, // Replace with the complete updated user object from backend
       };
     default:
       return state;

@@ -6,7 +6,9 @@ const {
   getProfile,
   updateProfile,
   changePassword,
-  deactivateAccount
+  deactivateAccount,
+  googleAuthStart,
+  googleAuthCallback
 } = require('../controllers/authController');
 const { protect } = require('../middleware/auth');
 const { validateRegister, validateLogin, validateUpdateProfile } = require('../middleware/validation');
@@ -14,6 +16,9 @@ const { validateRegister, validateLogin, validateUpdateProfile } = require('../m
 // Public routes
 router.post('/register', validateRegister, register);
 router.post('/login', validateLogin, login);
+// Google OAuth routes
+router.get('/google', googleAuthStart);
+router.get('/google/callback', googleAuthCallback);
 
 // Protected routes
 router.use(protect); // All routes after this middleware are protected
