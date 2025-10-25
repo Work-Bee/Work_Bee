@@ -245,7 +245,7 @@ const EmployerProfile = () => {
                   disabled
                 />
               ) : (
-                <p className="text-gray-900 font-medium">{profile.companyDetails.companyName || 'Not provided'}</p>
+                <p className="text-gray-800 font-medium">{profile.companyDetails.companyName || 'Not provided'}</p>
               )}
               {isEditing && <p className="text-xs text-gray-500 mt-1">Company name cannot be changed</p>}
             </div>
@@ -266,7 +266,7 @@ const EmployerProfile = () => {
                   disabled
                 />
               ) : (
-                <p className="text-gray-900">{profile.companyDetails.officialEmail || 'Not provided'}</p>
+                <p className="text-gray-800">{profile.companyDetails.officialEmail || 'Not provided'}</p>
               )}
               {isEditing && <p className="text-xs text-gray-500 mt-1">Official email cannot be changed</p>}
             </div>
@@ -286,7 +286,7 @@ const EmployerProfile = () => {
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-400 focus:border-transparent"
                 />
               ) : (
-                <p className="text-gray-900">
+                <p className="text-gray-800">
                   {profile.companyDetails.website ? (
                     <a href={profile.companyDetails.website} target="_blank" rel="noopener noreferrer" className="text-purple-600 hover:underline">
                       {profile.companyDetails.website}
@@ -324,7 +324,7 @@ const EmployerProfile = () => {
                   <option value="Other">Other</option>
                 </select>
               ) : (
-                <p className="text-gray-900">{profile.companyDetails.industry || 'Not specified'}</p>
+                <p className="text-gray-800">{profile.companyDetails.industry || 'Not specified'}</p>
               )}
             </div>
 
@@ -347,7 +347,7 @@ const EmployerProfile = () => {
                   <option value="200+">200+ employees</option>
                 </select>
               ) : (
-                <p className="text-gray-900">{profile.companyDetails.companySize || 'Not specified'}</p>
+                <p className="text-gray-800">{profile.companyDetails.companySize || 'Not specified'}</p>
               )}
             </div>
           </div>
@@ -379,7 +379,7 @@ const EmployerProfile = () => {
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-400 focus:border-transparent"
                 />
               ) : (
-                <p className="text-gray-900 font-medium">{profile.name || 'Not provided'}</p>
+                <p className="text-gray-800 font-medium">{profile.name || 'Not provided'}</p>
               )}
             </div>
 
@@ -398,7 +398,7 @@ const EmployerProfile = () => {
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-400 focus:border-transparent"
                 />
               ) : (
-                <p className="text-gray-900">{profile.companyDetails.contactPersonRole || 'Not specified'}</p>
+                <p className="text-gray-800">{profile.companyDetails.contactPersonRole || 'Not specified'}</p>
               )}
             </div>
 
@@ -429,7 +429,7 @@ const EmployerProfile = () => {
                   </label>
                 </div>
               ) : (
-                <p className="text-gray-900">
+                <p className="text-gray-800">
                   {profile.phone || 'Not provided'}
                   {profile.primaryHasWhatsApp && (
                     <span className="ml-2 text-xs px-2 py-1 bg-green-100 text-green-700 rounded-full">
@@ -467,7 +467,7 @@ const EmployerProfile = () => {
                   </label>
                 </div>
               ) : (
-                <p className="text-gray-900">
+                <p className="text-gray-800">
                   {profile.secondaryPhone || 'Not provided'}
                   {profile.secondaryHasWhatsApp && (
                     <span className="ml-2 text-xs px-2 py-1 bg-green-100 text-green-700 rounded-full">
@@ -508,7 +508,7 @@ const EmployerProfile = () => {
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-400 focus:border-transparent"
                 />
               ) : (
-                <p className="text-gray-900">{profile.companyDetails.companyAddress || 'Not provided'}</p>
+                <p className="text-gray-800">{profile.companyDetails.companyAddress || 'Not provided'}</p>
               )}
             </div>
 
@@ -526,7 +526,7 @@ const EmployerProfile = () => {
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-400 focus:border-transparent"
                 />
               ) : (
-                <p className="text-gray-900">{profile.companyDetails.city || 'Not specified'}</p>
+                <p className="text-gray-800">{profile.companyDetails.city || 'Not specified'}</p>
               )}
             </div>
 
@@ -544,7 +544,7 @@ const EmployerProfile = () => {
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-400 focus:border-transparent"
                 />
               ) : (
-                <p className="text-gray-900">{profile.companyDetails.state || 'Not specified'}</p>
+                <p className="text-gray-800">{profile.companyDetails.state || 'Not specified'}</p>
               )}
             </div>
           </div>

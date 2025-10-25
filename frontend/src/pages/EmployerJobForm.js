@@ -231,7 +231,7 @@ const EmployerJobForm = ({ mode = 'create' }) => {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
               </svg>
             </div>
-            <h2 className="text-2xl font-bold text-gray-900 mb-2">Company Profile Required</h2>
+            <h2 className="text-2xl font-bold text-gray-800 mb-2">Company Profile Required</h2>
             <p className="text-gray-600 mb-6">
               You need to complete your company profile before posting jobs. This helps job seekers learn more about your organization.
             </p>
@@ -354,7 +354,7 @@ const EmployerJobForm = ({ mode = 'create' }) => {
           <form className="space-y-8" onSubmit={handleSubmit(onSubmit)}>
             <section className="space-y-6">
               <div>
-                <h2 className="text-xl font-semibold text-gray-900 mb-2">Role information</h2>
+                <h2 className="text-xl font-semibold text-gray-800 mb-2">Role information</h2>
                 <p className="text-sm text-gray-500">Share the essentials about the job opening.</p>
               </div>
 
@@ -443,7 +443,7 @@ const EmployerJobForm = ({ mode = 'create' }) => {
 
             <section className="space-y-6">
               <div>
-                <h2 className="text-xl font-semibold text-gray-900 mb-2">Compensation & schedule</h2>
+                <h2 className="text-xl font-semibold text-gray-800 mb-2">Compensation & schedule</h2>
                 <p className="text-sm text-gray-500">Tell applicants how they will be paid.</p>
               </div>
 
@@ -485,7 +485,7 @@ const EmployerJobForm = ({ mode = 'create' }) => {
 
             <section className="space-y-6">
               <div>
-                <h2 className="text-xl font-semibold text-gray-900 mb-2">Location</h2>
+                <h2 className="text-xl font-semibold text-gray-800 mb-2">Location</h2>
                 <p className="text-sm text-gray-500">Let applicants know where they would work.</p>
               </div>
 
@@ -528,7 +528,7 @@ const EmployerJobForm = ({ mode = 'create' }) => {
 
             <section className="space-y-6">
               <div>
-                <h2 className="text-xl font-semibold text-gray-900 mb-2">Extras</h2>
+                <h2 className="text-xl font-semibold text-gray-800 mb-2">Extras</h2>
                 <p className="text-sm text-gray-500">Optional details to help candidates stand out.</p>
               </div>
 

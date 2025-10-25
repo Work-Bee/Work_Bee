@@ -197,7 +197,7 @@ const EmployerApplications = () => {
                 >
                   <div className="bg-gradient-to-r from-primary-50 to-blue-50 px-5 py-4 border-b border-gray-200 flex items-start justify-between">
                     <div className="min-w-0">
-                      <h3 className="text-lg font-semibold text-gray-900 truncate">{applicant.name || 'Candidate'}</h3>
+                      <h3 className="text-lg font-semibold text-gray-800 truncate">{applicant.name || 'Candidate'}</h3>
                       <p className="text-sm text-primary-700 font-medium truncate">{job.title} {job.company?.name ? `· ${job.company.name}` : ''}</p>
                     </div>
                     <span className={`px-3 py-1 rounded-lg text-xs font-semibold ml-3 ${badge}`}>
@@ -227,7 +227,7 @@ const EmployerApplications = () => {
       </div>
 
       {selected && (
-        <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex items-center justify-center p-3" onClick={closeOverlay}>
+        <div className="fixed inset-0 z-50 bg-gray-800/50 backdrop-blur-sm flex items-center justify-center p-3" onClick={closeOverlay}>
           {/* Smaller, scrollable modal card */}
           <div
             className="bg-white rounded-xl shadow-2xl w-full max-w-xl max-h-[80vh] border border-gray-200 flex flex-col overflow-hidden"
@@ -236,7 +236,7 @@ const EmployerApplications = () => {
             {/* Sticky header */}
             <div className="px-4 py-3 border-b border-gray-200 flex items-start justify-between shrink-0">
               <div>
-                <h3 className="text-lg font-semibold text-gray-900">{selected.applicant?.name || 'Candidate'}</h3>
+                <h3 className="text-lg font-semibold text-gray-800">{selected.applicant?.name || 'Candidate'}</h3>
                 <p className="text-xs text-gray-600">{selected.job?.title} {selected.job?.company?.name ? `· ${selected.job.company.name}` : ''}</p>
               </div>
               <button onClick={closeOverlay} className="text-gray-400 hover:text-gray-600" aria-label="Close">
@@ -373,10 +373,10 @@ const EmployerApplications = () => {
 
             {/* Confirmation dialog */}
             {showConfirm && (
-              <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4" onClick={() => setShowConfirm(false)}>
+              <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-800/40 p-4" onClick={() => setShowConfirm(false)}>
                 <div className="bg-white rounded-xl shadow-2xl w-full max-w-sm border border-gray-200" onClick={(e) => e.stopPropagation()}>
                   <div className="px-5 py-4 border-b border-gray-200 flex items-center justify-between">
-                    <h5 className="text-base font-semibold text-gray-900">Confirm update</h5>
+                    <h5 className="text-base font-semibold text-gray-800">Confirm update</h5>
                     <button className="text-gray-400 hover:text-gray-600" onClick={() => setShowConfirm(false)} aria-label="Close">
                       <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12"/></svg>
                     </button>

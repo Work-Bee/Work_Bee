@@ -3,7 +3,7 @@ export const formatSalaryRange = (salary) => {
     return 'Salary not specified';
   }
 
-  const currency = 'INR';
+  const currency = salary.currency || 'USD';
   const periodMap = {
     hour: 'hour',
     day: 'day',
@@ -14,8 +14,8 @@ export const formatSalaryRange = (salary) => {
 
   const formatter = new Intl.NumberFormat('en-IN', {
     style: 'currency',
-    currency: 'INR',
-    maximumFractionDigits: 0,
+    currency,
+    maximumFractionDigits: currency === 'INR' ? 0 : 2,
   });
 
   const min = salary.min ? formatter.format(salary.min) : null;

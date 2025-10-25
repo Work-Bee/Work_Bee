@@ -180,7 +180,7 @@ const RegisterEmployer = () => {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
             </svg>
           </div>
-          <h2 className="mt-6 text-3xl font-extrabold text-gray-900">
+          <h2 className="mt-6 text-3xl font-extrabold text-gray-800">
             Employer Registration
           </h2>
           <p className="mt-2 text-sm text-gray-600">
@@ -194,7 +194,7 @@ const RegisterEmployer = () => {
         {/* Google OAuth Prompt - Show first if form not started */}
         {!showForm ? (
           <div className="bg-white rounded-xl shadow-lg p-8">
-            <h3 className="text-lg font-semibold text-gray-900 mb-2 text-center">
+            <h3 className="text-lg font-semibold text-gray-800 mb-2 text-center">
               Get Started Quickly
             </h3>
             <p className="text-center text-sm text-gray-600 mb-6">
@@ -213,7 +213,7 @@ const RegisterEmployer = () => {
                     <path fill="#EA4335" d="M12 10.2h10.5c.1.6.1 1.2.1 1.8 0 6-4 10-10.6 10-6.1 0-11-4.9-11-11s4.9-11 11-11c2.9 0 5.3 1.1 7.2 2.8l-2.9 2.8C15.1 4.7 13.7 4 12 4 8.7 4 6 6.7 6 10s2.7 6 6 6c3 0 4.9-1.7 5.4-4.1H12v-1.7z"/>
                   </svg>
                 </span>
-                <span className="font-medium text-gray-900">Continue with Google</span>
+                <span className="font-medium text-gray-800">Continue with Google</span>
               </button>
 
               {/* Divider */}
@@ -235,12 +235,12 @@ const RegisterEmployer = () => {
                 <svg className="h-5 w-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                 </svg>
-                <span className="font-medium text-gray-900">Continue with Email</span>
+                <span className="font-medium text-gray-800">Continue with Email</span>
               </button>
             </div>
 
             <div className="mt-6 text-center">
-              <Link to="/register" className="text-sm text-gray-600 hover:text-gray-900">
+              <Link to="/register" className="text-sm text-gray-600 hover:text-gray-800">
                 ← Choose different account type
               </Link>
             </div>
@@ -292,7 +292,7 @@ const RegisterEmployer = () => {
             {currentStep === 1 && (
               <div className="space-y-5">
                 <div className="border-b border-gray-200 pb-4">
-                  <h3 className="text-lg font-semibold text-gray-900">Company Details</h3>
+                  <h3 className="text-lg font-semibold text-gray-800">Company Details</h3>
                   <p className="text-sm text-gray-500 mt-1">All fields are mandatory for credibility</p>
                 </div>
 
@@ -538,7 +538,7 @@ const RegisterEmployer = () => {
             {currentStep === 2 && (
               <div className="space-y-5">
                 <div className="border-b border-gray-200 pb-4">
-                  <h3 className="text-lg font-semibold text-gray-900">Additional Company Information</h3>
+                  <h3 className="text-lg font-semibold text-gray-800">Additional Company Information</h3>
                   <p className="text-sm text-gray-500 mt-1">Optional but helps make your profile more credible</p>
                 </div>
 

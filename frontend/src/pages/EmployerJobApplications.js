@@ -128,7 +128,7 @@ const EmployerJobApplications = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mb-6 flex items-center justify-between gap-3">
           <div className="flex flex-col gap-1">
-            <h1 className="text-2xl lg:text-3xl font-bold text-gray-900">Applications for this job</h1>
+            <h1 className="text-2xl lg:text-3xl font-bold text-gray-800">Applications for this job</h1>
             {loadingJob ? (
               <span className="text-sm text-gray-500">Loading job…</span>
             ) : jobError ? (
@@ -183,7 +183,7 @@ const EmployerJobApplications = () => {
                     return (
                       <tr key={application._id}>
                         <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="text-sm font-semibold text-gray-900">{applicant.name}</div>
+                          <div className="text-sm font-semibold text-gray-800">{applicant.name}</div>
                           <div className="text-xs text-gray-500">{applicant.profile?.experience || 'Experience: N/A'}</div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
@@ -234,12 +234,12 @@ const EmployerJobApplications = () => {
       </div>
 
       {statusModalOpen && activeApplication && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm px-4">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-800/40 backdrop-blur-sm px-4">
           <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md">
             <form onSubmit={handleStatusSubmit} className="p-6 space-y-6">
               <div className="flex items-start justify-between gap-3">
                 <div>
-                  <h3 className="text-lg font-semibold text-gray-900">Update application status</h3>
+                  <h3 className="text-lg font-semibold text-gray-800">Update application status</h3>
                   <p className="text-sm text-gray-500">
                     {activeApplication.applicant?.name || 'Candidate'} — {activeApplication.applicant?.email}
                   </p>

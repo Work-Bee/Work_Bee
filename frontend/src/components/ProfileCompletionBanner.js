@@ -5,7 +5,7 @@ import { computeJobSeekerCompletion, computeEmployerCompletion } from '../utils/
 const Bar = ({ percent }) => (
   <div className="w-full h-2 bg-gray-200 rounded-full overflow-hidden">
     <div
-      className={`h-2 rounded-full ${percent >= 80 ? 'bg-green-500' : percent >= 50 ? 'bg-yellow-500' : 'bg-red-500'}`}
+      className="h-2 rounded-full bg-gray-800"
       style={{ width: `${percent}%` }}
     />
   </div>

@@ -20,7 +20,7 @@
         left: 0;
         width: 100%;
         height: 100%;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        background: #ffffff;
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -38,89 +38,98 @@
         text-align: center;
       }
 
-      /* WorkBee Logo Animation */
+      /* WorkBee Logo Text */
       .logo-text {
-        font-size: 3.5rem;
+        font-size: 3rem;
         font-weight: 800;
-        color: white;
+        color: #1f2937;
         letter-spacing: 2px;
-        margin-bottom: 2rem;
+        margin-bottom: 3rem;
         font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
       }
 
-      .logo-text span {
-        display: inline-block;
-        animation: wave 1.5s ease-in-out infinite;
-        animation-delay: calc(0.1s * var(--i));
-      }
-
-      @keyframes wave {
-        0%, 100% {
-          transform: translateY(0);
-        }
-        50% {
-          transform: translateY(-20px);
-        }
-      }
-
-      /* Bee Animation */
-      .bee-container {
+      /* Graduation Cap with Rotating Aura Container */
+      .cap-aura-container {
         position: relative;
-        width: 80px;
-        height: 80px;
+        width: 140px;
+        height: 140px;
         margin: 0 auto 2rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
       }
 
-      .bee {
-        width: 60px;
-        height: 40px;
-        background: linear-gradient(to bottom, #ffd700 0%, #ffd700 45%, #000 45%, #000 55%, #ffd700 55%, #ffd700 100%);
-        border-radius: 50%;
+      /* Rotating Aura Ring */
+      .aura-ring {
+        position: absolute;
+        width: 140px;
+        height: 140px;
+        animation: rotateAura 3s linear infinite;
+      }
+
+      @keyframes rotateAura {
+        from {
+          transform: rotate(0deg);
+        }
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      /* Aura Circle Path */
+      .aura-circle {
+        fill: none;
+        stroke: #1f2937;
+        stroke-width: 2;
+        stroke-dasharray: 10 5;
+        opacity: 0.4;
+      }
+
+      .aura-circle-inner {
+        fill: none;
+        stroke: #4b5563;
+        stroke-width: 1;
+        opacity: 0.3;
+      }
+
+      /* Orbiting Particles */
+      .particle {
+        fill: #1f2937;
+        animation: pulse 2s ease-in-out infinite;
+      }
+
+      .particle-1 { animation-delay: 0s; }
+      .particle-2 { animation-delay: 0.5s; }
+      .particle-3 { animation-delay: 1s; }
+      .particle-4 { animation-delay: 1.5s; }
+      .particle-5 { animation-delay: 0.3s; }
+      .particle-6 { animation-delay: 0.8s; }
+      .particle-7 { animation-delay: 1.2s; }
+      .particle-8 { animation-delay: 0.2s; }
+
+      @keyframes pulse {
+        0%, 100% {
+          opacity: 0.9;
+          transform: scale(1);
+        }
+        50% {
+          opacity: 0.3;
+          transform: scale(0.8);
+        }
+      }
+
+      /* Graduation Cap */
+      .graduation-cap {
         position: relative;
-        animation: fly 2s ease-in-out infinite;
+        z-index: 10;
+        width: 70px;
+        height: 70px;
       }
 
-      .bee::before {
-        content: '';
-        position: absolute;
-        top: 10px;
-        left: -15px;
-        width: 30px;
-        height: 20px;
-        background: rgba(255, 255, 255, 0.6);
-        border-radius: 50%;
-        animation: wingFlap 0.2s ease-in-out infinite;
-      }
-
-      .bee::after {
-        content: '';
-        position: absolute;
-        top: 10px;
-        right: -15px;
-        width: 30px;
-        height: 20px;
-        background: rgba(255, 255, 255, 0.6);
-        border-radius: 50%;
-        animation: wingFlap 0.2s ease-in-out infinite;
-        animation-delay: 0.1s;
-      }
-
-      @keyframes fly {
-        0%, 100% {
-          transform: translateY(0) rotate(-5deg);
-        }
-        50% {
-          transform: translateY(-15px) rotate(5deg);
-        }
-      }
-
-      @keyframes wingFlap {
-        0%, 100% {
-          transform: scaleX(1) scaleY(1);
-        }
-        50% {
-          transform: scaleX(1.3) scaleY(0.8);
-        }
+      .cap-svg {
+        width: 100%;
+        height: 100%;
+        fill: #1f2937;
       }
 
       /* Loading Dots */
@@ -128,13 +137,14 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        gap: 8px;
+        gap: 10px;
+        margin-top: 1rem;
       }
 
       .dot {
         width: 12px;
         height: 12px;
-        background: white;
+        background: #1f2937;
         border-radius: 50%;
         animation: bounce 1.4s ease-in-out infinite;
       }
@@ -164,11 +174,11 @@
 
       /* Loading Text */
       .loading-text {
-        color: white;
+        color: #1f2937;
         font-size: 1.2rem;
-        margin-top: 2rem;
-        font-weight: 500;
-        opacity: 0.9;
+        margin-top: 1.5rem;
+        font-weight: 600;
+        opacity: 0.8;
       }
     </style>
   </head>
@@ -176,30 +186,57 @@
     <noscript>You need to enable JavaScript to run this app.</noscript>
     
     <!-- Loading Screen -->
+    <!-- Loading Screen -->
     <div id="loading-screen">
       <div class="loader-container">
-        <div class="bee-container">
-          <div class="bee"></div>
+        <div class="logo-text">WorkBee</div>
+        
+        <!-- Graduation Cap with Rotating Aura -->
+        <div class="cap-aura-container">
+          <!-- Rotating Aura with Particles -->
+          <svg class="aura-ring" viewBox="0 0 140 140">
+            <!-- Outer ring -->
+            <circle class="aura-circle" cx="70" cy="70" r="60" />
+            <!-- Inner ring -->
+            <circle class="aura-circle-inner" cx="70" cy="70" r="50" />
+            
+            <!-- Orbiting Particles (8 total) -->
+            <!-- Top -->
+            <circle class="particle particle-1" cx="70" cy="10" r="3" />
+            <!-- Right -->
+            <circle class="particle particle-2" cx="130" cy="70" r="2.5" />
+            <!-- Bottom -->
+            <circle class="particle particle-3" cx="70" cy="130" r="3" />
+            <!-- Left -->
+            <circle class="particle particle-4" cx="10" cy="70" r="2.5" />
+            <!-- Top-Right -->
+            <circle class="particle particle-5" cx="112" cy="28" r="2" />
+            <!-- Bottom-Right -->
+            <circle class="particle particle-6" cx="112" cy="112" r="2" />
+            <!-- Bottom-Left -->
+            <circle class="particle particle-7" cx="28" cy="112" r="2" />
+            <!-- Top-Left -->
+            <circle class="particle particle-8" cx="28" cy="28" r="2" />
+          </svg>
+          
+          <!-- Central Graduation Cap -->
+          <div class="graduation-cap">
+            <svg class="cap-svg" viewBox="0 0 24 24">
+              <path d="M12 3L1 9L12 15L21 10.09V17H23V9M5 13.18V17.18L12 21L19 17.18V13.18L12 17L5 13.18Z" />
+            </svg>
+          </div>
         </div>
-        <div class="logo-text">
-          <span style="--i: 0">W</span>
-          <span style="--i: 1">o</span>
-          <span style="--i: 2">r</span>
-          <span style="--i: 3">k</span>
-          <span style="--i: 4">B</span>
-          <span style="--i: 5">e</span>
-          <span style="--i: 6">e</span>
-        </div>
+        
+        <!-- Loading Dots -->
         <div class="loading-dots">
           <div class="dot"></div>
           <div class="dot"></div>
           <div class="dot"></div>
         </div>
+        
         <p class="loading-text">Finding opportunities...</p>
       </div>
-    </div>
-
-    <div id="root"></div>
+    </div>    <div id="root"></div>
 
     <script>
       // Hide loading screen when React app is ready

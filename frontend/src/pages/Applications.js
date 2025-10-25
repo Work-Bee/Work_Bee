@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { applicationAPI, API_BASE_URL } from '../utils/api';
 import LoadingSpinner from '../components/LoadingSpinner';
-// Chat happens on a dedicated page now
 import { formatDate, formatLocation, formatSalaryRange } from '../utils/formatters';
 
 const statusStyles = {
@@ -134,7 +133,7 @@ const Applications = () => {
     <div className="bg-gray-50 min-h-screen py-10 lg:py-16">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mb-8">
-          <h1 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-2">My Applications</h1>
+          <h1 className="text-3xl lg:text-4xl font-bold text-gray-800 mb-2">My Applications</h1>
           <p className="text-gray-600">Track the status of every job you have applied to.</p>
         </div>
 
@@ -147,7 +146,7 @@ const Applications = () => {
             <svg className="mx-auto h-12 w-12 text-gray-300 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2-2v2m8 0V6a2 2 0 012 2v6a2 2 0 01-2 2H8a2 2 0 01-2-2V8a2 2 0 012-2V6" />
             </svg>
-            <h2 className="text-xl font-semibold text-gray-900 mb-2">You haven’t applied to any jobs yet</h2>
+            <h2 className="text-xl font-semibold text-gray-800 mb-2">You haven’t applied to any jobs yet</h2>
             <p className="text-gray-600 mb-6">Browse open positions and apply with your resume to track them here.</p>
             <Link to="/jobs" className="btn btn-primary">
               Browse jobs
@@ -178,7 +177,7 @@ const Applications = () => {
                           </svg>
                         </div>
                         <div className="flex-1 min-w-0">
-                          <h2 className="text-lg font-semibold text-gray-900 mb-1 leading-tight">{job.title}</h2>
+                          <h2 className="text-lg font-semibold text-gray-800 mb-1 leading-tight">{job.title}</h2>
                           <p className="text-sm text-primary-700 font-medium">{companyName}</p>
                         </div>
                       </div>
@@ -248,11 +247,6 @@ const Applications = () => {
                     {resumeUrl && (
                       <ResumeButton resumeUrl={resumeUrl} />
                     )}
-                    {application.status === 'shortlisted' && (
-                      <Link className="btn btn-outline btn-sm" to={`/applications/${application._id}/chat`}>
-                        Open Chat
-                      </Link>
-                    )}
                     <button
                       onClick={() => setShowDeleteConfirm(application._id)}
                       className="btn btn-outline btn-sm text-red-600 border-red-200 hover:bg-red-50 hover:border-red-300"
@@ -271,7 +265,7 @@ const Applications = () => {
         {showDeleteConfirm && createPortal(
           (
             <div
-              className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4"
+              className="fixed inset-0 z-50 bg-gray-800/50 backdrop-blur-sm flex items-center justify-center p-4"
               onClick={() => setShowDeleteConfirm(null)}
             >
               <div
@@ -286,7 +280,7 @@ const Applications = () => {
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
                       </svg>
                     </div>
-                    <h3 className="text-lg font-semibold text-gray-900">Confirm Deletion</h3>
+                    <h3 className="text-lg font-semibold text-gray-800">Confirm Deletion</h3>
                   </div>
                   <button
                     onClick={() => setShowDeleteConfirm(null)}
@@ -304,7 +298,7 @@ const Applications = () => {
                   <p className="text-base text-gray-700 mb-2">
                     Are you sure you want to delete your application for:
                   </p>
-                  <p className="text-lg font-semibold text-gray-900 mb-4">
+                  <p className="text-lg font-semibold text-gray-800 mb-4">
                     {applications.find(app => app._id === showDeleteConfirm)?.job?.title || 'this position'}
                   </p>
                   <div className="bg-amber-50 border border-amber-200 rounded-lg p-3">
@@ -350,7 +344,6 @@ const Applications = () => {
           document.body
         )}
       </div>
-      {/* Chat is now a dedicated page at /applications/:id/chat */}
     </div>
   );
 };

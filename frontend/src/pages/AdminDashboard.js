@@ -103,7 +103,7 @@ const AdminDashboard = () => {
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-10">
       <header className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
         <div>
-          <h1 className="text-2xl font-semibold text-gray-900">Admin Dashboard</h1>
+          <h1 className="text-2xl font-semibold text-gray-800">Admin Dashboard</h1>
           <p className="text-sm text-gray-600">
             Monitor platform activity and keep track of seeker and employer engagement.
           </p>
@@ -122,7 +122,7 @@ const AdminDashboard = () => {
         {metricCards.map(({ label, value, caption }) => (
           <div key={label} className="bg-white shadow-sm border border-gray-100 rounded-lg p-5">
             <p className="text-sm font-medium text-gray-500">{label}</p>
-            <p className="mt-2 text-3xl font-semibold text-gray-900">
+            <p className="mt-2 text-3xl font-semibold text-gray-800">
               {numberFormatter.format(value ?? 0)}
             </p>
             <p className="text-xs text-gray-500 mt-1">{caption}</p>
@@ -134,7 +134,7 @@ const AdminDashboard = () => {
         <div className="bg-white shadow-sm border border-gray-100 rounded-lg overflow-hidden">
           <div className="px-5 py-4 border-b border-gray-100 flex items-center justify-between">
             <div>
-              <h2 className="text-base font-semibold text-gray-900">Latest Job Seekers</h2>
+              <h2 className="text-base font-semibold text-gray-800">Latest Job Seekers</h2>
               <p className="text-xs text-gray-500">Most recent seeker registrations</p>
             </div>
           </div>
@@ -158,7 +158,7 @@ const AdminDashboard = () => {
                 ) : (
                   recentJobSeekers.map((seeker) => (
                     <tr key={seeker._id}>
-                      <td className="px-4 py-3 text-sm text-gray-900 font-medium">{seeker.name}</td>
+                      <td className="px-4 py-3 text-sm text-gray-800 font-medium">{seeker.name}</td>
                       <td className="px-4 py-3 text-sm text-gray-600">{seeker.email}</td>
                       <td className="px-4 py-3 text-sm text-gray-600">
                         {seeker.profile?.experience ? toTitleCase(seeker.profile.experience) : '—'}
@@ -175,7 +175,7 @@ const AdminDashboard = () => {
         <div className="bg-white shadow-sm border border-gray-100 rounded-lg overflow-hidden">
           <div className="px-5 py-4 border-b border-gray-100 flex items-center justify-between">
             <div>
-              <h2 className="text-base font-semibold text-gray-900">Latest Employers</h2>
+              <h2 className="text-base font-semibold text-gray-800">Latest Employers</h2>
               <p className="text-xs text-gray-500">Most recent employer sign-ups</p>
             </div>
           </div>
@@ -199,7 +199,7 @@ const AdminDashboard = () => {
                 ) : (
                   recentEmployers.map((employer) => (
                     <tr key={employer._id}>
-                      <td className="px-4 py-3 text-sm text-gray-900 font-medium">{employer.name}</td>
+                      <td className="px-4 py-3 text-sm text-gray-800 font-medium">{employer.name}</td>
                       <td className="px-4 py-3 text-sm text-gray-600">{employer.email}</td>
                       <td className="px-4 py-3 text-sm text-gray-600">
                         {employer.company?.name || employer.companyDetails?.companyName || '—'}
@@ -218,7 +218,7 @@ const AdminDashboard = () => {
         <div className="bg-white shadow-sm border border-gray-100 rounded-lg overflow-hidden">
           <div className="px-5 py-4 border-b border-gray-100 flex items-center justify-between">
             <div>
-              <h2 className="text-base font-semibold text-gray-900">Recent Job Posts</h2>
+              <h2 className="text-base font-semibold text-gray-800">Recent Job Posts</h2>
               <p className="text-xs text-gray-500">Newest opportunities posted on the platform</p>
             </div>
           </div>
@@ -244,7 +244,7 @@ const AdminDashboard = () => {
                 ) : (
                   recentJobs.map((job) => (
                     <tr key={job._id}>
-                      <td className="px-4 py-3 text-sm text-gray-900 font-medium">{job.title}</td>
+                      <td className="px-4 py-3 text-sm text-gray-800 font-medium">{job.title}</td>
                       <td className="px-4 py-3 text-sm text-gray-600">{job.company?.name || '—'}</td>
                       <td className="px-4 py-3 text-sm text-gray-600">{job.postedBy?.name || '—'}</td>
                       <td className="px-4 py-3 text-sm text-gray-600">{numberFormatter.format(job.applicationsCount ?? 0)}</td>
@@ -269,7 +269,7 @@ const AdminDashboard = () => {
         <div className="bg-white shadow-sm border border-gray-100 rounded-lg overflow-hidden">
           <div className="px-5 py-4 border-b border-gray-100 flex items-center justify-between">
             <div>
-              <h2 className="text-base font-semibold text-gray-900">Recent Applications</h2>
+              <h2 className="text-base font-semibold text-gray-800">Recent Applications</h2>
               <p className="text-xs text-gray-500">Latest applications submitted by seekers</p>
             </div>
           </div>
@@ -293,7 +293,7 @@ const AdminDashboard = () => {
                 ) : (
                   recentApplications.map((application) => (
                     <tr key={application._id}>
-                      <td className="px-4 py-3 text-sm text-gray-900 font-medium">
+                      <td className="px-4 py-3 text-sm text-gray-800 font-medium">
                         {application.job?.title || '—'}
                       </td>
                       <td className="px-4 py-3 text-sm text-gray-600">

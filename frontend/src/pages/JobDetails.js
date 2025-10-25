@@ -111,7 +111,7 @@ const JobDetails = () => {
       <div className="min-h-screen bg-gray-50 py-20">
         <div className="max-w-3xl mx-auto px-4 text-center">
           <div className="bg-white rounded-xl shadow-sm p-10">
-            <h1 className="text-3xl font-semibold text-gray-900 mb-4">Job Not Available</h1>
+            <h1 className="text-3xl font-semibold text-gray-800 mb-4">Job Not Available</h1>
             <p className="text-gray-600 mb-6">{error || 'This job could not be found.'}</p>
             <Link to="/jobs" className="btn btn-primary">
               Browse other jobs
@@ -164,7 +164,7 @@ const JobDetails = () => {
                   <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-primary-100 text-primary-700 mb-3">
                     {job.category}
                   </span>
-                  <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-3">{job.title}</h1>
+                  <h1 className="text-3xl sm:text-4xl font-bold text-gray-800 mb-3">{job.title}</h1>
                   <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-4 text-sm text-gray-600">
                     <span className="font-semibold text-primary-600">{companyName}</span>
                     <span className="hidden sm:inline">•</span>
@@ -194,13 +194,13 @@ const JobDetails = () => {
           <div className="border-t border-gray-100 grid grid-cols-1 lg:grid-cols-3">
             <div className="lg:col-span-2 p-6 sm:p-10 space-y-10">
               <section>
-                <h2 className="text-xl font-semibold text-gray-900 mb-4">Role Description</h2>
+                <h2 className="text-xl font-semibold text-gray-800 mb-4">Role Description</h2>
                 <p className="text-gray-700 leading-relaxed whitespace-pre-line">{job.description}</p>
               </section>
 
               {job.responsibilities?.length ? (
                 <section>
-                  <h2 className="text-xl font-semibold text-gray-900 mb-4">Key Responsibilities</h2>
+                  <h2 className="text-xl font-semibold text-gray-800 mb-4">Key Responsibilities</h2>
                   <ul className="space-y-2 text-gray-700 list-disc list-inside">
                     {job.responsibilities.map((item, index) => (
                       <li key={`${job._id}-resp-${index}`}>{item}</li>
@@ -211,7 +211,7 @@ const JobDetails = () => {
 
               {job.requirements?.length ? (
                 <section>
-                  <h2 className="text-xl font-semibold text-gray-900 mb-4">Requirements</h2>
+                  <h2 className="text-xl font-semibold text-gray-800 mb-4">Requirements</h2>
                   <ul className="space-y-2 text-gray-700 list-disc list-inside">
                     {job.requirements.map((item, index) => (
                       <li key={`${job._id}-req-${index}`}>{item}</li>
@@ -222,7 +222,7 @@ const JobDetails = () => {
 
               {job.tags?.length ? (
                 <section>
-                  <h2 className="text-xl font-semibold text-gray-900 mb-4">Job Highlights</h2>
+                  <h2 className="text-xl font-semibold text-gray-800 mb-4">Job Highlights</h2>
                   <div className="flex flex-wrap gap-2">
                     {job.tags.map((tag) => (
                       <span
@@ -237,7 +237,7 @@ const JobDetails = () => {
               ) : null}
 
               <section className="bg-gray-50 border border-gray-100 rounded-xl p-6">
-                <h2 className="text-lg font-semibold text-gray-900 mb-4">About the Employer</h2>
+                <h2 className="text-lg font-semibold text-gray-800 mb-4">About the Employer</h2>
                 <div className="flex items-start gap-4">
                   <div className="w-14 h-14 rounded-xl bg-white border border-gray-200 flex items-center justify-center">
                     {companyLogo ? (
@@ -249,7 +249,7 @@ const JobDetails = () => {
                     )}
                   </div>
                   <div>
-                    <p className="text-base font-semibold text-gray-900">{companyName}</p>
+                    <p className="text-base font-semibold text-gray-800">{companyName}</p>
                     {job.company?.industry && (
                       <p className="text-sm text-gray-600">Industry: {job.company.industry}</p>
                     )}
@@ -265,24 +265,24 @@ const JobDetails = () => {
 
             <aside className="border-t lg:border-l border-gray-100 p-6 sm:p-8 space-y-6 bg-gray-50">
               <section className="bg-white border border-gray-100 rounded-xl p-6 space-y-4">
-                <h3 className="text-lg font-semibold text-gray-900">Job Snapshot</h3>
+                <h3 className="text-lg font-semibold text-gray-800">Job Snapshot</h3>
                 <div className="space-y-3 text-sm text-gray-700">
                   <div className="flex items-start justify-between">
                     <span className="text-gray-500">Job Type</span>
-                    <span className="font-medium text-gray-900">{job.jobType}</span>
+                    <span className="font-medium text-gray-800">{job.jobType}</span>
                   </div>
                   <div className="flex items-start justify-between">
                     <span className="text-gray-500">Experience</span>
-                    <span className="font-medium text-gray-900">{job.experienceLevel}</span>
+                    <span className="font-medium text-gray-800">{job.experienceLevel}</span>
                   </div>
                   <div className="flex items-start justify-between">
                     <span className="text-gray-500">Applications</span>
-                    <span className="font-medium text-gray-900">{job.applicationsCount}</span>
+                    <span className="font-medium text-gray-800">{job.applicationsCount}</span>
                   </div>
                   {deadline && (
                     <div className="flex items-start justify-between">
                       <span className="text-gray-500">Apply by</span>
-                      <span className="font-medium text-gray-900">{deadline}</span>
+                      <span className="font-medium text-gray-800">{deadline}</span>
                     </div>
                   )}
                   {daysUntilDeadline !== null && (
@@ -297,7 +297,7 @@ const JobDetails = () => {
               </section>
 
               <section className="bg-white border border-gray-100 rounded-xl p-6">
-                <h3 className="text-lg font-semibold text-gray-900 mb-3">Apply for this job</h3>
+                <h3 className="text-lg font-semibold text-gray-800 mb-3">Apply for this job</h3>
 
                 {!user && (
                   <div className="space-y-3 text-sm text-gray-600">
@@ -396,7 +396,7 @@ const JobDetails = () => {
               </section>
 
               <section className="bg-white border border-gray-100 rounded-xl p-6 text-sm text-gray-600 space-y-2">
-                <h3 className="text-lg font-semibold text-gray-900">Need help?</h3>
+                <h3 className="text-lg font-semibold text-gray-800">Need help?</h3>
                 <p>Have questions about this role? Reach out to the employer through the application process or contact our support team.</p>
                 <Link to="/contact" className="text-primary-600 font-semibold text-sm">
                   Contact support →

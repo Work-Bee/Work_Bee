@@ -62,7 +62,7 @@ const JobPreview = () => {
         <div className="bg-white border border-gray-200 rounded-2xl shadow-sm overflow-hidden">
           <header className="px-6 py-5 border-b border-gray-200 flex items-start justify-between gap-4">
             <div>
-              <h1 className="text-xl font-semibold text-gray-900">{job.title}</h1>
+              <h1 className="text-xl font-semibold text-gray-800">{job.title}</h1>
               <div className="text-sm text-gray-600 flex flex-wrap items-center gap-x-2 gap-y-1">
                 <span className="text-primary-700 font-medium">{companyName}</span>
                 <span className="text-gray-300">•</span>

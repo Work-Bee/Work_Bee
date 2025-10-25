@@ -97,17 +97,15 @@ const RoleLoginForm = ({ role }) => {
   return (
     <div
       className={
-        `relative min-h-screen flex items-center justify-center ${
-          isJobseeker ? 'bg-gradient-blueviolet' : 'bg-gray-50'
-        } py-12 px-4 sm:px-6 lg:px-8 overflow-hidden`
+        `relative min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8 overflow-hidden`
       }
     >
       {/* Background decorations for jobseeker */}
       {isJobseeker && (
         <>
           <div className="absolute inset-0 grid-overlay opacity-20" />
-          <div className="pointer-events-none absolute -top-24 -left-24 w-80 h-80 bg-indigo-500 rounded-full blur-3xl opacity-25" />
-          <div className="pointer-events-none absolute -bottom-24 -right-24 w-80 h-80 bg-violet-500 rounded-full blur-3xl opacity-25" />
+          <div className="pointer-events-none absolute -top-24 -left-24 w-80 h-80 bg-gray-800 rounded-full blur-3xl opacity-10" />
+          <div className="pointer-events-none absolute -bottom-24 -right-24 w-80 h-80 bg-gray-800 rounded-full blur-3xl opacity-10" />
         </>
       )}
       <div className="relative z-10 max-w-md w-full">
@@ -116,11 +114,7 @@ const RoleLoginForm = ({ role }) => {
           <Link
             to="/"
             aria-label="Close and go to home"
-            className={`absolute top-4 right-4 z-10 inline-flex items-center justify-center rounded-full p-2 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 ${
-              isJobseeker
-                ? 'text-gray-600 hover:bg-white/70 focus:ring-violet-500'
-                : 'text-gray-600 hover:bg-gray-100 focus:ring-primary-500'
-            }`}
+            className="absolute top-4 right-4 z-10 inline-flex items-center justify-center rounded-full p-2 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 text-gray-600 hover:bg-gray-100 focus:ring-black"
           >
             <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -132,14 +126,14 @@ const RoleLoginForm = ({ role }) => {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2-2v2m8 0V6a2 2 0 012 2v6a2 2 0 01-2 2H8a2 2 0 01-2-2V8a2 2 0 012-2V6" />
               </svg>
             </div>
-            <h2 className="mt-6 text-3xl font-extrabold text-gray-900">
+            <h2 className="mt-6 text-3xl font-extrabold text-gray-800">
               {config.label} Sign In
             </h2>
             {config.registerLink ? (
               <>
                 <p className="mt-2 text-sm text-gray-600">
                   New here?{' '}
-                  <Link to={config.registerLink} className={isJobseeker ? 'font-medium text-violet-600 hover:text-violet-500' : 'font-medium text-primary-600 hover:text-primary-500'}>
+                  <Link to={config.registerLink} className="font-medium text-gray-800 hover:text-gray-800">
                     {config.registerText}
                   </Link>
                 </p>
@@ -182,7 +176,7 @@ const RoleLoginForm = ({ role }) => {
               <button
                 type="button"
                 onClick={startGoogleLogin}
-                className={`w-full btn btn-lg flex items-center justify-center gap-3 border-2 ${isJobseeker ? 'border-violet-600 text-violet-700 hover:bg-violet-50 hover:border-violet-700' : 'border-gray-300 hover:border-gray-900 hover:shadow-md'} transition-all duration-200`}
+                className="w-full btn btn-lg flex items-center justify-center gap-3 border-2 border-gray-800 hover:bg-gray-100 transition-all duration-200"
               >
                 <span className="inline-flex h-6 w-6 items-center justify-center rounded-sm bg-white">
                   <svg aria-hidden="true" viewBox="0 0 24 24" className="h-5 w-5">
@@ -199,7 +193,7 @@ const RoleLoginForm = ({ role }) => {
                 <div className="w-full border-t border-gray-300"></div>
               </div>
               <div className="relative flex justify-center text-sm">
-                <span className={`px-2 ${isJobseeker ? 'bg-white/75' : 'bg-white'} text-gray-500`}>Or continue with email</span>
+                <span className="px-2 bg-white text-gray-500">Or continue with email</span>
               </div>
             </div>
 
@@ -208,7 +202,7 @@ const RoleLoginForm = ({ role }) => {
                 <label htmlFor="email" className="form-label">
                   Email address
                 </label>
-                <input
+                                <input
                   {...register('email', {
                     required: 'Email is required',
                     pattern: {
@@ -217,8 +211,9 @@ const RoleLoginForm = ({ role }) => {
                     },
                   })}
                   type="email"
-                  className={`form-input ${isJobseeker ? 'focus:ring-violet-500 focus:border-violet-500' : ''}`}
-                  placeholder="Enter your email"
+                  autoComplete="email"
+                  className="form-input focus:ring-black focus:border-gray-800"
+                  placeholder="Email address"
                 />
                 {errors.email && <p className="form-error">{errors.email.message}</p>}
               </div>
@@ -228,13 +223,18 @@ const RoleLoginForm = ({ role }) => {
                   Password
                 </label>
                 <div className="relative">
-                  <input
+                                    <input
                     {...register('password', {
                       required: 'Password is required',
+                      minLength: {
+                        value: 6,
+                        message: 'Password must be at least 6 characters',
+                      },
                     })}
                     type={showPassword ? 'text' : 'password'}
-                    className={`form-input pr-10 ${isJobseeker ? 'focus:ring-violet-500 focus:border-violet-500' : ''}`}
-                    placeholder="Enter your password"
+                    autoComplete="current-password"
+                    className="form-input pr-10 focus:ring-black focus:border-gray-800"
+                    placeholder="Password"
                   />
                   <button
                     type="button"
@@ -270,14 +270,14 @@ const RoleLoginForm = ({ role }) => {
                   id="remember-me"
                   name="remember-me"
                   type="checkbox"
-                  className={`h-4 w-4 ${isJobseeker ? 'text-violet-600 focus:ring-violet-500' : 'text-primary-600 focus:ring-primary-500'} border-gray-300 rounded`}
+                  className="h-4 w-4 text-gray-800 focus:ring-black border-gray-300 rounded"
                 />
-                <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-900">
+                <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-800">
                   Remember me
                 </label>
               </div>
               <div className="text-sm">
-                <Link to="/forgot-password" className={isJobseeker ? 'font-medium text-violet-600 hover:text-violet-500' : 'font-medium text-primary-600 hover:text-primary-500'}>
+                <Link to="/forgot-password" className="font-medium text-gray-800 hover:text-gray-800">
                   Forgot your password?
                 </Link>
               </div>
@@ -287,17 +287,11 @@ const RoleLoginForm = ({ role }) => {
               <button
                 type="submit"
                 disabled={loading}
-                className={
-                  `w-full btn btn-lg ${
-                    isJobseeker
-                      ? 'btn-gradient btn-animated btn-shine'
-                      : 'btn-primary'
-                  }`
-                }
+                className="w-full btn btn-lg bg-gray-800 text-white hover:bg-gray-800 transition-all duration-200"
               >
                 {loading ? (
                   <div className="flex items-center justify-center">
-                    <div className={`spinner h-5 w-5 mr-2 ${isJobseeker ? 'border-white' : ''}`}></div>
+                    <div className="spinner h-5 w-5 mr-2 border-white"></div>
                     Signing in...
                   </div>
                 ) : (
@@ -325,7 +319,7 @@ const RoleLoginForm = ({ role }) => {
                         password: config.demoPassword,
                       })
                     }
-                    className={isJobseeker ? 'btn text-sm border-violet-600 text-violet-700 hover:bg-violet-50' : 'btn btn-outline text-sm'}
+                    className="btn text-sm border-2 border-gray-800 bg-white hover:bg-gray-100"
                   >
                     Use {config.label} Demo
                   </button>

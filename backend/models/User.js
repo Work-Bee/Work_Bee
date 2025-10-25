@@ -143,13 +143,13 @@ const userSchema = new mongoose.Schema({
       },
       currency: {
         type: String,
-        default: 'INR',
-        enum: ['INR']
+        default: 'USD',
+        enum: ['USD', 'EUR', 'GBP', 'INR', 'CAD', 'AUD']
       },
       period: {
         type: String,
-        default: 'month',
-        enum: ['hour', 'day', 'week', 'month']
+        default: 'year',
+        enum: ['hour', 'month', 'year']
       }
     },
     availability: {

@@ -30,12 +30,12 @@ const seedData = async () => {
     const adminPassword = process.env.ADMIN_SEED_PASSWORD || 'admin123';
 
     const demoJobSeeker = await User.create({
-      name: 'Akash Nair',
+      name: 'John Doe',
       email: 'jobseeker@demo.com',
       password: demoPassword,
       role: 'jobseeker',
-      phone: '98765 43210',
-      location: 'Kochi, Kerala',
+      phone: '(555) 123-4567',
+      location: 'New York, NY',
       profile: {
         bio: 'Motivated job seeker looking for entry-level opportunities',
         skills: ['Communication', 'Teamwork', 'Reliability', 'Customer Service'],
@@ -44,12 +44,12 @@ const seedData = async () => {
     });
 
     const demoEmployer = await User.create({
-      name: 'Meera Varma',
+      name: 'Jane Smith',
       email: 'employer@demo.com',
       password: demoPassword,
       role: 'employer',
-      phone: '98470 11111',
-      location: 'Kochi, Kerala'
+      phone: '(555) 987-6543',
+      location: 'Los Angeles, CA'
     });
 
     const demoAdmin = await User.create({
@@ -66,20 +66,20 @@ const seedData = async () => {
     // Create demo companies
     const companies = [
       {
-        name: 'ABC Manufacturing Pvt Ltd',
+        name: 'ABC Manufacturing Inc.',
         description: 'Leading manufacturer of consumer goods with over 50 years of experience.',
         website: 'https://abc-manufacturing.com',
         industry: 'Manufacturing',
         size: '201-500',
         location: {
-          address: 'Kalamassery Industrial Estate',
-          city: 'Kochi',
-          state: 'Kerala',
-          zipCode: '683104'
+          address: '123 Industrial Blvd',
+          city: 'Chicago',
+          state: 'IL',
+          zipCode: '60601'
         },
         contactInfo: {
           email: 'hr@abc-manufacturing.com',
-          phone: '0484 123 4567'
+          phone: '(312) 555-0123'
         },
         owner: demoEmployer._id
       },
@@ -90,14 +90,14 @@ const seedData = async () => {
         industry: 'Retail',
         size: '51-200',
         location: {
-          address: 'Panampilly Nagar',
-          city: 'Kochi',
-          state: 'Kerala',
-          zipCode: '682036'
+          address: '456 Commerce St',
+          city: 'Austin',
+          state: 'TX',
+          zipCode: '73301'
         },
         contactInfo: {
           email: 'careers@quickmart.com',
-          phone: '0484 234 5678'
+          phone: '(512) 555-0456'
         },
         owner: demoEmployer._id
       },
@@ -107,14 +107,14 @@ const seedData = async () => {
         industry: 'Food Service',
         size: '11-50',
         location: {
-          address: 'MG Road',
-          city: 'Kochi',
-          state: 'Kerala',
-          zipCode: '682001'
+          address: '789 Main St',
+          city: 'Denver',
+          state: 'CO',
+          zipCode: '80202'
         },
         contactInfo: {
           email: 'jobs@citydiner.com',
-          phone: '0484 345 6789'
+          phone: '(303) 555-0789'
         },
         owner: demoEmployer._id
       },
@@ -125,14 +125,14 @@ const seedData = async () => {
         industry: 'Construction',
         size: '11-50',
         location: {
-          address: 'Infopark Road, Kakkanad',
-          city: 'Kochi',
-          state: 'Kerala',
-          zipCode: '682030'
+          address: '321 Builder Ave',
+          city: 'Phoenix',
+          state: 'AZ',
+          zipCode: '85001'
         },
         contactInfo: {
           email: 'hiring@buildright.com',
-          phone: '0484 456 7890'
+          phone: '(602) 555-0321'
         },
         owner: demoEmployer._id
       }
@@ -225,7 +225,7 @@ const seedData = async () => {
       },
       {
         title: 'Kitchen Assistant',
-        description: 'Join our kitchen team as a Kitchen Assistant at City Diner on MG Road, Kochi. Great entry role with flexible schedules and growth.',
+        description: 'Join our kitchen team as a Kitchen Assistant! Great opportunity for those looking to enter the food service industry. We offer flexible schedules and advancement opportunities.',
         requirements: [
           'Ability to work in fast-paced environment',
           'Physical stamina for standing long periods',
@@ -242,16 +242,15 @@ const seedData = async () => {
         jobType: 'Full-time',
         experienceLevel: 'Entry Level',
         salary: {
-          min: 700,
-          max: 900,
-          currency: 'INR',
-          period: 'day'
+          min: 15,
+          max: 18,
+          period: 'hour'
         },
         location: {
-          address: 'City Diner, MG Road',
-          city: 'Kochi',
-          state: 'Kerala',
-          zipCode: '682001',
+          address: '789 Main St',
+          city: 'Denver',
+          state: 'CO',
+          zipCode: '80202',
           remote: false
         },
         company: createdCompanies[2]._id,
@@ -301,9 +300,9 @@ const seedData = async () => {
       },
       {
         title: 'Warehouse Associate',
-        description: 'Join our warehouse team at ABC Manufacturing (Kalamassery). Help with inventory and order fulfillment. Benefits included.',
+        description: 'Join our warehouse team! We are looking for detail-oriented individuals to help with inventory management and order fulfillment. Great benefits package included.',
         requirements: [
-          'Ability to lift 20+ kg',
+          'Ability to lift 40+ pounds',
           'Basic computer skills',
           'Attention to detail',
           'Team player'
@@ -318,16 +317,15 @@ const seedData = async () => {
         jobType: 'Full-time',
         experienceLevel: 'Entry Level',
         salary: {
-          min: 19000,
-          max: 23000,
-          currency: 'INR',
-          period: 'month'
+          min: 17,
+          max: 21,
+          period: 'hour'
         },
         location: {
-          address: 'Kalamassery Industrial Estate',
-          city: 'Kochi',
-          state: 'Kerala',
-          zipCode: '683104',
+          address: '123 Industrial Blvd',
+          city: 'Chicago',
+          state: 'IL',
+          zipCode: '60601',
           remote: false
         },
         company: createdCompanies[0]._id,

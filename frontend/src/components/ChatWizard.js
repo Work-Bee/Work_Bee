@@ -295,14 +295,14 @@ const ChatWizard = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 animate-fadeIn">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-800/60 animate-fadeIn">
       <div className="bg-white rounded-2xl shadow-2xl w-full max-w-2xl mx-4 overflow-hidden">
         <div className="px-6 py-4 border-b border-gray-200 flex items-center justify-between">
           <div>
-            <h2 className="text-lg font-semibold text-gray-900">{title}</h2>
+            <h2 className="text-lg font-semibold text-gray-800">{title}</h2>
             <p className="text-xs text-gray-500">Step {current + 1} of {total}</p>
           </div>
-          <button type="button" onClick={onBack} className="text-gray-500 hover:text-gray-900" aria-label="Close">
+          <button type="button" onClick={onBack} className="text-gray-500 hover:text-gray-800" aria-label="Close">
             <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
             </svg>

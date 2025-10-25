@@ -34,7 +34,7 @@ const EmployerJobModal = ({ job, isOpen, onClose }) => {
   if (!isOpen || !job) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm px-4" onClick={onClose}>
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-800/60 backdrop-blur-sm px-4" onClick={onClose}>
       <div className="bg-white rounded-2xl shadow-2xl w-full max-w-2xl max-h-[85vh] overflow-hidden flex flex-col" onClick={(e) => e.stopPropagation()}>
         {/* Header */}
         <div className="bg-gradient-to-r from-blue-500 to-indigo-500 px-6 py-4 rounded-t-2xl sticky top-0 z-10">
@@ -111,7 +111,7 @@ const EmployerJobModal = ({ job, isOpen, onClose }) => {
           ) : (
             <div className="space-y-4">
               <div className="flex items-center justify-between">
-                <h3 className="text-lg font-semibold text-gray-900">Applications for this job</h3>
+                <h3 className="text-lg font-semibold text-gray-800">Applications for this job</h3>
                 <button className="btn btn-outline btn-sm" onClick={() => setView('overview')}>Back</button>
               </div>
               {loading ? (

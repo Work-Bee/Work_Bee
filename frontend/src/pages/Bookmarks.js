@@ -62,7 +62,7 @@ const Bookmarks = () => {
     <div className="bg-gray-50 min-h-screen py-10 lg:py-16">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mb-8">
-          <h1 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-2">My Bookmarks</h1>
+          <h1 className="text-3xl lg:text-4xl font-bold text-gray-800 mb-2">My Bookmarks</h1>
           <p className="text-gray-600">Save jobs you're interested in and apply later.</p>
         </div>
 
@@ -75,7 +75,7 @@ const Bookmarks = () => {
             <svg className="mx-auto h-12 w-12 text-gray-300 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
             </svg>
-            <h2 className="text-xl font-semibold text-gray-900 mb-2">No bookmarks yet</h2>
+            <h2 className="text-xl font-semibold text-gray-800 mb-2">No bookmarks yet</h2>
             <p className="text-gray-600 mb-6">Save jobs you're interested in by clicking the bookmark icon on any job card.</p>
             <Link to="/jobs" className="btn btn-primary">
               Browse jobs
@@ -96,7 +96,7 @@ const Bookmarks = () => {
                     <div className="flex-1">
                       <div className="flex items-start justify-between gap-3">
                         <div>
-                          <Link to={`/jobs/${job._id}`} className="text-xl font-semibold text-gray-900 hover:text-primary-600 transition-colors">
+                          <Link to={`/jobs/${job._id}`} className="text-xl font-semibold text-gray-800 hover:text-primary-600 transition-colors">
                             {job.title}
                           </Link>
                           <p className="text-primary-600 font-medium mt-1">{companyName}</p>

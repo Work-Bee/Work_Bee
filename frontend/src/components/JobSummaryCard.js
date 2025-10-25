@@ -188,14 +188,14 @@ const JobSummaryCard = ({ job }) => {
         {/* Job Header */}
         <div className="flex items-start justify-between gap-3 pb-3 border-b border-gray-100">
           <div className="flex items-start gap-3 flex-1 min-w-0">
-            <div className="w-12 h-12 bg-gradient-to-br from-primary-50 to-primary-100 rounded-xl flex items-center justify-center flex-shrink-0">
-              <svg className="w-6 h-6 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div className="w-12 h-12 bg-gray-100 border-2 border-gray-800 rounded-xl flex items-center justify-center flex-shrink-0">
+              <svg className="w-6 h-6 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
               </svg>
             </div>
             <div className="flex-1 min-w-0">
-              <h3 className="font-semibold text-lg text-gray-900 mb-1 leading-tight">{job.title}</h3>
-              <p className="text-sm text-primary-600 font-medium">{companyName}</p>
+              <h3 className="font-semibold text-lg text-gray-800 mb-1 leading-tight">{job.title}</h3>
+              <p className="text-sm text-gray-800 font-medium">{companyName}</p>
             </div>
           </div>
           <div className="flex gap-1.5 items-start flex-shrink-0">
@@ -208,8 +208,8 @@ const JobSummaryCard = ({ job }) => {
                 disabled={bookmarkLoading}
                 className={`p-1.5 rounded-lg transition-colors ${
                   isBookmarked 
-                    ? 'text-yellow-600 bg-yellow-50 hover:bg-yellow-100' 
-                    : 'text-gray-400 hover:text-yellow-600 hover:bg-yellow-50'
+                    ? 'text-gray-800 bg-gray-100 hover:bg-gray-200' 
+                    : 'text-gray-400 hover:text-gray-800 hover:bg-gray-100'
                 }`}
                 title={isBookmarked ? 'Remove bookmark' : 'Bookmark this job'}
               >
@@ -224,7 +224,7 @@ const JobSummaryCard = ({ job }) => {
                   e.stopPropagation();
                   handleShare();
                 }}
-                className="p-1.5 rounded-lg text-gray-400 hover:text-blue-600 hover:bg-blue-50 transition-colors"
+                className="p-1.5 rounded-lg text-gray-400 hover:text-gray-800 hover:bg-gray-100 transition-colors"
                 title="Share job link"
               >
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -232,8 +232,8 @@ const JobSummaryCard = ({ job }) => {
                 </svg>
               </button>
               {showShareSuccess && (
-                <div className="absolute top-full right-0 mt-2 bg-green-50 border border-green-200 rounded-lg px-3 py-2 shadow-lg z-10 whitespace-nowrap">
-                  <p className="text-sm text-green-800 flex items-center gap-1">
+                <div className="absolute top-full right-0 mt-2 bg-gray-100 border-2 border-gray-800 rounded-lg px-3 py-2 shadow-lg z-10 whitespace-nowrap">
+                  <p className="text-sm text-gray-800 flex items-center gap-1">
                     <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                     </svg>
@@ -256,8 +256,8 @@ const JobSummaryCard = ({ job }) => {
               <span>{locationLabel}</span>
             </div>
 
-            <div className="flex items-center gap-2 text-sm text-green-700 font-semibold">
-              <svg className="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div className="flex items-center gap-2 text-sm text-gray-800 font-semibold">
+              <svg className="w-4 h-4 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
               <span>{salaryLabel}</span>
@@ -265,7 +265,7 @@ const JobSummaryCard = ({ job }) => {
           </div>
 
           <div className="flex flex-col items-end gap-2 text-right">
-            <span className="inline-flex items-center px-2.5 py-1 rounded-lg text-xs font-medium bg-primary-50 text-primary-700 border border-primary-200 whitespace-nowrap">
+            <span className="inline-flex items-center px-2.5 py-1 rounded-lg text-xs font-medium bg-gray-100 text-gray-800 border-2 border-gray-800 whitespace-nowrap">
               {job.jobType}{job.experienceLevel ? ` • ${job.experienceLevel}` : ''}
             </span>
             {postedDate && (
@@ -283,18 +283,18 @@ const JobSummaryCard = ({ job }) => {
         {expanded && createPortal(
           (
             <div
-              className="fixed inset-0 z-40 bg-black/40 backdrop-blur-sm flex items-center justify-center p-4"
+              className="fixed inset-0 z-40 bg-gray-800/70 backdrop-blur-sm flex items-center justify-center p-4"
               onClick={() => setExpanded(false)}
             >
               <div
-                className="bg-white rounded-xl shadow-2xl w-full max-w-md border border-gray-200"
+                className="bg-white rounded-xl shadow-2xl w-full max-w-md border-2 border-gray-800"
                 onClick={(e) => e.stopPropagation()}
               >
               <div className="px-5 py-3 border-b border-gray-200 flex items-center justify-between">
                 <div>
-                  <h3 className="font-semibold text-base text-gray-900 leading-tight">{job.title}</h3>
+                  <h3 className="font-semibold text-base text-gray-800 leading-tight">{job.title}</h3>
                   <div className="text-xs text-gray-600 flex flex-wrap items-center gap-x-2 gap-y-1 mt-1">
-                    <span className="text-primary-700 font-medium">{companyName}</span>
+                    <span className="text-gray-800 font-medium">{companyName}</span>
                     <span className="text-gray-300">•</span>
                     <span>{job.employmentType} • {job.duration}</span>
                     {job.category && (
@@ -319,7 +319,7 @@ const JobSummaryCard = ({ job }) => {
               <div className="px-5 py-4">
                 <div className="flex items-start justify-between gap-4 mb-3">
                     <div className="text-xs">
-                      <div className="text-sm font-medium text-green-700">{salaryLabel}</div>
+                      <div className="text-sm font-medium text-gray-800">{salaryLabel}</div>
                       <div className="text-xs text-gray-500">{locationLabel}</div>
                     </div>
                 </div>
@@ -352,13 +352,13 @@ const JobSummaryCard = ({ job }) => {
                   <div className="mt-4 pt-4 border-t border-gray-100 space-y-4">
                     {job.description && (
                       <div>
-                        <div className="font-semibold text-gray-900 mb-1">Role Description</div>
+                        <div className="font-semibold text-gray-800 mb-1">Role Description</div>
                         <p className="text-gray-700 whitespace-pre-line">{job.description}</p>
                       </div>
                     )}
                     {Array.isArray(job.responsibilities) && job.responsibilities.length > 0 && (
                       <div>
-                        <div className="font-semibold text-gray-900 mb-1">Full Responsibilities</div>
+                        <div className="font-semibold text-gray-800 mb-1">Full Responsibilities</div>
                         <ul className="list-disc list-inside space-y-1">
                           {job.responsibilities.map((r, i) => (
                             <li key={`resp-${job._id}-${i}`}>{r}</li>
@@ -368,7 +368,7 @@ const JobSummaryCard = ({ job }) => {
                     )}
                     {Array.isArray(job.requirements) && job.requirements.length > 0 && (
                       <div>
-                        <div className="font-semibold text-gray-900 mb-1">Full Requirements</div>
+                        <div className="font-semibold text-gray-800 mb-1">Full Requirements</div>
                         <ul className="list-disc list-inside space-y-1">
                           {job.requirements.map((r, i) => (
                             <li key={`req-${job._id}-${i}`}>{r}</li>
@@ -414,15 +414,15 @@ const JobSummaryCard = ({ job }) => {
         {showApplyModal && createPortal(
           (
             <div
-              className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4"
+              className="fixed inset-0 z-50 bg-gray-800/70 backdrop-blur-sm flex items-center justify-center p-4"
               onClick={() => setShowApplyModal(false)}
             >
               <div
-                className="bg-white rounded-xl shadow-2xl w-full max-w-md border border-gray-200"
+                className="bg-white rounded-xl shadow-2xl w-full max-w-md border-2 border-gray-800"
                 onClick={(e) => e.stopPropagation()}
               >
                 <div className="px-5 py-3 border-b border-gray-200 flex items-center justify-between">
-                  <h3 className="font-semibold text-base text-gray-900">Apply for {job.title}</h3>
+                  <h3 className="font-semibold text-base text-gray-800">Apply for {job.title}</h3>
                   <button
                     onClick={() => setShowApplyModal(false)}
                     className="text-gray-400 hover:text-gray-600"
@@ -436,20 +436,20 @@ const JobSummaryCard = ({ job }) => {
 
                 <form onSubmit={handleApplySubmit} className="px-5 py-4">
                   {applySuccess && (
-                    <div className="mb-4 p-3 bg-green-50 border border-green-200 rounded-lg">
-                      <p className="text-sm text-green-800">{applySuccess}</p>
+                    <div className="mb-4 p-3 bg-gray-100 border-2 border-gray-800 rounded-lg">
+                      <p className="text-sm text-gray-800">{applySuccess}</p>
                     </div>
                   )}
 
                   {applyError && (
-                    <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg">
-                      <p className="text-sm text-red-800">{applyError}</p>
+                    <div className="mb-4 p-3 bg-gray-100 border-2 border-gray-800 rounded-lg">
+                      <p className="text-sm text-gray-800">{applyError}</p>
                     </div>
                   )}
 
                   <div className="mb-4">
-                    <div className="p-3 bg-amber-50 border border-amber-200 rounded-lg">
-                      <p className="text-sm text-amber-800">
+                    <div className="p-3 bg-gray-100 border-2 border-gray-800 rounded-lg">
+                      <p className="text-sm text-gray-800">
                         <svg className="w-4 h-4 inline mr-1" fill="currentColor" viewBox="0 0 20 20">
                           <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
                         </svg>
@@ -468,7 +468,7 @@ const JobSummaryCard = ({ job }) => {
                       onChange={(e) => setCoverLetter(e.target.value)}
                       rows="4"
                       placeholder="Tell the employer why you're a great fit for this role..."
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 text-sm"
+                      className="w-full px-3 py-2 border-2 border-gray-800 rounded-lg focus:ring-2 focus:ring-black focus:border-gray-800 text-sm"
                     />
                   </div>
 

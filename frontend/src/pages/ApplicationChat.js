@@ -72,7 +72,7 @@ const ApplicationChat = () => {
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mb-6 flex items-center justify-between">
           <div>
-            <h1 className="text-2xl font-bold text-gray-900">Chat</h1>
+            <h1 className="text-2xl font-bold text-gray-800">Chat</h1>
             {application && (
               <p className="text-sm text-gray-600">{application.job?.title} • {otherParty}</p>
             )}

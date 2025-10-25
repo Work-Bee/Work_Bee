@@ -336,12 +336,12 @@ const Profile = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 py-8">
+    <div className="min-h-screen bg-gray-50 py-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Message Alert */}
         {message.text && (
           <div className={`mb-6 p-4 rounded-lg shadow-sm ${
-            message.type === 'success' ? 'bg-green-50 border-l-4 border-green-500 text-green-800' : 'bg-red-50 border-l-4 border-red-500 text-red-800'
+            message.type === 'success' ? 'bg-gray-100 border-l-4 border-gray-800 text-gray-800' : 'bg-gray-100 border-l-4 border-gray-800 text-gray-800'
           }`}>
             <div className="flex items-center">
               {message.type === 'success' ? (
@@ -359,8 +359,8 @@ const Profile = () => {
         )}
 
         {/* Profile Header Card */}
-        <div className="bg-white shadow-lg rounded-2xl overflow-hidden mb-8">
-          <div className="bg-gradient-to-r from-blue-600 to-purple-600 px-8 py-8">
+        <div className="bg-white shadow-lg rounded-2xl overflow-hidden mb-8 border-2 border-gray-800">
+          <div className="bg-gray-800 px-8 py-8">
             {/* Profile Photo and Name Section */}
             <div className="flex items-center space-x-8 mb-6">
               {/* Profile Photo */}
@@ -380,10 +380,10 @@ const Profile = () => {
                 )}
                 <button
                   onClick={() => setShowPhotoUpload(true)}
-                  className="absolute bottom-0 right-0 bg-white rounded-full p-2.5 shadow-lg hover:bg-gray-100 transition"
+                  className="absolute bottom-0 right-0 bg-white rounded-full p-2.5 shadow-lg hover:bg-gray-100 transition border-2 border-gray-800"
                   title="Change photo"
                 >
-                  <svg className="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-5 h-5 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
                   </svg>
@@ -393,9 +393,9 @@ const Profile = () => {
               {/* Name and Email */}
               <div className="text-white flex-1">
                 <h1 className="text-4xl font-bold mb-2">{formData.name || 'Your Name'}</h1>
-                <p className="text-blue-100 text-lg mb-2">{authUser.email}</p>
+                <p className="text-gray-200 text-lg mb-2">{authUser.email}</p>
                 {formData.location && (
-                  <p className="text-blue-200 flex items-center">
+                  <p className="text-gray-300 flex items-center">
                     <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -410,7 +410,7 @@ const Profile = () => {
             <div className="flex justify-end">
               <button
                 onClick={() => setIsEditing(true)}
-                className="px-8 py-3 bg-white text-blue-600 rounded-lg hover:bg-blue-50 transition font-semibold flex items-center shadow-lg hover:shadow-xl"
+                className="px-8 py-3 bg-white text-gray-800 rounded-lg hover:bg-gray-100 transition font-semibold flex items-center shadow-lg hover:shadow-xl border-2 border-gray-800"
               >
                 <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
@@ -428,8 +428,8 @@ const Profile = () => {
             {/* Contact Information Card */}
             <div className="bg-white shadow-lg rounded-xl p-6">
               <div className="flex items-center justify-between mb-4">
-                <h3 className="text-lg font-semibold text-gray-900 flex items-center">
-                  <svg className="w-5 h-5 mr-2 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <h3 className="text-lg font-semibold text-gray-800 flex items-center">
+                  <svg className="w-5 h-5 mr-2 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                   </svg>
                   Contact Info
@@ -439,9 +439,9 @@ const Profile = () => {
               <div className="space-y-4">
                 <div>
                   <label className="text-xs font-medium text-gray-500 uppercase">Primary Phone</label>
-                  <p className="text-gray-900 font-medium mt-1">{formData.phone || 'Not provided'}</p>
+                  <p className="text-gray-800 font-medium mt-1">{formData.phone || 'Not provided'}</p>
                   {formData.primaryHasWhatsApp && formData.phone && (
-                    <span className="inline-flex items-center mt-1 text-xs text-green-600 bg-green-50 px-2 py-1 rounded">
+                    <span className="inline-flex items-center mt-1 text-xs text-gray-800 bg-gray-100 px-2 py-1 rounded border-2 border-gray-800">
                       <svg className="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 24 24">
                         <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
                       </svg>
@@ -453,9 +453,9 @@ const Profile = () => {
                 {formData.secondaryPhone && (
                   <div>
                     <label className="text-xs font-medium text-gray-500 uppercase">Secondary Phone</label>
-                    <p className="text-gray-900 font-medium mt-1">{formData.secondaryPhone}</p>
+                    <p className="text-gray-800 font-medium mt-1">{formData.secondaryPhone}</p>
                     {formData.secondaryHasWhatsApp && (
-                      <span className="inline-flex items-center mt-1 text-xs text-green-600 bg-green-50 px-2 py-1 rounded">
+                      <span className="inline-flex items-center mt-1 text-xs text-gray-800 bg-gray-100 px-2 py-1 rounded border-2 border-gray-800">
                         <svg className="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 24 24">
                           <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
                         </svg>
@@ -467,7 +467,7 @@ const Profile = () => {
 
                 <div>
                   <label className="text-xs font-medium text-gray-500 uppercase">Location</label>
-                  <p className="text-gray-900 font-medium mt-1 flex items-center">
+                  <p className="text-gray-800 font-medium mt-1 flex items-center">
                     <svg className="w-4 h-4 mr-1 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -481,32 +481,32 @@ const Profile = () => {
             {/* Resume & Documents Card */}
             <div className="bg-white shadow-lg rounded-xl p-6">
               <div className="flex items-center justify-between mb-4">
-                <h3 className="text-lg font-semibold text-gray-900 flex items-center">
-                  <svg className="w-5 h-5 mr-2 text-red-600" fill="currentColor" viewBox="0 0 20 20">
+                <h3 className="text-lg font-semibold text-gray-800 flex items-center">
+                  <svg className="w-5 h-5 mr-2 text-gray-800" fill="currentColor" viewBox="0 0 20 20">
                     <path d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4z"/>
                   </svg>
                   Documents
                 </h3>
                 <button
                   onClick={() => setShowResumeUpload(true)}
-                  className="text-sm text-blue-600 hover:text-blue-700 font-medium"
+                  className="text-sm text-gray-800 hover:text-gray-700 font-medium"
                 >
                   {authUser.profile?.resume?.originalName ? 'Update' : 'Upload'}
                 </button>
               </div>
 
               {authUser.profile?.resume?.originalName ? (
-                <div className="bg-gradient-to-br from-red-50 to-orange-50 rounded-lg p-4 border border-red-100">
+                <div className="bg-gray-100 rounded-lg p-4 border-2 border-gray-800">
                   <div className="flex items-start justify-between">
                     <div className="flex-1">
-                      <p className="font-medium text-gray-900 text-sm">{authUser.profile.resume.originalName}</p>
+                      <p className="font-medium text-gray-800 text-sm">{authUser.profile.resume.originalName}</p>
                       <p className="text-xs text-gray-500 mt-1">
                         Uploaded {new Date(authUser.profile.resume.uploadDate).toLocaleDateString()}
                       </p>
                     </div>
                     <button
                       onClick={() => setShowDeleteConfirm(true)}
-                      className="ml-2 p-1 text-red-600 hover:bg-red-100 rounded transition"
+                      className="ml-2 p-1 text-gray-800 hover:bg-gray-200 rounded transition"
                       title="Delete resume"
                     >
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -523,7 +523,7 @@ const Profile = () => {
                   <p className="text-sm text-gray-600">No resume uploaded</p>
                   <button
                     onClick={() => setShowResumeUpload(true)}
-                    className="mt-3 text-sm text-blue-600 hover:text-blue-700 font-medium"
+                    className="mt-3 text-sm text-gray-800 hover:text-gray-700 font-medium"
                   >
                     Upload Resume
                   </button>
@@ -536,22 +536,22 @@ const Profile = () => {
           <div className="lg:col-span-2 space-y-6">
             {/* Experience Level Card */}
             <div className="bg-white shadow-lg rounded-xl p-6">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
-                <svg className="w-5 h-5 mr-2 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <h3 className="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+                <svg className="w-5 h-5 mr-2 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                 </svg>
                 Experience Level
               </h3>
-              <div className="bg-gradient-to-br from-purple-50 to-pink-50 rounded-lg p-6 border border-purple-100">
-                <p className="text-2xl font-bold text-gray-900">{formData.profile.experienceLevel}</p>
+              <div className="bg-gray-100 rounded-lg p-6 border-2 border-gray-800">
+                <p className="text-2xl font-bold text-gray-800">{formData.profile.experienceLevel}</p>
                 {authUser.profile?.recentJobs && authUser.profile.recentJobs.length > 0 && (
-                  <div className="mt-4 pt-4 border-t border-purple-200">
-                    <label className="text-xs font-medium text-purple-700 uppercase mb-2 block">Recent Jobs</label>
+                  <div className="mt-4 pt-4 border-t border-gray-300">
+                    <label className="text-xs font-medium text-gray-800 uppercase mb-2 block">Recent Jobs</label>
                     <div className="flex flex-wrap gap-2">
                       {authUser.profile.recentJobs.map((job, index) => (
                         <span
                           key={index}
-                          className="px-3 py-1 bg-white text-purple-700 rounded-lg text-sm font-medium border border-purple-200 shadow-sm"
+                          className="px-3 py-1 bg-white text-gray-800 rounded-lg text-sm font-medium border-2 border-gray-800 shadow-sm"
                         >
                           {job}
                         </span>
@@ -564,8 +564,8 @@ const Profile = () => {
 
             {/* Skills Card */}
             <div className="bg-white shadow-lg rounded-xl p-6">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
-                <svg className="w-5 h-5 mr-2 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <h3 className="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+                <svg className="w-5 h-5 mr-2 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
                 </svg>
                 Skills
@@ -575,7 +575,7 @@ const Profile = () => {
                   formData.profile.skills.map((skill, index) => (
                     <span
                       key={index}
-                      className="px-4 py-2 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-lg text-sm font-medium shadow-sm hover:shadow-md transition"
+                      className="px-4 py-2 bg-gray-800 text-white rounded-lg text-sm font-medium shadow-sm hover:shadow-md transition"
                     >
                       {skill}
                     </span>
@@ -589,14 +589,14 @@ const Profile = () => {
             {/* Expected Salary Card */}
             {authUser.profile?.expectedSalary && authUser.profile.expectedSalary.min && (
               <div className="bg-white shadow-lg rounded-xl p-6">
-                <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
-                  <svg className="w-5 h-5 mr-2 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <h3 className="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+                  <svg className="w-5 h-5 mr-2 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                   </svg>
                   Expected Salary
                 </h3>
-                <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-lg p-6 border border-green-100">
-                  <p className="text-2xl font-bold text-gray-900">
+                <div className="bg-gray-100 rounded-lg p-6 border-2 border-gray-800">
+                  <p className="text-2xl font-bold text-gray-800">
                     ₹{authUser.profile.expectedSalary.min?.toLocaleString()}
                     {authUser.profile.expectedSalary.max && authUser.profile.expectedSalary.max !== authUser.profile.expectedSalary.min && 
                       ` - ₹${authUser.profile.expectedSalary.max?.toLocaleString()}`
@@ -612,7 +612,7 @@ const Profile = () => {
             {/* Bio Card */}
             {formData.profile.bio && (
               <div className="bg-white shadow-lg rounded-xl p-6">
-                <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
+                <h3 className="text-lg font-semibold text-gray-800 mb-4 flex items-center">
                   <svg className="w-5 h-5 mr-2 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                   </svg>
@@ -624,8 +624,8 @@ const Profile = () => {
 
             {/* Preferences & Additional Info Card */}
             <div className="bg-white shadow-lg rounded-xl p-6">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
-                <svg className="w-5 h-5 mr-2 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <h3 className="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+                <svg className="w-5 h-5 mr-2 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
                 </svg>
                 Work Preferences
@@ -633,23 +633,23 @@ const Profile = () => {
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 {authUser.profile?.workPreference && (
-                  <div className="bg-blue-50 rounded-lg p-4 border border-blue-100">
-                    <label className="text-xs font-medium text-blue-700 uppercase mb-1 block">Work Type</label>
-                    <p className="font-semibold text-gray-900">{authUser.profile.workPreference}</p>
+                  <div className="bg-gray-100 rounded-lg p-4 border-2 border-gray-800">
+                    <label className="text-xs font-medium text-gray-800 uppercase mb-1 block">Work Type</label>
+                    <p className="font-semibold text-gray-800">{authUser.profile.workPreference}</p>
                   </div>
                 )}
 
                 {authUser.profile?.availability && (
-                  <div className="bg-green-50 rounded-lg p-4 border border-green-100">
-                    <label className="text-xs font-medium text-green-700 uppercase mb-1 block">Availability</label>
-                    <p className="font-semibold text-gray-900">{authUser.profile.availability}</p>
+                  <div className="bg-gray-100 rounded-lg p-4 border-2 border-gray-800">
+                    <label className="text-xs font-medium text-gray-800 uppercase mb-1 block">Availability</label>
+                    <p className="font-semibold text-gray-800">{authUser.profile.availability}</p>
                   </div>
                 )}
                 
                 {authUser.profile?.willingToRelocate && (
-                  <div className="bg-orange-50 rounded-lg p-4 border border-orange-100">
-                    <label className="text-xs font-medium text-orange-700 uppercase mb-1 block">Relocation</label>
-                    <p className="font-semibold text-gray-900">{authUser.profile.willingToRelocate}</p>
+                  <div className="bg-gray-100 rounded-lg p-4 border-2 border-gray-800">
+                    <label className="text-xs font-medium text-gray-800 uppercase mb-1 block">Relocation</label>
+                    <p className="font-semibold text-gray-800">{authUser.profile.willingToRelocate}</p>
                   </div>
                 )}
               </div>
@@ -662,7 +662,7 @@ const Profile = () => {
                     {authUser.profile.preferredLocations.map((location, index) => (
                       <span
                         key={index}
-                        className="px-4 py-2 bg-blue-100 text-blue-700 rounded-lg text-sm font-medium border border-blue-200 flex items-center"
+                        className="px-4 py-2 bg-gray-100 text-gray-800 rounded-lg text-sm font-medium border-2 border-gray-800 flex items-center"
                       >
                         <svg className="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
@@ -678,7 +678,7 @@ const Profile = () => {
               {authUser.profile?.degree && (
                 <div className="mt-6">
                   <label className="text-xs font-medium text-gray-500 uppercase mb-2 block">Highest Qualification</label>
-                  <p className="text-lg font-semibold text-gray-900">{authUser.profile.degree}</p>
+                  <p className="text-lg font-semibold text-gray-800">{authUser.profile.degree}</p>
                 </div>
               )}
 
@@ -690,7 +690,7 @@ const Profile = () => {
                     {authUser.profile.languages.map((language, index) => (
                       <span
                         key={index}
-                        className="px-4 py-2 bg-indigo-100 text-indigo-700 rounded-lg text-sm font-medium border border-indigo-200"
+                        className="px-4 py-2 bg-gray-100 text-gray-800 rounded-lg text-sm font-medium border-2 border-gray-800"
                       >
                         {language}
                       </span>
@@ -704,9 +704,9 @@ const Profile = () => {
 
         {/* Edit Profile Modal - Shown when Edit Profile is clicked */}
         {isEditing && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4 overflow-y-auto">
+          <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50 p-4 overflow-y-auto">
             <div className="bg-white rounded-2xl shadow-2xl max-w-4xl w-full my-8 max-h-[90vh] overflow-y-auto">
-              <div className="sticky top-0 bg-gradient-to-r from-blue-600 to-purple-600 px-6 py-5 flex justify-between items-center z-10">
+              <div className="sticky top-0 bg-gray-800 px-6 py-5 flex justify-between items-center z-10">
                 <h2 className="text-2xl font-bold text-white flex items-center">
                   <svg className="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
@@ -762,7 +762,7 @@ const Profile = () => {
                     value={formData.name}
                     onChange={handleInputChange}
                     required
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-800 focus:border-transparent"
                   />
                 </div>
 
@@ -785,7 +785,7 @@ const Profile = () => {
                       value={formData.phone}
                       onChange={handleInputChange}
                       placeholder="+1-234-567-8900"
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-800 focus:border-transparent"
                     />
                     <label className="flex items-center">
                       <input
@@ -793,7 +793,7 @@ const Profile = () => {
                         name="primaryHasWhatsApp"
                         checked={formData.primaryHasWhatsApp}
                         onChange={handleInputChange}
-                        className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                        className="h-4 w-4 text-gray-800 focus:ring-gray-800 border-gray-300 rounded"
                       />
                       <span className="ml-2 text-sm text-gray-700">This number has WhatsApp</span>
                     </label>
@@ -811,7 +811,7 @@ const Profile = () => {
                       value={formData.secondaryPhone}
                       onChange={handleInputChange}
                       placeholder="+1-234-567-8900"
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-800 focus:border-transparent"
                     />
                     <label className="flex items-center">
                       <input
@@ -819,7 +819,7 @@ const Profile = () => {
                         name="secondaryHasWhatsApp"
                         checked={formData.secondaryHasWhatsApp}
                         onChange={handleInputChange}
-                        className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                        className="h-4 w-4 text-gray-800 focus:ring-gray-800 border-gray-300 rounded"
                       />
                       <span className="ml-2 text-sm text-gray-700">This number has WhatsApp</span>
                     </label>
@@ -836,14 +836,14 @@ const Profile = () => {
                     value={formData.location}
                     onChange={handleInputChange}
                     placeholder="City, State"
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-800 focus:border-transparent"
                   />
                 </div>
               </div>
 
               {/* Professional Information */}
               <div className="border-t border-gray-200 pt-6">
-                <h3 className="text-lg font-semibold text-gray-900 mb-4">Professional Information</h3>
+                <h3 className="text-lg font-semibold text-gray-800 mb-4">Professional Information</h3>
                 
                 <div className="space-y-6">
                   <div>
@@ -854,7 +854,7 @@ const Profile = () => {
                       name="profile.experienceLevel"
                       value={formData.profile.experienceLevel}
                       onChange={handleInputChange}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-800 focus:border-transparent"
                     >
                       <option value="Entry Level">Entry Level</option>
                       <option value="Some Experience">Some Experience</option>
@@ -874,7 +874,7 @@ const Profile = () => {
                       rows={4}
                       placeholder="Tell employers about yourself, your experience, and what you're looking for..."
                       maxLength={500}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-800 focus:border-transparent"
                     />
                     <p className="text-xs text-gray-500 mt-1">
                       {formData.profile.bio.length}/500 characters
@@ -894,7 +894,7 @@ const Profile = () => {
                           onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), handleAddSkill())}
                           placeholder="Add a skill"
                           maxLength={50}
-                          className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                          className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-800 focus:border-transparent"
                         />
                         <button
                           type="button"
@@ -908,13 +908,13 @@ const Profile = () => {
                         {formData.profile.skills.map((skill, index) => (
                           <span
                             key={index}
-                            className="inline-flex items-center px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm"
+                            className="inline-flex items-center px-3 py-1 bg-gray-100 text-gray-800 rounded-full text-sm border-2 border-gray-800"
                           >
                             {skill}
                             <button
                               type="button"
                               onClick={() => handleRemoveSkill(skill)}
-                              className="ml-2 text-green-600 hover:text-green-800"
+                              className="ml-2 text-gray-800 hover:text-gray-600"
                             >
                               ×
                             </button>
@@ -938,7 +938,7 @@ const Profile = () => {
                           onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), handleAddRecentJob())}
                           placeholder="Add a recent job"
                           maxLength={100}
-                          className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                          className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-800 focus:border-transparent"
                         />
                         <button
                           type="button"
@@ -952,13 +952,13 @@ const Profile = () => {
                         {formData.profile.recentJobs.map((job, index) => (
                           <span
                             key={index}
-                            className="inline-flex items-center px-3 py-1 bg-purple-100 text-purple-800 rounded-full text-sm"
+                            className="inline-flex items-center px-3 py-1 bg-gray-100 text-gray-800 rounded-full text-sm border-2 border-gray-800"
                           >
                             {job}
                             <button
                               type="button"
                               onClick={() => handleRemoveRecentJob(job)}
-                              className="ml-2 text-purple-600 hover:text-purple-800"
+                              className="ml-2 text-gray-800 hover:text-gray-600"
                             >
                               ×
                             </button>
@@ -982,7 +982,7 @@ const Profile = () => {
                           onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), handleAddPreferredLocation())}
                           placeholder="Add a preferred location"
                           maxLength={100}
-                          className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                          className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-800 focus:border-transparent"
                         />
                         <button
                           type="button"
@@ -996,13 +996,13 @@ const Profile = () => {
                         {formData.profile.preferredLocations.map((location, index) => (
                           <span
                             key={index}
-                            className="inline-flex items-center px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm"
+                            className="inline-flex items-center px-3 py-1 bg-gray-100 text-gray-800 rounded-full text-sm border-2 border-gray-800"
                           >
                             {location}
                             <button
                               type="button"
                               onClick={() => handleRemovePreferredLocation(location)}
-                              className="ml-2 text-blue-600 hover:text-blue-800"
+                              className="ml-2 text-gray-800 hover:text-gray-600"
                             >
                               ×
                             </button>
@@ -1021,7 +1021,7 @@ const Profile = () => {
                       name="profile.workPreference"
                       value={formData.profile.workPreference}
                       onChange={handleInputChange}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-800 focus:border-transparent"
                     >
                       <option value="Remote">Remote</option>
                       <option value="Hybrid">Hybrid</option>
@@ -1045,7 +1045,7 @@ const Profile = () => {
                           onChange={handleInputChange}
                           placeholder="20000"
                           min="0"
-                          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-800 focus:border-transparent"
                         />
                       </div>
                       <div>
@@ -1057,7 +1057,7 @@ const Profile = () => {
                           onChange={handleInputChange}
                           placeholder="30000"
                           min="0"
-                          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-800 focus:border-transparent"
                         />
                       </div>
                       <div>
@@ -1066,7 +1066,7 @@ const Profile = () => {
                           name="profile.expectedSalary.period"
                           value={formData.profile.expectedSalary.period}
                           onChange={handleInputChange}
-                          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-800 focus:border-transparent"
                         >
                           <option value="hour">Per Hour</option>
                           <option value="month">Per Month</option>
@@ -1083,7 +1083,7 @@ const Profile = () => {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="flex-1 px-8 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:from-blue-700 hover:to-purple-700 transition disabled:opacity-50 font-semibold shadow-lg"
+                  className="flex-1 px-8 py-3 bg-gray-800 text-white rounded-lg hover:bg-gray-700 transition disabled:opacity-50 font-semibold shadow-lg"
                 >
                   {loading ? (
                     <span className="flex items-center justify-center">
@@ -1143,10 +1143,10 @@ const Profile = () => {
 
         {/* Photo Upload Modal/Card - Shown when Upload Photo is clicked */}
         {showPhotoUpload && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50 p-4">
             <div className="bg-white rounded-lg shadow-xl max-w-lg w-full">
               <div className="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
-                <h2 className="text-xl font-semibold text-gray-900">Upload Profile Photo</h2>
+                <h2 className="text-xl font-semibold text-gray-800">Upload Profile Photo</h2>
                 <button
                   onClick={() => {
                     setShowPhotoUpload(false);
@@ -1170,7 +1170,7 @@ const Profile = () => {
                       </label>
                       <button
                         onClick={handleDeletePhoto}
-                        className="text-sm text-red-600 hover:text-red-800 font-medium"
+                        className="text-sm text-gray-800 hover:text-gray-600 font-medium"
                       >
                         Delete Photo
                       </button>
@@ -1179,10 +1179,10 @@ const Profile = () => {
                       <img 
                         src={`${API_BASE_URL}/uploads/images/${authUser.profile.profilePhoto.filename}`}
                         alt="Profile"
-                        className="w-20 h-20 rounded-full object-cover mr-4 border-2 border-blue-500"
+                        className="w-20 h-20 rounded-full object-cover mr-4 border-2 border-gray-800"
                       />
                       <div>
-                        <p className="font-medium text-gray-900">Profile Verified</p>
+                        <p className="font-medium text-gray-800">Profile Verified</p>
                         <p className="text-sm text-gray-500">
                           Uploaded {new Date(authUser.profile.profilePhoto.uploadDate).toLocaleDateString()}
                         </p>
@@ -1202,14 +1202,14 @@ const Profile = () => {
                       accept="image/jpeg,image/jpg,image/png"
                       onChange={handlePhotoUpload}
                       disabled={uploadingPhoto}
-                      className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-purple-50 file:text-purple-700 hover:file:bg-purple-100 disabled:opacity-50"
+                      className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-2 file:border-gray-800 file:text-sm file:font-semibold file:bg-gray-100 file:text-gray-800 hover:file:bg-gray-200 disabled:opacity-50"
                     />
                   </div>
                   <p className="text-xs text-gray-500 mt-2">
                     Accepted formats: JPEG, JPG, PNG (Max 2MB)
                   </p>
                   {uploadingPhoto && (
-                    <div className="mt-3 flex items-center text-purple-600">
+                    <div className="mt-3 flex items-center text-gray-800">
                       <svg className="animate-spin h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24">
                         <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                         <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
@@ -1220,12 +1220,12 @@ const Profile = () => {
                 </div>
 
                 {/* Info Box */}
-                <div className="bg-purple-50 border border-purple-200 rounded-lg p-4">
+                <div className="bg-gray-100 border-2 border-gray-800 rounded-lg p-4">
                   <div className="flex">
-                    <svg className="w-5 h-5 text-purple-600 mr-2 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                    <svg className="w-5 h-5 text-gray-800 mr-2 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
                     </svg>
-                    <div className="text-sm text-purple-700">
+                    <div className="text-sm text-gray-800">
                       <p className="font-medium mb-1">Tips for your profile photo:</p>
                       <ul className="list-disc list-inside space-y-1 text-xs">
                         <li>Use a clear, recent photo of yourself</li>
@@ -1256,10 +1256,10 @@ const Profile = () => {
 
         {/* Resume Upload Modal/Card - Shown when Upload Resume is clicked */}
         {showResumeUpload && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50 p-4">
             <div className="bg-white rounded-lg shadow-xl max-w-lg w-full">
               <div className="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
-                <h2 className="text-xl font-semibold text-gray-900">Upload Resume</h2>
+                <h2 className="text-xl font-semibold text-gray-800">Upload Resume</h2>
                 <button
                   onClick={() => {
                     setShowResumeUpload(false);
@@ -1283,17 +1283,17 @@ const Profile = () => {
                       </label>
                       <button
                         onClick={() => setShowDeleteConfirm(true)}
-                        className="text-sm text-red-600 hover:text-red-800 font-medium"
+                        className="text-sm text-gray-800 hover:text-gray-600 font-medium"
                       >
                         Delete Resume
                       </button>
                     </div>
                     <div className="flex items-center p-4 bg-gray-50 rounded-lg">
-                      <svg className="w-8 h-8 text-red-500 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                      <svg className="w-8 h-8 text-gray-800 mr-3" fill="currentColor" viewBox="0 0 20 20">
                         <path d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4z"/>
                       </svg>
                       <div>
-                        <p className="font-medium text-gray-900">{authUser.profile.resume.originalName}</p>
+                        <p className="font-medium text-gray-800">{authUser.profile.resume.originalName}</p>
                         <p className="text-sm text-gray-500">
                           Uploaded {new Date(authUser.profile.resume.uploadDate).toLocaleDateString()}
                         </p>
@@ -1313,14 +1313,14 @@ const Profile = () => {
                       accept=".pdf,.doc,.docx"
                       onChange={handleResumeUpload}
                       disabled={uploadingResume}
-                      className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 disabled:opacity-50"
+                      className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-2 file:border-gray-800 file:text-sm file:font-semibold file:bg-gray-100 file:text-gray-800 hover:file:bg-gray-200 disabled:opacity-50"
                     />
                   </div>
                   <p className="text-xs text-gray-500 mt-2">
                     Accepted formats: PDF, DOC, DOCX (Max 5MB)
                   </p>
                   {uploadingResume && (
-                    <div className="mt-3 flex items-center text-blue-600">
+                    <div className="mt-3 flex items-center text-gray-800">
                       <svg className="animate-spin h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24">
                         <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                         <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
@@ -1331,12 +1331,12 @@ const Profile = () => {
                 </div>
 
                 {/* Info Box */}
-                <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                <div className="bg-gray-100 border-2 border-gray-800 rounded-lg p-4">
                   <div className="flex">
-                    <svg className="w-5 h-5 text-blue-600 mr-2 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                    <svg className="w-5 h-5 text-gray-800 mr-2 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
                     </svg>
-                    <div className="text-sm text-blue-700">
+                    <div className="text-sm text-gray-800">
                       <p className="font-medium mb-1">Tips for your resume:</p>
                       <ul className="list-disc list-inside space-y-1 text-xs">
                         <li>Keep your resume updated with recent experience</li>
@@ -1365,21 +1365,21 @@ const Profile = () => {
 
         {/* Delete Confirmation Modal */}
         {showDeleteConfirm && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50 p-4">
             <div className="bg-white rounded-lg shadow-xl max-w-md w-full">
               <div className="px-6 py-4 border-b border-gray-200">
-                <h2 className="text-xl font-semibold text-gray-900">Delete Resume</h2>
+                <h2 className="text-xl font-semibold text-gray-800">Delete Resume</h2>
               </div>
 
               <div className="px-6 py-6">
                 <div className="flex items-start space-x-3">
                   <div className="flex-shrink-0">
-                    <svg className="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg className="w-6 h-6 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
                     </svg>
                   </div>
                   <div>
-                    <p className="text-gray-900 font-medium mb-2">
+                    <p className="text-gray-800 font-medium mb-2">
                       Are you sure you want to delete your resume?
                     </p>
                     <p className="text-sm text-gray-600">
@@ -1400,7 +1400,7 @@ const Profile = () => {
                 <button
                   onClick={handleDeleteResume}
                   disabled={deletingResume}
-                  className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition font-medium disabled:bg-red-400"
+                  className="px-4 py-2 bg-gray-800 text-white rounded-lg hover:bg-gray-700 transition font-medium disabled:bg-gray-600"
                 >
                   {deletingResume ? 'Deleting...' : 'Delete Resume'}
                 </button>

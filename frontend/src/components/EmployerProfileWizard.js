@@ -4,14 +4,14 @@ import { useAuth } from '../context/AuthContext';
 const StepHeader = ({ step, total, title, subtitle }) => (
   <div className="mb-4">
     <div className="text-xs text-gray-500">Step {step} of {total}</div>
-    <h3 className="text-xl font-semibold text-gray-900">{title}</h3>
+    <h3 className="text-xl font-semibold text-gray-800">{title}</h3>
     {subtitle ? <p className="text-sm text-gray-600 mt-1">{subtitle}</p> : null}
   </div>
 );
 
 const Modal = ({ children, onClose }) => (
   <div className="fixed inset-0 z-50 flex items-center justify-center">
-    <div className="absolute inset-0 bg-black/40" onClick={onClose} />
+    <div className="absolute inset-0 bg-gray-800/40" onClick={onClose} />
     <div className="relative bg-white w-full max-w-2xl mx-4 rounded-xl shadow-xl border border-gray-200">
       {children}
     </div>
@@ -22,9 +22,9 @@ const ConfirmModal = ({ open, title, message, confirmLabel = 'Save & Exit', canc
   if (!open) return null;
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center">
-      <div className="absolute inset-0 bg-black/40" onClick={onCancel} />
+      <div className="absolute inset-0 bg-gray-800/40" onClick={onCancel} />
       <div className="relative bg-white w-full max-w-md mx-4 rounded-xl shadow-xl border border-gray-200 p-5">
-        <h4 className="text-lg font-semibold text-gray-900">{title}</h4>
+        <h4 className="text-lg font-semibold text-gray-800">{title}</h4>
         <p className="mt-2 text-sm text-gray-600">{message}</p>
         <div className="mt-5 flex justify-end gap-2">
           <button className="btn btn-outline" onClick={onCancel}>{cancelLabel}</button>

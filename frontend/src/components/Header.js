@@ -27,21 +27,21 @@ const Header = () => {
   return (
     <header className="sticky top-0 z-50">
       {/* Accent bar */}
-      <div className="h-0.5 bg-gradient-to-r from-primary-500 via-accent-500 to-primary-700" />
+      <div className="h-0.5 bg-gray-800" />
       {/* Glass wrapper */}
-      <div className="bg-white/70 backdrop-blur-md border-b border-gray-200/70 shadow-sm">
+      <div className="bg-white/90 backdrop-blur-md border-b-2 border-gray-800 shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Top bar */}
           <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <div className="flex items-center">
             <Link to="/" className="flex items-center space-x-2">
-              <div className="h-8 w-8 bg-gradient-primary rounded-lg flex items-center justify-center shadow-glow">
+              <div className="h-8 w-8 bg-gray-800 rounded-lg flex items-center justify-center">
                 <svg className="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2-2v2m8 0V6a2 2 0 012 2v6a2 2 0 01-2 2H8a2 2 0 01-2-2V8a2 2 0 012-2V6" />
                 </svg>
               </div>
-              <span className="text-xl font-extrabold text-gradient">WorkBee</span>
+              <span className="text-xl font-extrabold text-gray-800">WorkBee</span>
             </Link>
           </div>
 
@@ -111,10 +111,10 @@ const Header = () => {
                 <div className="relative">
                   <button
                     onClick={() => setIsProfileMenuOpen(!isProfileMenuOpen)}
-                    className="flex items-center space-x-2 text-gray-700 hover:text-gray-900 focus:outline-none"
+                    className="flex items-center space-x-2 text-gray-700 hover:text-gray-800 focus:outline-none"
                   >
-                    <div className="w-8 h-8 bg-primary-100 rounded-full flex items-center justify-center">
-                      <span className="text-sm font-medium text-primary-600">
+                    <div className="w-8 h-8 bg-gray-800 rounded-full flex items-center justify-center">
+                      <span className="text-sm font-medium text-white">
                         {user.name.charAt(0).toUpperCase()}
                       </span>
                     </div>
@@ -178,13 +178,13 @@ const Header = () => {
               <div className="flex items-center space-x-4">
                 <Link
                   to="/login/jobseeker"
-                  className="text-gray-600 hover:text-gray-900 font-medium"
+                  className="text-gray-600 hover:text-gray-800 font-medium"
                 >
                   Job Seeker Sign in
                 </Link>
                 <Link
                   to="/login/employer"
-                  className="text-gray-600 hover:text-gray-900 font-medium"
+                  className="text-gray-600 hover:text-gray-800 font-medium"
                 >
                   Employer Sign in
                 </Link>
@@ -196,7 +196,7 @@ const Header = () => {
                 </Link>
                 <Link
                   to="/register"
-                  className="btn btn-primary"
+                  className="bg-gray-800 text-white hover:bg-gray-800 px-4 py-2 rounded-lg font-semibold transition-colors"
                 >
                   Sign up
                 </Link>
@@ -208,7 +208,7 @@ const Header = () => {
           <div className="md:hidden flex items-center">
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="text-gray-600 hover:text-gray-900 focus:outline-none"
+              className="text-gray-600 hover:text-gray-800 focus:outline-none"
             >
               <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 {isMenuOpen ? (
@@ -226,18 +226,18 @@ const Header = () => {
           <>
             {/* Backdrop */}
             <div 
-              className="fixed inset-0 bg-black/70 z-40 md:hidden transition-opacity duration-300"
+              className="fixed inset-0 bg-gray-800/70 z-40 md:hidden transition-opacity duration-300"
               onClick={() => setIsMenuOpen(false)}
             />
             
             {/* Slide-in Panel */}
-            <div className="fixed inset-y-0 right-0 h-screen w-64 bg-white shadow-2xl z-50 md:hidden transform transition-transform duration-300 ease-in-out border-l-4 border-purple-300 flex flex-col">
+            <div className="fixed inset-y-0 right-0 h-screen w-64 bg-white shadow-2xl z-50 md:hidden transform transition-transform duration-300 ease-in-out border-l-4 border-gray-800 flex flex-col">
               {/* Panel Header */}
-              <div className="flex items-center justify-between px-6 py-5 border-b border-gray-200 bg-gradient-to-r from-purple-50 to-green-50">
-                <h2 className="text-xl font-bold text-gray-900">Menu</h2>
+              <div className="flex items-center justify-between px-6 py-5 border-b-2 border-gray-800 bg-gray-50">
+                <h2 className="text-xl font-bold text-gray-800">Menu</h2>
                 <button
                   onClick={() => setIsMenuOpen(false)}
-                  className="text-gray-700 hover:text-gray-900 focus:outline-none hover:bg-gray-100 rounded-lg p-2 transition-colors"
+                  className="text-gray-700 hover:text-gray-800 focus:outline-none hover:bg-gray-100 rounded-lg p-2 transition-colors"
                 >
                   <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" />
@@ -246,18 +246,18 @@ const Header = () => {
               </div>
 
               {/* Navigation Items */}
-              <div className="px-4 py-6 space-y-3 overflow-y-auto flex-1 bg-gray-50">
+              <div className="px-4 py-6 space-y-3 overflow-y-auto flex-1 bg-white">
                 {/* Profile section inside menu */}
                 {user && (
-                  <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-4 mb-2">
+                  <div className="bg-gray-50 rounded-xl border-2 border-gray-800 p-4 mb-2">
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 bg-primary-100 rounded-full flex items-center justify-center">
-                        <span className="text-sm font-semibold text-primary-600">
+                      <div className="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center">
+                        <span className="text-sm font-semibold text-white">
                           {user.name?.charAt(0)?.toUpperCase?.() || 'U'}
                         </span>
                       </div>
                       <div className="min-w-0">
-                        <div className="text-sm font-medium text-gray-900 truncate">{user.name}</div>
+                        <div className="text-sm font-medium text-gray-800 truncate">{user.name}</div>
                         <div className="text-xs text-gray-500 truncate">{user.email}</div>
                       </div>
                     </div>
@@ -265,7 +265,7 @@ const Header = () => {
                       {user.role === 'jobseeker' && (
                         <Link
                           to="/profile"
-                          className="inline-flex items-center justify-center px-3 py-2 rounded-lg text-sm font-medium text-white bg-gradient-to-r from-purple-500 to-green-500 hover:shadow-lg transition-all"
+                          className="inline-flex items-center justify-center px-3 py-2 rounded-lg text-sm font-medium text-white bg-gray-800 hover:bg-gray-800 transition-all"
                           onClick={() => setIsMenuOpen(false)}
                         >
                           <svg className="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
@@ -275,7 +275,7 @@ const Header = () => {
                       {user.role === 'employer' && (
                         <Link
                           to="/dashboard/profile"
-                          className="inline-flex items-center justify-center px-3 py-2 rounded-lg text-sm font-medium text-white bg-gradient-to-r from-purple-500 to-green-500 hover:shadow-lg transition-all"
+                          className="inline-flex items-center justify-center px-3 py-2 rounded-lg text-sm font-medium text-white bg-gray-800 hover:bg-gray-800 transition-all"
                           onClick={() => setIsMenuOpen(false)}
                         >
                           <svg className="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
@@ -285,7 +285,7 @@ const Header = () => {
                       {user.role === 'admin' && (
                         <Link
                           to="/admin/dashboard"
-                          className="inline-flex items-center justify-center px-3 py-2 rounded-lg text-sm font-medium text-white bg-gradient-to-r from-purple-500 to-green-500 hover:shadow-lg transition-all"
+                          className="inline-flex items-center justify-center px-3 py-2 rounded-lg text-sm font-medium text-white bg-gray-800 hover:bg-gray-800 transition-all"
                           onClick={() => setIsMenuOpen(false)}
                         >
                           <svg className="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
@@ -294,7 +294,7 @@ const Header = () => {
                       )}
                       <button
                         onClick={() => { handleLogout(); setIsMenuOpen(false); }}
-                        className="inline-flex items-center justify-center px-3 py-2 rounded-lg text-sm font-medium text-red-600 bg-red-50 hover:bg-red-100"
+                        className="inline-flex items-center justify-center px-3 py-2 rounded-lg text-sm font-medium text-gray-800 bg-white hover:bg-gray-100 border-2 border-gray-800"
                       >
                         <svg className="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
                         Sign out
@@ -306,8 +306,8 @@ const Header = () => {
                   to={homePath}
                   className={`flex items-center px-4 py-3.5 rounded-xl text-base font-medium transition-all duration-200 ${
                     isActive(homePath)
-                      ? 'bg-gradient-to-r from-purple-500 to-green-500 text-white shadow-lg'
-                      : 'text-gray-800 hover:bg-white hover:shadow-md'
+                      ? 'bg-gray-800 text-white shadow-lg'
+                      : 'text-gray-800 hover:bg-gray-100 hover:shadow-md'
                   }`}
                   onClick={() => setIsMenuOpen(false)}
                 >
@@ -322,8 +322,8 @@ const Header = () => {
                     to="/jobs"
                     className={`flex items-center px-4 py-3.5 rounded-xl text-base font-medium transition-all duration-200 ${
                       isActive('/jobs')
-                        ? 'bg-gradient-to-r from-purple-500 to-green-500 text-white shadow-lg'
-                        : 'text-gray-800 hover:bg-white hover:shadow-md'
+                        ? 'bg-gray-800 text-white shadow-lg'
+                        : 'text-gray-800 hover:bg-gray-100 hover:shadow-md'
                     }`}
                     onClick={() => setIsMenuOpen(false)}
                   >
@@ -342,8 +342,8 @@ const Header = () => {
                           to="/applications"
                           className={`flex items-center px-4 py-3.5 rounded-xl text-base font-medium transition-all duration-200 ${
                             isActive('/applications')
-                              ? 'bg-gradient-to-r from-purple-500 to-green-500 text-white shadow-lg'
-                              : 'text-gray-800 hover:bg-white hover:shadow-md'
+                              ? 'bg-gray-800 text-white shadow-lg'
+                              : 'text-gray-800 hover:bg-gray-100 hover:shadow-md'
                           }`}
                           onClick={() => setIsMenuOpen(false)}
                         >
@@ -357,8 +357,8 @@ const Header = () => {
                           to="/bookmarks"
                           className={`flex items-center px-4 py-3.5 rounded-xl text-base font-medium transition-all duration-200 ${
                             isActive('/bookmarks')
-                              ? 'bg-gradient-to-r from-purple-500 to-green-500 text-white shadow-lg'
-                              : 'text-gray-800 hover:bg-white hover:shadow-md'
+                              ? 'bg-gray-800 text-white shadow-lg'
+                              : 'text-gray-800 hover:bg-gray-100 hover:shadow-md'
                           }`}
                           onClick={() => setIsMenuOpen(false)}
                         >
@@ -372,8 +372,8 @@ const Header = () => {
                           to="/profile"
                           className={`flex items-center px-4 py-3.5 rounded-xl text-base font-medium transition-all duration-200 ${
                             isActive('/profile')
-                              ? 'bg-gradient-to-r from-purple-500 to-green-500 text-white shadow-lg'
-                              : 'text-gray-800 hover:bg-white hover:shadow-md'
+                              ? 'bg-gray-800 text-white shadow-lg'
+                              : 'text-gray-800 hover:bg-gray-100 hover:shadow-md'
                           }`}
                           onClick={() => setIsMenuOpen(false)}
                         >
@@ -391,8 +391,8 @@ const Header = () => {
                           to="/dashboard"
                           className={`flex items-center px-4 py-3.5 rounded-xl text-base font-medium transition-all duration-200 ${
                             location.pathname === '/dashboard'
-                              ? 'bg-gradient-to-r from-purple-500 to-green-500 text-white shadow-lg'
-                              : 'text-gray-800 hover:bg-white hover:shadow-md'
+                              ? 'bg-gray-800 text-white shadow-lg'
+                              : 'text-gray-800 hover:bg-gray-100 hover:shadow-md'
                           }`}
                           onClick={() => setIsMenuOpen(false)}
                         >
@@ -406,8 +406,8 @@ const Header = () => {
                           to="/employer/applications"
                           className={`flex items-center px-4 py-3.5 rounded-xl text-base font-medium transition-all duration-200 ${
                             location.pathname === '/employer/applications'
-                              ? 'bg-gradient-to-r from-purple-500 to-green-500 text-white shadow-lg'
-                              : 'text-gray-800 hover:bg-white hover:shadow-md'
+                              ? 'bg-gray-800 text-white shadow-lg'
+                              : 'text-gray-800 hover:bg-gray-100 hover:shadow-md'
                           }`}
                           onClick={() => setIsMenuOpen(false)}
                         >
@@ -421,8 +421,8 @@ const Header = () => {
                           to="/dashboard/profile"
                           className={`flex items-center px-4 py-3.5 rounded-xl text-base font-medium transition-all duration-200 ${
                             location.pathname === '/dashboard/profile'
-                              ? 'bg-gradient-to-r from-purple-500 to-green-500 text-white shadow-lg'
-                              : 'text-gray-800 hover:bg-white hover:shadow-md'
+                              ? 'bg-gray-800 text-white shadow-lg'
+                              : 'text-gray-800 hover:bg-gray-100 hover:shadow-md'
                           }`}
                           onClick={() => setIsMenuOpen(false)}
                         >
@@ -439,8 +439,8 @@ const Header = () => {
                         to="/admin/dashboard"
                         className={`flex items-center px-4 py-3.5 rounded-xl text-base font-medium transition-all duration-200 ${
                           location.pathname.startsWith('/admin')
-                            ? 'bg-gradient-to-r from-purple-500 to-green-500 text-white shadow-lg'
-                            : 'text-gray-800 hover:bg-white hover:shadow-md'
+                            ? 'bg-gray-800 text-white shadow-lg'
+                            : 'text-gray-800 hover:bg-gray-100 hover:shadow-md'
                         }`}
                         onClick={() => setIsMenuOpen(false)}
                       >
@@ -457,10 +457,10 @@ const Header = () => {
                 )}
 
                 {!user && (
-                  <div className="border-t-2 border-indigo-300 mt-4 pt-4 space-y-2">
+                  <div className="border-t-2 border-gray-800 mt-4 pt-4 space-y-2">
                     <Link
                       to="/login/jobseeker"
-                      className="flex items-center px-4 py-3.5 rounded-xl text-base font-medium text-gray-800 hover:bg-white hover:shadow-md transition-all duration-200"
+                      className="flex items-center px-4 py-3.5 rounded-xl text-base font-medium text-gray-800 hover:bg-gray-100 hover:shadow-md transition-all duration-200"
                       onClick={() => setIsMenuOpen(false)}
                     >
                       <svg className="w-5 h-5 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -470,7 +470,7 @@ const Header = () => {
                     </Link>
                     <Link
                       to="/login/employer"
-                      className="flex items-center px-4 py-3.5 rounded-xl text-base font-medium text-gray-800 hover:bg-white hover:shadow-md transition-all duration-200"
+                      className="flex items-center px-4 py-3.5 rounded-xl text-base font-medium text-gray-800 hover:bg-gray-100 hover:shadow-md transition-all duration-200"
                       onClick={() => setIsMenuOpen(false)}
                     >
                       <svg className="w-5 h-5 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -480,7 +480,7 @@ const Header = () => {
                     </Link>
                     <Link
                       to="/login/admin"
-                      className="flex items-center px-4 py-3.5 rounded-xl text-sm font-medium text-gray-600 hover:bg-white hover:shadow-md transition-all duration-200"
+                      className="flex items-center px-4 py-3.5 rounded-xl text-sm font-medium text-gray-600 hover:bg-gray-100 hover:shadow-md transition-all duration-200"
                       onClick={() => setIsMenuOpen(false)}
                     >
                       <svg className="w-4 h-4 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -491,7 +491,7 @@ const Header = () => {
                     </Link>
                     <Link
                       to="/register"
-                      className="flex items-center px-4 py-3.5 rounded-xl text-base font-medium bg-gradient-to-r from-purple-500 to-green-500 text-white hover:from-purple-600 hover:to-green-600 shadow-lg transition-all duration-200"
+                      className="flex items-center px-4 py-3.5 rounded-xl text-base font-medium bg-gray-800 text-white hover:bg-gray-800 shadow-lg transition-all duration-200"
                       onClick={() => setIsMenuOpen(false)}
                     >
                       <svg className="w-5 h-5 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">

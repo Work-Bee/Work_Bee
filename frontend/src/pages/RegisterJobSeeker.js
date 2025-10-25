@@ -221,7 +221,7 @@ const RegisterJobSeeker = () => {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m8 0V6a2 2 0 012 2v6a2 2 0 01-2 2H8a2 2 0 01-2-2V8a2 2 0 012-2V6" />
             </svg>
           </div>
-          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
+          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-800">
             Create Your Job Seeker Account
           </h2>
           <p className="mt-2 text-center text-sm text-gray-600">
@@ -235,7 +235,7 @@ const RegisterJobSeeker = () => {
         {/* Google OAuth Prompt - Show first if form not started */}
         {!showForm ? (
           <div className="bg-white rounded-lg shadow-md p-8">
-            <h3 className="text-lg font-semibold text-gray-900 mb-2 text-center">
+            <h3 className="text-lg font-semibold text-gray-800 mb-2 text-center">
               Get Started Quickly
             </h3>
             <p className="text-center text-sm text-gray-600 mb-6">
@@ -247,14 +247,14 @@ const RegisterJobSeeker = () => {
               <button
                 type="button"
                 onClick={startGoogleLogin}
-                className="w-full flex items-center justify-center gap-3 px-6 py-3 border-2 border-gray-300 rounded-lg hover:border-gray-900 hover:shadow-md transition-all duration-200 bg-white"
+                className="w-full flex items-center justify-center gap-3 px-6 py-3 border-2 border-gray-300 rounded-lg hover:border-gray-800 hover:shadow-md transition-all duration-200 bg-white"
               >
                 <span className="inline-flex h-6 w-6 items-center justify-center rounded-sm bg-white">
                   <svg aria-hidden="true" viewBox="0 0 24 24" className="h-5 w-5">
                     <path fill="#EA4335" d="M12 10.2h10.5c.1.6.1 1.2.1 1.8 0 6-4 10-10.6 10-6.1 0-11-4.9-11-11s4.9-11 11-11c2.9 0 5.3 1.1 7.2 2.8l-2.9 2.8C15.1 4.7 13.7 4 12 4 8.7 4 6 6.7 6 10s2.7 6 6 6c3 0 4.9-1.7 5.4-4.1H12v-1.7z"/>
                   </svg>
                 </span>
-                <span className="font-medium text-gray-900">Continue with Google</span>
+                <span className="font-medium text-gray-800">Continue with Google</span>
               </button>
 
               {/* Divider */}
@@ -271,17 +271,17 @@ const RegisterJobSeeker = () => {
               <button
                 type="button"
                 onClick={() => setShowForm(true)}
-                className="w-full flex items-center justify-center gap-2 px-6 py-3 border-2 border-gray-300 rounded-lg hover:border-gray-900 hover:shadow-md transition-all duration-200 bg-white"
+                className="w-full flex items-center justify-center gap-2 px-6 py-3 border-2 border-gray-300 rounded-lg hover:border-gray-800 hover:shadow-md transition-all duration-200 bg-white"
               >
                 <svg className="h-5 w-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                 </svg>
-                <span className="font-medium text-gray-900">Continue with Email</span>
+                <span className="font-medium text-gray-800">Continue with Email</span>
               </button>
             </div>
 
             <div className="mt-6 text-center">
-              <Link to="/register" className="text-sm text-gray-600 hover:text-gray-900">
+              <Link to="/register" className="text-sm text-gray-600 hover:text-gray-800">
                 ← Choose different account type
               </Link>
             </div>
@@ -311,7 +311,7 @@ const RegisterJobSeeker = () => {
                           step
                         )}
                       </div>
-                      <p className={`text-xs mt-2 text-center ${step === currentStep ? 'font-semibold text-gray-900' : 'text-gray-600'}`}>
+                      <p className={`text-xs mt-2 text-center ${step === currentStep ? 'font-semibold text-gray-800' : 'text-gray-600'}`}>
                         {step === 1 ? 'Account Setup' : step === 2 ? 'Professional Info' : 'Complete Profile'}
                       </p>
                     </div>
@@ -344,7 +344,7 @@ const RegisterJobSeeker = () => {
           {/* STEP 1: Basic Identity */}
           {currentStep === 1 && (
             <div className="space-y-4">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">Basic Information</h3>
+              <h3 className="text-lg font-semibold text-gray-800 mb-4">Basic Information</h3>
               
               {/* Name */}
               <div>
@@ -475,7 +475,7 @@ const RegisterJobSeeker = () => {
           {/* STEP 2: Professional Profile */}
           {currentStep === 2 && (
             <div className="space-y-4">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">Professional Profile</h3>
+              <h3 className="text-lg font-semibold text-gray-800 mb-4">Professional Profile</h3>
               
               {/* Current Location */}
               <div>
@@ -681,7 +681,7 @@ const RegisterJobSeeker = () => {
           {currentStep === 3 && (
             <div className="space-y-6">
               <div className="flex justify-between items-center mb-4">
-                <h3 className="text-lg font-semibold text-gray-900">Complete Your Profile</h3>
+                <h3 className="text-lg font-semibold text-gray-800">Complete Your Profile</h3>
                 <button
                   type="button"
                   onClick={handleSkipStep3}
@@ -697,7 +697,7 @@ const RegisterJobSeeker = () => {
 
               {/* Education Section */}
               <div className="border-t border-gray-200 pt-4">
-                <h4 className="text-md font-medium text-gray-900 mb-3">Education</h4>
+                <h4 className="text-md font-medium text-gray-800 mb-3">Education</h4>
                 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -723,7 +723,7 @@ const RegisterJobSeeker = () => {
 
               {/* Languages */}
               <div className="border-t border-gray-200 pt-4">
-                <h4 className="text-md font-medium text-gray-900 mb-3">Languages</h4>
+                <h4 className="text-md font-medium text-gray-800 mb-3">Languages</h4>
                 
                 <div className="flex gap-2">
                   <input
@@ -768,7 +768,7 @@ const RegisterJobSeeker = () => {
 
               {/* Expected Salary */}
               <div className="border-t border-gray-200 pt-4">
-                <h4 className="text-md font-medium text-gray-900 mb-3">Expected Salary Range</h4>
+                <h4 className="text-md font-medium text-gray-800 mb-3">Expected Salary Range</h4>
                 
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
                   <div>
@@ -834,7 +834,7 @@ const RegisterJobSeeker = () => {
 
               {/* Availability & Preferences */}
               <div className="border-t border-gray-200 pt-4">
-                <h4 className="text-md font-medium text-gray-900 mb-3">Work Preferences</h4>
+                <h4 className="text-md font-medium text-gray-800 mb-3">Work Preferences</h4>
                 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   <div>
@@ -892,7 +892,7 @@ const RegisterJobSeeker = () => {
 
               {/* Career Summary */}
               <div className="border-t border-gray-200 pt-4">
-                <h4 className="text-md font-medium text-gray-900 mb-3">Career Summary / Bio</h4>
+                <h4 className="text-md font-medium text-gray-800 mb-3">Career Summary / Bio</h4>
                 
                 <textarea
                   name="bio"
