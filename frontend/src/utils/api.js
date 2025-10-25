@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const DEFAULT_API_URL = 'http://localhost:5555/api';
+const DEFAULT_API_URL = 'http://localhost:5000/api';
 
 const normalizeApiUrl = (value) => {
   const trimmed = (value || '').trim();

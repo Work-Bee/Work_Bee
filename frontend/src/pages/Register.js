@@ -10,7 +10,7 @@ const Register = () => {
   const [selectedRole, setSelectedRole] = useState(preselectedRole);
 
   const startGoogleLogin = (role) => {
-    const apiBase = process.env.REACT_APP_API_URL || 'http://localhost:5555/api';
+    const apiBase = process.env.REACT_APP_API_URL || 'http://localhost:5000/api';
     // Use path relative to api base to ensure /api prefix is preserved
     const url = new URL('auth/google', apiBase);
     url.searchParams.set('role', role);

@@ -12,7 +12,7 @@ const RegisterEmployer = () => {
 
   // Google OAuth handler
   const startGoogleLogin = () => {
-    const apiBase = process.env.REACT_APP_API_URL || 'http://localhost:5555/api';
+    const apiBase = process.env.REACT_APP_API_URL || 'http://localhost:5000/api';
     const url = new URL('auth/google', apiBase);
     url.searchParams.set('role', 'employer');
     window.location.href = url.toString();

@@ -85,7 +85,7 @@ const RoleLoginForm = ({ role }) => {
   };
 
   const startGoogleLogin = () => {
-    const apiBase = process.env.REACT_APP_API_URL || 'http://localhost:5555/api';
+    const apiBase = process.env.REACT_APP_API_URL || 'http://localhost:5000/api';
     const next = location.state?.from?.pathname || '';
     // Use path relative to api base to ensure /api prefix is preserved
     const url = new URL('auth/google', apiBase);
