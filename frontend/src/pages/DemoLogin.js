@@ -50,10 +50,34 @@ const DemoLogin = () => {
     window.location.href = url.toString();
   };
 
-  const useDemoAccount = () => {
-    // Redirect directly to the appropriate dashboard without login
-    const destination = userType === 'jobseeker' ? '/jobseeker/home' : '/employer/home';
-    navigate(destination, { replace: true });
+  const useDemoAccount = async () => {
+    clearError();
+    
+    // Demo account credentials
+    const demoCredentials = {
+      jobseeker: {
+        email: 'jobseeker@demo.com',
+        password: 'demo123'
+      },
+      employer: {
+        email: 'employer@demo.com',
+        password: 'demo123'
+      }
+    };
+
+    const credentials = demoCredentials[userType];
+    
+    // Log in with demo credentials
+    const result = await login({
+      email: credentials.email,
+      password: credentials.password,
+      role: userType
+    });
+
+    if (result.success) {
+      const destination = userType === 'jobseeker' ? '/jobseeker/home' : '/employer/home';
+      navigate(destination, { replace: true });
+    }
   };
 
   return (

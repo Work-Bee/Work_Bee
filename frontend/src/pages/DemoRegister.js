@@ -9,7 +9,7 @@ const DemoRegister = () => {
   const [currentStep, setCurrentStep] = useState(1);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const { register: registerUser, loading, error, clearError } = useAuth();
+  const { register: registerUser, login, loading, error, clearError } = useAuth();
   const navigate = useNavigate();
 
   // Job Seeker Form Data (3 steps)
@@ -291,10 +291,34 @@ const DemoRegister = () => {
     window.location.href = url.toString();
   };
 
-  const useDemoAccount = () => {
-    // Redirect directly to the appropriate dashboard without login
-    const destination = userType === 'jobseeker' ? '/jobseeker/home' : '/employer/home';
-    navigate(destination, { replace: true });
+  const useDemoAccount = async () => {
+    clearError();
+    
+    // Demo account credentials
+    const demoCredentials = {
+      jobseeker: {
+        email: 'jobseeker@demo.com',
+        password: 'demo123'
+      },
+      employer: {
+        email: 'employer@demo.com',
+        password: 'demo123'
+      }
+    };
+
+    const credentials = demoCredentials[userType];
+    
+    // Try to log in with demo credentials
+    const result = await login({
+      email: credentials.email,
+      password: credentials.password,
+      role: userType
+    });
+
+    if (result.success) {
+      const destination = userType === 'jobseeker' ? '/jobseeker/home' : '/employer/home';
+      navigate(destination, { replace: true });
+    }
   };
 
   const maxSteps = userType === 'jobseeker' ? 3 : 2;
