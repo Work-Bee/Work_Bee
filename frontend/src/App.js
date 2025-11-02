@@ -29,6 +29,8 @@ import LoginEmployer from './pages/LoginEmployer';
 import LoginAdmin from './pages/LoginAdmin';
 import AdminDashboard from './pages/AdminDashboard';
 import AuthCallback from './pages/AuthCallback';
+import DemoLogin from './pages/DemoLogin';
+import DemoRegister from './pages/DemoRegister';
 
 // Import layout component
 import Layout from './components/Layout';
@@ -52,12 +54,12 @@ function App() {
             <Routes>
               {/* Public routes without layout */}
               <Route path="/" element={<Landing />} />
-              <Route path="/login/jobseeker" element={<LoginJobSeeker />} />
-              <Route path="/login/employer" element={<LoginEmployer />} />
+              <Route path="/login/jobseeker" element={<DemoLogin />} />
+              <Route path="/login/employer" element={<DemoLogin />} />
               <Route path="/login/admin" element={<LoginAdmin />} />
-              <Route path="/register" element={<Register />} />
-              <Route path="/register/jobseeker" element={<RegisterJobSeeker />} />
-              <Route path="/register/employer" element={<RegisterEmployer />} />
+              <Route path="/register" element={<DemoRegister />} />
+              <Route path="/register/jobseeker" element={<DemoRegister />} />
+              <Route path="/register/employer" element={<DemoRegister />} />
               <Route path="/unauthorized" element={<Unauthorized />} />
               <Route path="/auth/callback" element={<AuthCallback />} />
               
