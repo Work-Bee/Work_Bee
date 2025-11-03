@@ -62,38 +62,38 @@ const JobSeekerHome = () => {
 
   return (
     <div>
-      <section className="bg-gray-50 text-gray-800 py-20 relative overflow-hidden">
+      <section className="bg-gray-50 text-gray-800 py-12 md:py-20 relative overflow-hidden">
         {/* Decorative background elements */}
-        <div className="absolute top-10 left-10 w-72 h-72 bg-gray-800/5 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-20 right-20 w-96 h-96 bg-gray-800/5 rounded-full blur-3xl"></div>
+        <div className="absolute top-10 left-10 w-48 h-48 md:w-72 md:h-72 bg-gray-800/5 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-20 right-20 w-64 h-64 md:w-96 md:h-96 bg-gray-800/5 rounded-full blur-3xl"></div>
         
         {/* Floating decorative icons */}
         <div className="absolute top-1/4 right-1/4 animate-pulse">
-          <div className="w-8 h-8 bg-gray-200 rounded-lg rotate-12"></div>
+          <div className="w-6 h-6 md:w-8 md:h-8 bg-gray-200 rounded-lg rotate-12"></div>
         </div>
         <div className="absolute bottom-1/3 left-1/4 animate-pulse" style={{animationDelay: '1s'}}>
-          <div className="w-6 h-6 bg-gray-300 rounded-full"></div>
+          <div className="w-4 h-4 md:w-6 md:h-6 bg-gray-300 rounded-full"></div>
         </div>
         
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center">
-            <h1 className="text-4xl md:text-6xl font-extrabold mb-6 animate-fade-in text-gray-800">
+            <h1 className="text-3xl md:text-4xl lg:text-6xl font-extrabold mb-4 md:mb-6 animate-fade-in text-gray-800">
               Find Your Next
               <span className="block text-gray-800">Opportunity</span>
             </h1>
-            <p className="text-xl md:text-2xl mb-8 text-gray-600 max-w-3xl mx-auto animate-slide-up">
+            <p className="text-base md:text-xl lg:text-2xl mb-6 md:mb-8 text-gray-600 max-w-3xl mx-auto animate-slide-up">
               Discover thousands of entry-level and unskilled job opportunities. Start your journey today with roles that welcome beginners.
             </p>
 
-            <form onSubmit={handleSearch} className="max-w-4xl mx-auto mb-8 animate-slide-up">
-              <div className="flex flex-col sm:flex-row gap-4 bg-white rounded-xl p-2 shadow-xl border-2 border-gray-800">
+            <form onSubmit={handleSearch} className="max-w-4xl mx-auto mb-6 md:mb-8 animate-slide-up">
+              <div className="flex flex-col sm:flex-row gap-3 md:gap-4 bg-white rounded-xl p-2 shadow-xl border-2 border-gray-800">
                 <div className="flex-1">
                   <input
                     type="text"
                     value={searchTerm}
                     onChange={(event) => setSearchTerm(event.target.value)}
                     placeholder="Job title, keywords, or company"
-                    className="w-full px-4 py-3 text-gray-800 placeholder-gray-500 border-0 rounded-lg focus:ring-2 focus:ring-black focus:outline-none"
+                    className="w-full px-3 md:px-4 py-2 md:py-3 text-sm md:text-base text-gray-800 placeholder-gray-500 border-0 rounded-lg focus:ring-2 focus:ring-black focus:outline-none"
                   />
                 </div>
                 <div className="flex-1">
@@ -102,14 +102,14 @@ const JobSeekerHome = () => {
                     value={searchCity}
                     onChange={(event) => setSearchCity(event.target.value)}
                     placeholder="City or state"
-                    className="w-full px-4 py-3 text-gray-800 placeholder-gray-500 border-0 rounded-lg focus:ring-2 focus:ring-black focus:outline-none"
+                    className="w-full px-3 md:px-4 py-2 md:py-3 text-sm md:text-base text-gray-800 placeholder-gray-500 border-0 rounded-lg focus:ring-2 focus:ring-black focus:outline-none"
                   />
                 </div>
                 <button
                   type="submit"
-                  className="px-8 py-3 bg-gray-800 text-white font-semibold rounded-xl hover:bg-gray-800 hover:shadow-lg transition-all duration-200 flex items-center justify-center"
+                  className="px-6 md:px-8 py-2 md:py-3 text-sm md:text-base bg-gray-800 text-white font-semibold rounded-xl hover:bg-gray-800 hover:shadow-lg transition-all duration-200 flex items-center justify-center"
                 >
-                  <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-4 h-4 md:w-5 md:h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                   </svg>
                   Search Jobs
@@ -117,15 +117,15 @@ const JobSeekerHome = () => {
               </div>
             </form>
 
-            <div className="flex flex-col sm:flex-row gap-6 justify-center items-center animate-bounce-in">
-              <Link to="/jobs" className="inline-flex items-center px-6 py-3 bg-white border-2 border-gray-800 text-gray-800 font-semibold rounded-xl hover:bg-gray-100 transition-all shadow-sm">
-                <svg className="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <div className="flex flex-row gap-3 md:gap-6 justify-center items-center animate-bounce-in">
+              <Link to="/jobs" className="inline-flex items-center px-3 md:px-6 py-2 md:py-3 text-xs md:text-base bg-white border-2 border-gray-800 text-gray-800 font-semibold rounded-xl hover:bg-gray-100 transition-all shadow-sm whitespace-nowrap">
+                <svg className="w-4 h-4 md:w-5 md:h-5 mr-1 md:mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m8 0h3m-3 0h-8m0 0H5" />
                 </svg>
                 Browse All Jobs
               </Link>
-              <Link to="/profile" className="inline-flex items-center px-6 py-3 bg-gray-800 text-white font-semibold rounded-xl hover:bg-gray-800 hover:shadow-lg transition-all">
-                <svg className="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <Link to="/profile" className="inline-flex items-center px-3 md:px-6 py-2 md:py-3 text-xs md:text-base bg-gray-800 text-white font-semibold rounded-xl hover:bg-gray-800 hover:shadow-lg transition-all whitespace-nowrap">
+                <svg className="w-4 h-4 md:w-5 md:h-5 mr-1 md:mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                 </svg>
                 Complete Profile
@@ -135,18 +135,18 @@ const JobSeekerHome = () => {
         </div>
       </section>
 
-      <section className="py-16 bg-white">
+      <section className="py-8 md:py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+          <div className="grid grid-cols-4 gap-3 md:gap-8">
             {[
-              { label: 'Active jobs', value: '10k+' },
-              { label: 'Job seekers', value: '50k+' },
+              { label: 'Active Jobs', value: '10k+' },
+              { label: 'Job Seekers', value: '50k+' },
               { label: 'Companies', value: '5k+' },
-              { label: 'Success rate', value: '95%' },
+              { label: 'Success Rate', value: '95%' },
             ].map((stat) => (
               <div key={stat.label} className="text-center">
-                <div className="text-3xl md:text-4xl font-bold text-gray-800 mb-2">{stat.value}</div>
-                <div className="text-gray-600 capitalize">{stat.label}</div>
+                <div className="text-lg md:text-3xl lg:text-4xl font-bold text-gray-800 mb-1 md:mb-2">{stat.value}</div>
+                <div className="text-[10px] md:text-sm lg:text-base text-gray-600 capitalize leading-tight">{stat.label}</div>
               </div>
             ))}
           </div>
@@ -154,16 +154,16 @@ const JobSeekerHome = () => {
       </section>
 
       {/* Recommended Jobs Section */}
-      <section className="py-16 bg-white border-b border-gray-200">
+      <section className="py-8 md:py-16 bg-white border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <div className="inline-flex items-center justify-center p-3 bg-gray-100 rounded-full mb-4 border-2 border-gray-800">
-              <svg className="w-8 h-8 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div className="text-center mb-6 md:mb-12">
+            <div className="inline-flex items-center justify-center p-2 md:p-3 bg-gray-100 rounded-full mb-3 md:mb-4 border-2 border-gray-800">
+              <svg className="w-6 h-6 md:w-8 md:h-8 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
               </svg>
             </div>
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-4">Recommended For You</h2>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+            <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-800 mb-2 md:mb-4">Recommended For You</h2>
+            <p className="text-sm md:text-lg lg:text-xl text-gray-600 max-w-2xl mx-auto">
               Jobs matched to your skills, experience, and preferences
             </p>
           </div>
@@ -171,27 +171,27 @@ const JobSeekerHome = () => {
           {recommendedLoading ? (
             <LoadingSpinner text="Finding your perfect matches..." />
           ) : needsProfile ? (
-            <div className="max-w-2xl mx-auto text-center py-12 bg-white rounded-2xl border-2 border-dashed border-gray-800 relative overflow-hidden">
+            <div className="max-w-2xl mx-auto text-center py-8 md:py-12 bg-white rounded-2xl border-2 border-dashed border-gray-800 relative overflow-hidden">
               {/* Decorative elements */}
               <div className="absolute top-0 right-0 w-32 h-32 bg-gray-100 rounded-full opacity-40 -translate-y-1/2 translate-x-1/2"></div>
               <div className="absolute bottom-0 left-0 w-24 h-24 bg-gray-200 rounded-full opacity-40 translate-y-1/2 -translate-x-1/2"></div>
               
               <div className="relative z-10">
-                <div className="mx-auto h-16 w-16 bg-gray-800 rounded-full flex items-center justify-center mb-4 shadow-lg">
-                  <svg className="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <div className="mx-auto h-12 w-12 md:h-16 md:w-16 bg-gray-800 rounded-full flex items-center justify-center mb-3 md:mb-4 shadow-lg">
+                  <svg className="h-6 w-6 md:h-8 md:w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                   </svg>
                 </div>
-                <h3 className="text-2xl font-bold text-gray-800 mb-3">Complete Your Profile</h3>
-                <p className="text-gray-700 mb-6 px-4">
+                <h3 className="text-xl md:text-2xl font-bold text-gray-800 mb-2 md:mb-3">Complete Your Profile</h3>
+                <p className="text-sm md:text-base text-gray-700 mb-4 md:mb-6 px-4">
                   Help us understand you better! Add your skills, experience, and location preferences 
                   to receive personalized job recommendations tailored just for you.
                 </p>
-                <div className="flex flex-col sm:flex-row gap-4 justify-center px-4">
-                  <Link to="/profile" className="inline-flex items-center justify-center px-6 py-3 bg-gray-800 text-white font-semibold rounded-xl hover:bg-gray-800 hover:shadow-lg transition-all">
+                <div className="flex flex-row gap-2 md:gap-4 justify-center px-4">
+                  <Link to="/profile" className="inline-flex items-center justify-center px-3 md:px-6 py-2 md:py-3 bg-gray-800 text-white text-xs md:text-base font-semibold rounded-xl hover:bg-gray-800 hover:shadow-lg transition-all whitespace-nowrap">
                     Complete Profile Now
                   </Link>
-                  <Link to="/jobs" className="inline-flex items-center justify-center px-6 py-3 bg-white border-2 border-gray-800 text-gray-800 font-semibold rounded-xl hover:bg-gray-100 transition-all">
+                  <Link to="/jobs" className="inline-flex items-center justify-center px-3 md:px-6 py-2 md:py-3 bg-white border-2 border-gray-800 text-gray-800 text-xs md:text-base font-semibold rounded-xl hover:bg-gray-100 transition-all whitespace-nowrap">
                     Browse All Jobs
                   </Link>
                 </div>
@@ -199,29 +199,47 @@ const JobSeekerHome = () => {
             </div>
           ) : recommendedJobs.length > 0 ? (
             <>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+              {/* Mobile: Horizontal Scroll */}
+              <div className="md:hidden">
+                <div className="flex gap-4 overflow-x-auto pb-4 snap-x snap-mandatory scrollbar-hide -mx-4 px-4">
+                  {recommendedJobs.map((job) => (
+                    <div key={job._id} className="flex-shrink-0 w-[85vw] snap-center">
+                      <JobSummaryCard job={job} />
+                    </div>
+                  ))}
+                </div>
+                <div className="flex justify-center gap-2 mt-4">
+                  {recommendedJobs.map((_, index) => (
+                    <div key={index} className="w-2 h-2 rounded-full bg-gray-300"></div>
+                  ))}
+                </div>
+              </div>
+              
+              {/* Desktop: Grid Layout */}
+              <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
                 {recommendedJobs.map((job) => (
                   <JobSummaryCard key={job._id} job={job} />
                 ))}
               </div>
-              <div className="text-center">
-                <Link to="/jobs" className="btn btn-outline btn-lg">
+              
+              <div className="text-center mt-6 md:mt-0">
+                <Link to="/jobs" className="btn btn-outline btn-sm md:btn-lg">
                   View All Jobs
                 </Link>
               </div>
             </>
           ) : (
-            <div className="text-center py-12">
-              <svg className="mx-auto h-12 w-12 text-gray-400 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <div className="text-center py-8 md:py-12">
+              <svg className="mx-auto h-10 w-10 md:h-12 md:w-12 text-gray-400 mb-3 md:mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
               </svg>
-              <h3 className="text-lg font-medium text-gray-800 mb-2">No Recommendations Yet</h3>
-              <p className="text-gray-600 mb-4">Update your profile with more details to get better recommendations!</p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Link to="/profile" className="btn btn-primary">
+              <h3 className="text-base md:text-lg font-medium text-gray-800 mb-2">No Recommendations Yet</h3>
+              <p className="text-sm md:text-base text-gray-600 mb-4">Update your profile with more details to get better recommendations!</p>
+              <div className="flex flex-row gap-2 md:gap-4 justify-center">
+                <Link to="/profile" className="btn btn-primary btn-sm md:btn-lg whitespace-nowrap">
                   Update Profile
                 </Link>
-                <Link to="/jobs" className="btn btn-outline">
+                <Link to="/jobs" className="btn btn-outline btn-sm md:btn-lg whitespace-nowrap">
                   Browse All Jobs
                 </Link>
               </div>

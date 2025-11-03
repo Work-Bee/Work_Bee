@@ -235,6 +235,16 @@
     mask-image: radial-gradient(circle at center, rgba(0,0,0,0.6), transparent 70%);
   }
 
+  /* Hide scrollbar but keep functionality */
+  .scrollbar-hide {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+  }
+  
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;  /* Chrome, Safari, Opera */
+  }
+
   /* Animated gradient button for jobseeker */
   .btn-gradient {
     background: linear-gradient(90deg, #6366f1, #8b5cf6, #3b82f6);
