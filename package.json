@@ -9,10 +9,20 @@
     "client": "cd frontend && npm start",
     "install-all": "npm install && cd backend && npm install && cd ../frontend && npm install"
   },
-  "keywords": ["mern", "job-portal", "react", "nodejs", "mongodb"],
+  "keywords": [
+    "mern",
+    "job-portal",
+    "react",
+    "nodejs",
+    "mongodb"
+  ],
   "author": "Your Name",
   "license": "MIT",
   "devDependencies": {
+    "@babel/core": "^7.28.5",
+    "@babel/helper-module-imports": "^7.27.1",
+    "@babel/preset-env": "^7.28.5",
+    "@babel/preset-react": "^7.28.5",
     "concurrently": "^8.2.0"
   }
 }

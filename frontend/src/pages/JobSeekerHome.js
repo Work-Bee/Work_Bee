@@ -67,12 +67,12 @@ const JobSeekerHome = () => {
         <div className="absolute top-10 left-10 w-48 h-48 md:w-72 md:h-72 bg-gray-800/5 rounded-full blur-3xl"></div>
         <div className="absolute bottom-20 right-20 w-64 h-64 md:w-96 md:h-96 bg-gray-800/5 rounded-full blur-3xl"></div>
         
-        {/* Floating decorative icons */}
-        <div className="absolute top-1/4 right-1/4 animate-pulse">
-          <div className="w-6 h-6 md:w-8 md:h-8 bg-gray-200 rounded-lg rotate-12"></div>
+        {/* Floating decorative icons - Hidden on mobile */}
+        <div className="hidden md:block absolute top-1/4 right-1/4 animate-pulse">
+          <div className="w-8 h-8 bg-gray-200 rounded-lg rotate-12"></div>
         </div>
-        <div className="absolute bottom-1/3 left-1/4 animate-pulse" style={{animationDelay: '1s'}}>
-          <div className="w-4 h-4 md:w-6 md:h-6 bg-gray-300 rounded-full"></div>
+        <div className="hidden md:block absolute bottom-1/3 left-1/4 animate-pulse" style={{animationDelay: '1s'}}>
+          <div className="w-6 h-6 bg-gray-300 rounded-full"></div>
         </div>
         
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -172,9 +172,9 @@ const JobSeekerHome = () => {
             <LoadingSpinner text="Finding your perfect matches..." />
           ) : needsProfile ? (
             <div className="max-w-2xl mx-auto text-center py-8 md:py-12 bg-white rounded-2xl border-2 border-dashed border-gray-800 relative overflow-hidden">
-              {/* Decorative elements */}
-              <div className="absolute top-0 right-0 w-32 h-32 bg-gray-100 rounded-full opacity-40 -translate-y-1/2 translate-x-1/2"></div>
-              <div className="absolute bottom-0 left-0 w-24 h-24 bg-gray-200 rounded-full opacity-40 translate-y-1/2 -translate-x-1/2"></div>
+              {/* Decorative elements - Hidden on mobile */}
+              <div className="hidden md:block absolute top-0 right-0 w-32 h-32 bg-gray-100 rounded-full opacity-40 -translate-y-1/2 translate-x-1/2"></div>
+              <div className="hidden md:block absolute bottom-0 left-0 w-24 h-24 bg-gray-200 rounded-full opacity-40 translate-y-1/2 -translate-x-1/2"></div>
               
               <div className="relative z-10">
                 <div className="mx-auto h-12 w-12 md:h-16 md:w-16 bg-gray-800 rounded-full flex items-center justify-center mb-3 md:mb-4 shadow-lg">
@@ -187,11 +187,11 @@ const JobSeekerHome = () => {
                   Help us understand you better! Add your skills, experience, and location preferences 
                   to receive personalized job recommendations tailored just for you.
                 </p>
-                <div className="flex flex-row gap-2 md:gap-4 justify-center px-4">
-                  <Link to="/profile" className="inline-flex items-center justify-center px-3 md:px-6 py-2 md:py-3 bg-gray-800 text-white text-xs md:text-base font-semibold rounded-xl hover:bg-gray-800 hover:shadow-lg transition-all whitespace-nowrap">
+                <div className="flex flex-col sm:flex-row gap-2 md:gap-4 justify-center px-4">
+                  <Link to="/profile" className="inline-flex items-center justify-center px-4 md:px-6 py-3 bg-gray-800 text-white text-sm md:text-base font-semibold rounded-xl hover:bg-gray-800 hover:shadow-lg transition-all">
                     Complete Profile Now
                   </Link>
-                  <Link to="/jobs" className="inline-flex items-center justify-center px-3 md:px-6 py-2 md:py-3 bg-white border-2 border-gray-800 text-gray-800 text-xs md:text-base font-semibold rounded-xl hover:bg-gray-100 transition-all whitespace-nowrap">
+                  <Link to="/jobs" className="inline-flex items-center justify-center px-4 md:px-6 py-3 bg-white border-2 border-gray-800 text-gray-800 text-sm md:text-base font-semibold rounded-xl hover:bg-gray-100 transition-all">
                     Browse All Jobs
                   </Link>
                 </div>
@@ -235,11 +235,11 @@ const JobSeekerHome = () => {
               </svg>
               <h3 className="text-base md:text-lg font-medium text-gray-800 mb-2">No Recommendations Yet</h3>
               <p className="text-sm md:text-base text-gray-600 mb-4">Update your profile with more details to get better recommendations!</p>
-              <div className="flex flex-row gap-2 md:gap-4 justify-center">
-                <Link to="/profile" className="btn btn-primary btn-sm md:btn-lg whitespace-nowrap">
+              <div className="flex flex-col sm:flex-row gap-2 md:gap-4 justify-center">
+                <Link to="/profile" className="btn btn-primary btn-sm md:btn-md">
                   Update Profile
                 </Link>
-                <Link to="/jobs" className="btn btn-outline btn-sm md:btn-lg whitespace-nowrap">
+                <Link to="/jobs" className="btn btn-outline btn-sm md:btn-md">
                   Browse All Jobs
                 </Link>
               </div>
@@ -302,7 +302,7 @@ const JobSeekerHome = () => {
               </svg>
               <h3 className="text-base md:text-lg font-medium text-gray-800 mb-2">No Featured Jobs Yet</h3>
               <p className="text-sm md:text-base text-gray-600 mb-4">Check back later for new opportunities!</p>
-              <Link to="/jobs" className="btn btn-primary btn-sm md:btn-lg">
+              <Link to="/jobs" className="btn btn-primary btn-sm md:btn-md">
                 Browse All Jobs
               </Link>
             </div>
@@ -310,14 +310,49 @@ const JobSeekerHome = () => {
         </div>
       </section>
 
-      <section className="py-16 bg-white">
+      {/* Popular Job Categories - Horizontal Scroll on Mobile */}
+      <section className="py-8 md:py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-4">Popular Job Categories</h2>
-            <p className="text-xl text-gray-600">Find opportunities in these growing sectors.</p>
+          <div className="text-center mb-6 md:mb-12">
+            <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-800 mb-2 md:mb-4">Popular Job Categories</h2>
+            <p className="text-sm md:text-lg lg:text-xl text-gray-600">Find opportunities in these growing sectors</p>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          {/* Mobile: Horizontal Scroll with Peek Effect */}
+          <div className="md:hidden">
+            <div className="flex gap-3 overflow-x-auto pb-4 snap-x snap-mandatory scrollbar-hide -mx-4 px-4">
+              {[
+                { name: 'Manufacturing', icon: '🏭', count: '2.5k+' },
+                { name: 'Retail', icon: '🛒', count: '1.8k+' },
+                { name: 'Food Service', icon: '🍽️', count: '1.2k+' },
+                { name: 'Warehouse', icon: '📦', count: '950+' },
+                { name: 'Construction', icon: '🏗️', count: '720+' },
+                { name: 'Transportation', icon: '🚛', count: '640+' },
+                { name: 'Cleaning', icon: '🧽', count: '580+' },
+                { name: 'Security', icon: '🛡️', count: '420+' },
+              ].map((category) => (
+                <Link
+                  key={category.name}
+                  to={`/jobs?category=${category.name}`}
+                  className="flex-shrink-0 w-[70vw] snap-center group p-6 bg-white rounded-xl hover:shadow-lg transition-all duration-200 border-2 border-gray-800"
+                >
+                  <div className="text-center">
+                    <div className="text-4xl mb-3">{category.icon}</div>
+                    <h3 className="font-semibold text-lg text-gray-800 group-hover:text-gray-800 mb-1">{category.name}</h3>
+                    <p className="text-sm text-gray-600">{category.count} jobs</p>
+                  </div>
+                </Link>
+              ))}
+            </div>
+            <div className="flex justify-center gap-2 mt-4">
+              {[1, 2, 3, 4, 5, 6, 7, 8].map((index) => (
+                <div key={index} className="w-2 h-2 rounded-full bg-gray-300"></div>
+              ))}
+            </div>
+          </div>
+
+          {/* Desktop: Grid Layout */}
+          <div className="hidden md:grid md:grid-cols-3 lg:grid-cols-4 gap-6">
             {[
               { name: 'Manufacturing', icon: '🏭', count: '2.5k+' },
               { name: 'Retail', icon: '🛒', count: '1.8k+' },
@@ -344,18 +379,85 @@ const JobSeekerHome = () => {
         </div>
       </section>
 
-      <section className="py-16 bg-gray-50 relative overflow-hidden">
-        {/* Decorative elements */}
-        <div className="absolute top-0 right-0 w-64 h-64 bg-gray-800/5 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-0 left-0 w-64 h-64 bg-gray-800/5 rounded-full blur-3xl"></div>
+      {/* How It Works - Vertical Timeline on Mobile */}
+      <section className="py-8 md:py-16 bg-gray-50 relative overflow-hidden">
+        {/* Decorative elements - Hidden on mobile */}
+        <div className="hidden md:block absolute top-0 right-0 w-64 h-64 bg-gray-800/5 rounded-full blur-3xl"></div>
+        <div className="hidden md:block absolute bottom-0 left-0 w-64 h-64 bg-gray-800/5 rounded-full blur-3xl"></div>
         
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-4">How It Works</h2>
-            <p className="text-xl text-gray-600">Getting started is easy! Follow these simple steps.</p>
+          <div className="text-center mb-6 md:mb-12">
+            <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-800 mb-2 md:mb-4">How It Works</h2>
+            <p className="text-sm md:text-lg lg:text-xl text-gray-600">Getting started is easy! Follow these simple steps</p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {/* Mobile: Vertical Timeline/Stepper */}
+          <div className="md:hidden space-y-4">
+            {[
+              {
+                step: '1',
+                title: 'Create Profile',
+                description: 'Sign up and create your profile with your skills and experience.',
+                icon: (
+                  <svg className="w-6 h-6 text-gray-800" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                  </svg>
+                ),
+              },
+              {
+                step: '2',
+                title: 'Search & Apply',
+                description: 'Browse jobs that match your interests and apply with one click.',
+                icon: (
+                  <svg className="w-6 h-6 text-gray-800" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                  </svg>
+                ),
+              },
+              {
+                step: '3',
+                title: 'Get Hired',
+                description: 'Connect with employers and start your new career journey.',
+                icon: (
+                  <svg className="w-6 h-6 text-gray-800" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                ),
+              },
+            ].map((item, index, array) => (
+              <div key={item.step} className="relative">
+                {/* Connecting Line */}
+                {index !== array.length - 1 && (
+                  <div className="absolute left-6 top-16 bottom-0 w-0.5 bg-gray-300 -mb-4"></div>
+                )}
+                
+                <div className="bg-white border-2 border-gray-800 rounded-2xl p-5 relative">
+                  <div className="flex items-start gap-4">
+                    {/* Step Number Circle */}
+                    <div className="flex-shrink-0 w-12 h-12 bg-gray-800 rounded-full flex items-center justify-center relative z-10">
+                      <span className="text-xl font-bold text-white">{item.step}</span>
+                    </div>
+                    
+                    {/* Content */}
+                    <div className="flex-1 pt-1">
+                      <h3 className="text-lg font-semibold text-gray-800 mb-2">{item.title}</h3>
+                      <p className="text-sm text-gray-600">{item.description}</p>
+                    </div>
+                    
+                    {/* Icon */}
+                    <div className="flex-shrink-0">
+                      <div className="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center">
+                        {item.icon}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Desktop: Grid Layout */}
+          <div className="hidden md:grid md:grid-cols-3 gap-8">
             {[
               {
                 step: '1',
@@ -405,23 +507,42 @@ const JobSeekerHome = () => {
         </div>
       </section>
 
-      <section className="py-16 bg-white relative overflow-hidden">
-        {/* Decorative elements */}
-        <div className="absolute top-0 right-0 w-64 h-64 bg-gray-800/5 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-0 left-0 w-64 h-64 bg-gray-800/5 rounded-full blur-3xl"></div>
+      {/* CTA Section - Reduced padding and stacked buttons on mobile */}
+      <section className="py-8 md:py-16 bg-white relative overflow-hidden">
+        {/* Decorative elements - Hidden on mobile */}
+        <div className="hidden md:block absolute top-0 right-0 w-64 h-64 bg-gray-800/5 rounded-full blur-3xl"></div>
+        <div className="hidden md:block absolute bottom-0 left-0 w-64 h-64 bg-gray-800/5 rounded-full blur-3xl"></div>
         
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
-          <div className="inline-flex items-center justify-center w-16 h-16 bg-gray-800 rounded-full mb-6 shadow-lg">
-            <svg className="w-8 h-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <div className="inline-flex items-center justify-center w-12 h-12 md:w-16 md:h-16 bg-gray-800 rounded-full mb-4 md:mb-6 shadow-lg">
+            <svg className="w-6 h-6 md:w-8 md:h-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
             </svg>
           </div>
           
-          <h2 className="text-3xl md:text-4xl font-bold mb-4 text-gray-800">Ready to Start Your Journey?</h2>
-          <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
-            Join thousands of job seekers who have found their dream roles through our platform.
+          <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-3 md:mb-4 text-gray-800">Ready to Start Your Journey?</h2>
+          <p className="text-base md:text-xl text-gray-600 mb-6 md:mb-8 max-w-2xl mx-auto">
+            Join thousands of job seekers who have found their dream roles through our platform
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          
+          {/* Mobile: Full-width stacked buttons */}
+          <div className="flex flex-col md:hidden gap-3">
+            <Link to="/jobs" className="w-full inline-flex items-center justify-center px-6 py-4 bg-gray-800 text-white font-semibold rounded-xl hover:bg-gray-800 hover:shadow-lg transition-all shadow-md">
+              <svg className="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m8 0h3m-3 0h-8m0 0H5" />
+              </svg>
+              Browse Jobs
+            </Link>
+            <Link to="/profile" className="w-full inline-flex items-center justify-center px-6 py-4 bg-white border-2 border-gray-800 text-gray-800 font-semibold rounded-xl hover:bg-gray-100 transition-all shadow-sm">
+              <svg className="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+              </svg>
+              Update Your Profile
+            </Link>
+          </div>
+
+          {/* Desktop: Side-by-side buttons */}
+          <div className="hidden md:flex flex-row gap-4 justify-center">
             <Link to="/jobs" className="inline-flex items-center justify-center px-6 py-3 bg-gray-800 text-white font-semibold rounded-xl hover:bg-gray-800 hover:shadow-lg transition-all shadow-md">
               <svg className="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m8 0h3m-3 0h-8m0 0H5" />
