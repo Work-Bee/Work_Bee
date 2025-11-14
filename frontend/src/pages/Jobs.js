@@ -154,23 +154,23 @@ const Jobs = () => {
 
   if (user?.role === 'employer') {
     return (
-      <div className="bg-gray-50 py-16 min-h-screen">
+      <div className="bg-gray-50 py-8 md:py-16 min-h-screen">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="bg-white border border-gray-200 rounded-2xl shadow-sm p-10 text-center space-y-6">
-            <div className="mx-auto w-14 h-14 rounded-full bg-gray-100 border-2 border-gray-800 flex items-center justify-center">
-              <svg className="w-7 h-7 text-gray-800" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <div className="bg-white border border-gray-200 rounded-xl md:rounded-2xl shadow-sm p-6 md:p-10 text-center space-y-4 md:space-y-6">
+            <div className="mx-auto w-12 h-12 md:w-14 md:h-14 rounded-full bg-gray-100 border-2 border-gray-800 flex items-center justify-center">
+              <svg className="w-6 h-6 md:w-7 md:h-7 text-gray-800" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 17v-1a4 4 0 00-4-4H5m11 5l3 3m-3-3l3-3M5 7h14" />
               </svg>
             </div>
-            <h1 className="text-3xl font-bold text-gray-800">Manage your own postings</h1>
-            <p className="text-gray-600 text-base">
+            <h1 className="text-xl md:text-3xl font-bold text-gray-800">Manage your own postings</h1>
+            <p className="text-sm md:text-base text-gray-600">
               Employer accounts don’t have access to the public job board. Head to your dashboard to review your listings or create a new opportunity for job seekers.
             </p>
-            <div className="flex flex-col sm:flex-row gap-3 justify-center">
-              <Link to="/dashboard" className="btn btn-primary min-w-[160px]">
+            <div className="flex flex-col sm:flex-row gap-2 md:gap-3 justify-center">
+              <Link to="/dashboard" className="btn btn-primary btn-sm md:btn-md min-w-[160px]">
                 Go to Dashboard
               </Link>
-              <Link to="/employer/jobs/new" className="btn btn-outline min-w-[160px]">
+              <Link to="/employer/jobs/new" className="btn btn-outline btn-sm md:btn-md min-w-[160px]">
                 Post a Job
               </Link>
             </div>
@@ -181,48 +181,89 @@ const Jobs = () => {
   }
 
   return (
-    <div className="bg-gray-50 py-10 lg:py-16 min-h-screen">
+    <div className="bg-gray-50 py-6 md:py-10 lg:py-16 min-h-screen">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="mb-6">
+        <div className="mb-4 md:mb-6">
           <div className="w-full">
             {/* Primary search and filters trigger */}
-            <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-4 flex flex-row items-center gap-2">
-              <form onSubmit={handleSearchSubmit} className="flex-1 flex items-center gap-2">
-              <div>
-                  <label className="sr-only">Search</label>
+            <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-3 md:p-4">
+              {/* Mobile: Stacked layout */}
+              <div className="md:hidden space-y-2">
+                <form onSubmit={handleSearchSubmit} className="flex gap-2">
+                  <input
+                    type="text"
+                    name="search"
+                    value={formValues.search}
+                    onChange={handleInputChange}
+                    className="form-input flex-1 text-sm"
+                    placeholder="Search jobs..."
+                  />
+                  <button type="submit" className="btn btn-primary btn-sm whitespace-nowrap px-4">
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                    </svg>
+                  </button>
+                </form>
+                <button
+                  type="button"
+                  onClick={() => setIsFiltersOpen((v) => !v)}
+                  className="btn btn-outline btn-sm w-full relative"
+                  aria-expanded={isFiltersOpen}
+                >
+                  <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
+                  </svg>
+                  Filters
+                  {(() => {
+                    const params = Object.fromEntries(searchParams.entries());
+                    const keys = ['city', 'category', 'jobType', 'minSalary', 'maxSalary'];
+                    const active = keys.some((k) => params[k] && String(params[k]).trim() !== '');
+                    return active ? (
+                      <span className="absolute -top-1 -right-1 inline-flex items-center justify-center w-5 h-5 rounded-full bg-gray-800 text-white text-[10px]">•</span>
+                    ) : null;
+                  })()}
+                </button>
               </div>
-                <input
-                  type="text"
-                  name="search"
-                  value={formValues.search}
-                  onChange={handleInputChange}
-                  className="form-input flex-1"
-                  placeholder="Search jobs or companies"
-                />
-                <button type="submit" className="btn btn-primary whitespace-nowrap">Search</button>
-              </form>
 
-              <button
-                type="button"
-                onClick={() => setIsFiltersOpen((v) => !v)}
-                className="btn btn-outline btn-sm relative whitespace-nowrap"
-                aria-expanded={isFiltersOpen}
-              >
-                Filters
-                {(() => {
-                  const params = Object.fromEntries(searchParams.entries());
-                  const keys = ['city', 'category', 'jobType', 'minSalary', 'maxSalary'];
-                  const active = keys.some((k) => params[k] && String(params[k]).trim() !== '');
-                  return active ? (
-                    <span className="absolute -top-1 -right-1 inline-flex items-center justify-center w-5 h-5 rounded-full bg-gray-800 text-white text-[10px]">•</span>
-                  ) : null;
-                })()}
-              </button>
+              {/* Desktop: Horizontal layout */}
+              <div className="hidden md:flex flex-row items-center gap-2">
+                <form onSubmit={handleSearchSubmit} className="flex-1 flex items-center gap-2">
+                  <div>
+                    <label className="sr-only">Search</label>
+                  </div>
+                  <input
+                    type="text"
+                    name="search"
+                    value={formValues.search}
+                    onChange={handleInputChange}
+                    className="form-input flex-1"
+                    placeholder="Search jobs or companies"
+                  />
+                  <button type="submit" className="btn btn-primary whitespace-nowrap">Search</button>
+                </form>
+
+                <button
+                  type="button"
+                  onClick={() => setIsFiltersOpen((v) => !v)}
+                  className="btn btn-outline btn-sm relative whitespace-nowrap"
+                  aria-expanded={isFiltersOpen}
+                >
+                  Filters
+                  {(() => {
+                    const params = Object.fromEntries(searchParams.entries());
+                    const keys = ['city', 'category', 'jobType', 'minSalary', 'maxSalary'];
+                    const active = keys.some((k) => params[k] && String(params[k]).trim() !== '');
+                    return active ? (
+                      <span className="absolute -top-1 -right-1 inline-flex items-center justify-center w-5 h-5 rounded-full bg-gray-800 text-white text-[10px]">•</span>
+                    ) : null;
+                  })()}
+                </button>
+              </div>
             </div>
 
             {isFiltersOpen && (
-              <div className="mt-3 bg-white border border-gray-200 rounded-xl shadow-sm p-5">
-                <form className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4" onSubmit={handleFilterSubmit}>
+              <div className="mt-3 bg-white border border-gray-200 rounded-xl shadow-sm p-4 md:p-5">
+                <form className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4" onSubmit={handleFilterSubmit}>
                   <div>
                     <label className="text-xs uppercase text-gray-500 font-semibold block mb-2">City</label>
                     <input
@@ -230,7 +271,7 @@ const Jobs = () => {
                       name="city"
                       value={formValues.city}
                       onChange={handleInputChange}
-                      className="form-input"
+                      className="form-input text-sm"
                       placeholder="e.g. Kochi"
                     />
                   </div>
@@ -240,7 +281,7 @@ const Jobs = () => {
                       name="category"
                       value={formValues.category}
                       onChange={handleInputChange}
-                      className="form-select"
+                      className="form-select text-sm"
                     >
                       <option value="">All categories</option>
                       {categories.map((category) => (
@@ -256,7 +297,7 @@ const Jobs = () => {
                       name="jobType"
                       value={formValues.jobType}
                       onChange={handleInputChange}
-                      className="form-select"
+                      className="form-select text-sm"
                     >
                       <option value="">All types</option>
                       {jobTypes.map((type) => (
@@ -273,7 +314,7 @@ const Jobs = () => {
                       name="minSalary"
                       value={formValues.minSalary}
                       onChange={handleInputChange}
-                      className="form-input"
+                      className="form-input text-sm"
                       placeholder="e.g. 100"
                       min="0"
                       step="1"
@@ -286,20 +327,20 @@ const Jobs = () => {
                       name="maxSalary"
                       value={formValues.maxSalary}
                       onChange={handleInputChange}
-                      className="form-input"
+                      className="form-input text-sm"
                       placeholder="e.g. 500"
                       min="0"
                       step="1"
                     />
                   </div>
-                  <div className="md:col-span-2 lg:col-span-4 flex flex-wrap gap-3">
-                    <button type="submit" className="btn btn-primary flex-1 min-w-[120px]">
+                  <div className="md:col-span-2 lg:col-span-4 flex flex-col sm:flex-row gap-2 md:gap-3">
+                    <button type="submit" className="btn btn-primary btn-sm md:btn-md flex-1 min-w-[120px]">
                       Apply filters
                     </button>
                     <button
                       type="button"
                       onClick={handleResetFilters}
-                      className="btn btn-outline flex-1 min-w-[120px]"
+                      className="btn btn-outline btn-sm md:btn-md flex-1 min-w-[120px]"
                     >
                       Clear filters
                     </button>
@@ -313,50 +354,70 @@ const Jobs = () => {
         {loading ? (
           <LoadingSpinner text="Loading jobs..." />
         ) : error ? (
-          <div className="bg-white border-2 border-gray-800 text-gray-800 rounded-xl p-6 text-center">
-            {error}
+          <div className="bg-white border-2 border-gray-800 text-gray-800 rounded-xl p-4 md:p-6 text-center">
+            <p className="text-sm md:text-base">{error}</p>
           </div>
         ) : jobs.length === 0 ? (
-          <div className="bg-white rounded-xl border border-gray-100 p-12 text-center">
-            <svg className="mx-auto h-12 w-12 text-gray-300 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <div className="bg-white rounded-xl border border-gray-100 p-6 md:p-12 text-center">
+            <svg className="mx-auto h-10 w-10 md:h-12 md:w-12 text-gray-300 mb-3 md:mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2-2v2m8 0V6a2 2 0 012 2v6a2 2 0 01-2 2H8a2 2 0 01-2-2V8a2 2 0 012-2V6" />
             </svg>
-            <h2 className="text-xl font-semibold text-gray-800 mb-2">No jobs match your search yet</h2>
-            <p className="text-gray-600 mb-6">Try expanding your filters or check back again soon for new openings.</p>
-            <button onClick={handleResetFilters} className="btn btn-primary">
+            <h2 className="text-lg md:text-xl font-semibold text-gray-800 mb-2">No jobs match your search yet</h2>
+            <p className="text-sm md:text-base text-gray-600 mb-4 md:mb-6">Try expanding your filters or check back again soon for new openings.</p>
+            <button onClick={handleResetFilters} className="btn btn-primary btn-sm md:btn-md">
               Clear filters
             </button>
           </div>
         ) : (
           <>
-            <div className="flex items-center justify-between text-sm text-gray-600 mb-6">
+            {/* Results count */}
+            <div className="flex items-center justify-between text-xs md:text-sm text-gray-600 mb-4 md:mb-6">
               <span>
                 Showing page {currentPage} • {totalResultsLabel}
               </span>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {/* Mobile: Vertical list with cards */}
+            <div className="md:hidden space-y-4">
               {jobs.map((job) => (
                 <JobSummaryCard key={job._id} job={job} />
               ))}
             </div>
 
+            {/* Desktop: Grid layout */}
+            <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {jobs.map((job) => (
+                <JobSummaryCard key={job._id} job={job} />
+              ))}
+            </div>
+
+            {/* Pagination */}
             {(pagination.prev || pagination.next) && (
-              <div className="flex justify-center items-center gap-4 mt-10">
+              <div className="flex justify-center items-center gap-3 md:gap-4 mt-6 md:mt-10">
                 <button
                   onClick={() => handlePagination(currentPage - 1)}
                   disabled={!pagination.prev}
-                  className="btn btn-outline"
+                  className="btn btn-outline btn-sm md:btn-md"
                 >
-                  Previous
+                  <span className="hidden sm:inline">Previous</span>
+                  <span className="sm:hidden">
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                    </svg>
+                  </span>
                 </button>
-                <span className="text-sm text-gray-500">Page {currentPage}</span>
+                <span className="text-xs md:text-sm text-gray-500">Page {currentPage}</span>
                 <button
                   onClick={() => handlePagination(currentPage + 1)}
                   disabled={!pagination.next}
-                  className="btn btn-outline"
+                  className="btn btn-outline btn-sm md:btn-md"
                 >
-                  Next
+                  <span className="hidden sm:inline">Next</span>
+                  <span className="sm:hidden">
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                    </svg>
+                  </span>
                 </button>
               </div>
             )}
