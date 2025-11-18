@@ -26,7 +26,30 @@ const JobSummaryCard = ({ job }) => {
   
   const isJobseeker = user?.role === 'jobseeker';
   const isJobClosed = job.status === 'closed';
-  // No body scroll lock so the page feels continuous under the overlay
+
+  // Prevent body scrolling when expanded modal is open
+  useEffect(() => {
+    if (expanded) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [expanded]);
+
+  // Prevent body scrolling when apply modal is open
+  useEffect(() => {
+    if (showApplyModal) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [showApplyModal]);
 
   useEffect(() => {
     const checkIfApplied = async () => {
@@ -283,14 +306,14 @@ const JobSummaryCard = ({ job }) => {
         {expanded && createPortal(
           (
             <div
-              className="fixed inset-0 z-40 bg-gray-800/70 backdrop-blur-sm flex items-center justify-center p-4"
+              className="fixed inset-0 z-[60] bg-gray-800/70 backdrop-blur-sm flex items-center justify-center p-4"
               onClick={() => setExpanded(false)}
             >
               <div
-                className="bg-white rounded-xl shadow-2xl w-full max-w-md border-2 border-gray-800"
+                className="bg-white rounded-xl shadow-2xl w-full max-w-md max-h-[90vh] flex flex-col border-2 border-gray-800"
                 onClick={(e) => e.stopPropagation()}
               >
-              <div className="px-5 py-3 border-b border-gray-200 flex items-center justify-between">
+              <div className="px-5 py-3 border-b border-gray-200 flex items-center justify-between flex-shrink-0">
                 <div>
                   <h3 className="font-semibold text-base text-gray-800 leading-tight">{job.title}</h3>
                   <div className="text-xs text-gray-600 flex flex-wrap items-center gap-x-2 gap-y-1 mt-1">
@@ -316,7 +339,7 @@ const JobSummaryCard = ({ job }) => {
                 </button>
               </div>
 
-              <div className="px-5 py-4">
+              <div className="px-5 py-4 overflow-y-auto flex-1">
                 <div className="flex items-start justify-between gap-4 mb-3">
                     <div className="text-xs">
                       <div className="text-sm font-medium text-gray-800">{salaryLabel}</div>
@@ -378,30 +401,31 @@ const JobSummaryCard = ({ job }) => {
                     )}
                   </div>
                 )}
+              </div>
 
-                <div className="mt-4 pt-3 border-t border-gray-100 flex flex-wrap items-center justify-between gap-2">
-                  <button type="button" className="btn btn-outline btn-sm" onClick={() => setExpanded(false)}>
-                    Close
-                  </button>
-                  <div className="flex gap-2">
-                    {isJobseeker && (
-                      <button
-                        type="button"
-                        className="btn btn-primary btn-sm"
-                        onClick={handleApplyClick}
-                        disabled={hasApplied || isJobClosed || checkingResume}
-                      >
-                        {checkingResume ? 'Checking...' : hasApplied ? 'Applied' : isJobClosed ? 'Closed' : 'Apply'}
-                      </button>
-                    )}
+              {/* Modal Footer - Fixed at bottom */}
+              <div className="px-5 py-3 border-t border-gray-200 flex flex-wrap items-center justify-between gap-2 flex-shrink-0 bg-white">
+                <button type="button" className="btn btn-outline btn-sm" onClick={() => setExpanded(false)}>
+                  Close
+                </button>
+                <div className="flex gap-2">
+                  {isJobseeker && (
                     <button
                       type="button"
-                      className="btn btn-outline btn-sm"
-                      onClick={() => setShowFull((v) => !v)}
+                      className="btn btn-primary btn-sm"
+                      onClick={handleApplyClick}
+                      disabled={hasApplied || isJobClosed || checkingResume}
                     >
-                      {showFull ? 'Hide details' : 'View full details'}
+                      {checkingResume ? 'Checking...' : hasApplied ? 'Applied' : isJobClosed ? 'Closed' : 'Apply'}
                     </button>
-                  </div>
+                  )}
+                  <button
+                    type="button"
+                    className="btn btn-outline btn-sm"
+                    onClick={() => setShowFull((v) => !v)}
+                  >
+                    {showFull ? 'Hide details' : 'View full details'}
+                  </button>
                 </div>
               </div>
               </div>
