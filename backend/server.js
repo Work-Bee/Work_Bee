@@ -28,7 +28,8 @@ connectDB();
 const allowedOrigins = process.env.NODE_ENV === 'production'
   ? [
       process.env.FRONTEND_BASE_URL,
-      'https://work-gq0w0tlvv-jijosajis-projects.vercel.app'
+      'https://work-gq0w0tlvv-jijosajis-projects.vercel.app',
+      'https://work-bee-mu.vercel.app'
     ].filter(Boolean)
   : ['http://localhost:3000', 'http://localhost:3333'];
 
